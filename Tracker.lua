@@ -1,204 +1,104 @@
-local bizwidth = client.screenwidth()
-local bizheight = client.screenheight()
-local GameWidth = client.bufferwidth()
-local GameHeight = client.screenheight()
 itemtracker = forms.newform(405, 295, "MLSS Randomizer Item Tracker") 
 picture_box = forms.pictureBox(itemtracker, 0, 0, 405, 295)
 forms.setDefaultBackgroundColor(picture_box,0xFF111111)
 forms.drawBox(picture_box,-5, -5, 410, 300, 0xFF00)
-forms.clearImageCache(picture_box)
 
-local ItemByte = 0x48E2
-local ItemTable = { 
-{0, "Mushroom"}, -- 48E2
-{1, "Super Mushroom"},
-{2, "Ultra Mushroom"},
-{3, "Max Mushroom"},
-{4, "Nuts"},
-{5, "Super Nuts"},
-{6, "Ultra Nuts"},
-{7, "Max Nuts"},
-{8, "Syrup"},
-{9, "Super Syrup"},
-{10, "Ultra Syrup"},
-{11, "Max Syrup"},
-{12, "1-Up Mushroom"},
-{13, "1-Up Super"},
-{14, "Golden Mushroom"},
-{15, "Refreshing Herb"},
-{16, "Red Pepper"},
-{17, "Green Pepper"},
-{18, "Woohoo Blend"},
-{19, "Hoohoo Blend"},
-{20, "Chuckle Blend"},
-{21, "Teehee Blend"},
-{22, "Hoolumbian"},
-{23, "Chuckoccino"},
-{24, "Teeheespresso"},
-{40, 0, "Beanbean Map"}, -- Byte, 26
-{40, 1, "Peasley's Rose", "./items/PeasleysRose.png", "./disabled_items/PeasleysRose.png"}, -- 27
-{40, 2, "Beanbean Brooch", "./items/BeanbeanBrooch.png", "./disabled_items/BeanbeanBrooch.png"}, -- 28
-{40, 3, "Red Goblet", "./items/RedGoblet.png", "./disabled_items/RedGoblet.png"}, -- 29
-{40, 4, "Green Goblet", "./items/GreenGoblet.png", "./disabled_items/GreenGoblet.png"}, -- 30
-{40, 5, "Red Chuckola Fruit", "./items/ChuckolaFruitRed.png", "./disabled_items/ChuckolaFruitRed.png"}, -- 31
-{40, 6, "White Chuckola Fruit", "./items/ChuckolaFruitWhite.png", "./disabled_items/ChuckolaFruitWhite.png"}, -- 32
-{40, 7, "Purple Chuckola Fruit", "./items/ChuckolaFruitPurple.png", "./disabled_items/ChuckolaFruitPurple.png"}, -- 33
-{41, 0, "Membership Card", "./items/MembershipCard.png", "./disabled_items/MembershipCard.png"}, -- Byte, 34
-{41, 1, "Winkle Card", "./items/WinkleCard.png", "./disabled_items/WinkleCard.png"}, -- 35
-{41, 2, "Peach's Extra Dress", "./items/PeachsExtraDress.png", "./disabled_items/PeachsExtraDress.png"}, -- 36
-{41, 3, "Fake Beanstar", "./items/FakeBeanstar.png", "./disabled_items/FakeBeanstar.png"}, -- 37
-{41, 4, "Crabbie Grass"}, -- 38
-{41, 5, "Red Pearl Bean", "./items/RedPearlBean.png", "./disabled_items/RedPearlBean.png"}, -- 39
-{41, 6, "Green Pearl Bean", "./items/GreenPearlBeanGreenPearlBean.png", "./disabled_items/GreenPearlBean.png"}, -- 40
-{41, 7, "Bean Fruit (1)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"}, -- 41
-{42, 0, "Bean Fruit (2)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"}, -- Byte, 42
-{42, 1, "Bean Fruit (3)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"}, -- 43
-{42, 2, "Bean Fruit (4)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"}, -- 44
-{42, 3, "Bean Fruit (5)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"}, -- 45
-{42, 4, "Bean Fruit (6)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"}, -- 46
-{42, 5, "Bean Fruit (7)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"}, -- 47
-{42, 6, "Blue Neon Egg", "./items/NeonEggBlue.png", "./disabled_items/NeonEggBlue.png"}, -- 48
-{42, 7, "Red Neon Egg", "./items/NeonEggRed.png", "./disabled_items/NeonEggRed.png"}, -- 49
-{43, 0, "Green Neon Egg", "./items/NeonEggGreen.png", "./disabled_items/NeonEggGreen.png"}, -- Byte, 50
-{43, 1, "Yellow Neon Egg", "./items/NeonEggYellow.png", "./disabled_items/NeonEggYellow.png"}, -- 51
-{43, 2, "Purple Neon Egg", "./items/NeonEggPurple.png", "./disabled_items/NeonEggPurple.png"}, -- 52
-{43, 3, "Orange Neon Egg", "./items/NeonEggOrange.png", "./disabled_items/NeonEggOrange.png"}, -- 53
-{43, 4, "Azure Neon Egg", "./items/NeonEggAzure.png", "./disabled_items/NeonEggAzure.png"}, -- 54
-{43, 5, "Beanstar Piece (1)", "./items/BeanstarPiece1.png", "./disabled_items/BeanstarPiece1.png"}, -- 55
-{43, 6, "Beanstar Piece (2)", "./items/BeanstarPiece2.png", "./disabled_items/BeanstarPiece2.png"}, -- 56
-{43, 7, "Beanstar Piece (3)", "./items/BeanstarPiece3.png", "./disabled_items/BeanstarPiece3.png"}, -- 57
-{44, 0, "Beanstar Piece (4)", "./items/BeanstarPiece4.png", "./disabled_items/BeanstarPiece4.png"}, -- Byte, 58
-{44, 1, "Beanstar", "./items/RealBeanstar.png", "./disabled_items/RealBeanstar.png"}, -- 59
-{44, 2, "Spangle", "./items/Spangle.png", "./disabled_items/Spangle.png"}, -- 60
-{44, 3, "Beanlet (1)"}, -- 61
-{44, 4, "Beanlet (2)"}, -- 62
-{44, 5, "Beanlet (3)"}, -- 63
-{44, 6, "Beanlet (4)"}, -- 64
-{44, 7, "Beanlet (5)"}, -- 65
-{45, 0, "Beanstone (1)"}, -- Byte, 66
-{45, 1, "Beanstone (2)"}, -- 67
-{45, 2, "Beanstone (3)"}, -- 68
-{45, 3, "Beanstone (4)"}, -- 69
-{45, 4, "Beanstone (5)"}, -- 70
-{45, 5, "Beanstone (6)"}, -- 71
-{45, 6, "Beanstone (7)"}, -- 72
-{45, 7, "Beanstone (8)"}, -- 73
-{46, 0, "Beanstone (9)"}, -- 74
-{46, 1, "Beanstone (10)"}, -- 75
-{46, 2, "Secret Scroll 1", "./items/SecretScroll1.png", "./disabled_items/SecretScroll1.png"}, -- 76
-{46, 3, "Secret Scroll 2", "./items/SecretScroll2.png", "./disabled_items/SecretScroll2.png"}, -- 77
-{-1450, 3, "Hammers", "./items/Hammers.png", "./disabled_items/Hammers.png"}, -- 78
-{-1450, 4, "Super Hammeres", "./items/Hammers2.png"}, -- 79
-{-1450, 5, "Ultra Hammers", "./items/Hammers3.png"}, -- 80
-{-1449, 0, "Firebrand", "./items/FirebrandFlame.png", "./disabled_items/FirebrandFlame.png"}, -- 81
-{-1449, 1, "Thunderhand", "./items/ThunderhandSpark.png", "./disabled_items/ThunderhandSpark.png"}, -- 82
-{160, "Greed Wallet"}, -- $4982, 78
-{161, "Bonus Ring"}, -- 79
-{162, "Excite Spring"}, -- 80
-{163, "Great Force"}, -- 81
-{164, "Power Grip"}, -- 82
-{165, "Cobalt Necktie"}, -- 83
-{166, "GameBoy Horror SP"} -- 84
---
----- Badges
---[48] = {"Bean Badge"},
---[49] = {"Castle Badge"},
---[50] = {"Pea Badge"},
---[51] = {"Bean B. Badge"},
---[52] = {"Counter Badge"},
---[53] = {"Charity Badge"},
---[54] = {"Bros. Badge"},
---[55] = {"Miracle Badge"},
---[56] = {"Ohoracle Badge"},
---[57] = {"Mush Badge"},
---[58] = {"Mari-Lui Badge"},
---[59] = {"Muscle Badge"},
---[60] = {"Spiny Badge AA"},
---[61] = {"Mush Badge A"},
---[62] = {"Grab Badge"},
---[63] = {"Mush Badge AA"},
---[64] = {"Power Badge"},
---[65] = {"Wonder Badge"},
---[66] = {"Beauty Badge"},
---[67] = {"Salvage Badge"},
---[68] = {"Oh-Pah Badge"},
---[69] = {"Brilliant Badge"},
---[70] = {"Sarge Badge"},
---[71] = {"General Badge"},
---[72] = {"Tank Badge"},
---[73] = {"School Emblem"},
---[74] = {"Steady Badge"},
---[75] = {"Oho Jee Symbol"},
---[76] = {"Spiny Badge A"},
---[77] = {"Bros. Life"},
---[78] = {"Piranha Swing"},
---[79] = {"Bros. Rock"},
---[80] = {"Lucky Ribbon"},
---[81] = {"Mush Badge A"}, 
---[82] = {"Soulful Bros."},
---[83] = {"High-End Badge"},
---[84] = {"Hand Aura"},
---[85] = {"Sledge Heart"},
---[86] = {"Lucky Bros."},
---[87] = {"Bros. Respect"},
---[88] = {"Bowser Fist"},
---[89] = {"Bowser Fang"},
---[90] = {"Spike Badge"},
---[91] = {"Chuckola Badge"},
---
----- Pants
---[104] = {"Work Pants"},
---[105] = {"Work Jeans"},
---[106] = {"Bean Pants"},
---[107] = {"Bean Trousers"},
---[108] = {"Blue Jeans"},
---[109] = {"Parasol Pants"},
---[110] = {"Hard Pants"},
---[111] = {"Heart Jeans"},
---[112] = {"Plaid Trousers"},
---[113] = {"#1 Trousers"},
---[114] = {"Safety Slacks"},
---[115] = {"Shroom Pants"},
---[116] = {"Shroom Bells"},
---[117] = {"Shroom Slacks"},
---[118] = {"Peachy Jeans"},
---[119] = {"Mushwin Pants"},
---[120] = {"Mushluck Pants"},
---[121] = {"Scandal Jeans"},
---[122] = {"Street Jeans"},
---[123] = {"Tropic Slacks"},
---[124] = {"Hermetic Pants"},
---[125] = {"Beanstar Pants"},
---[126] = {"Peasley Slacks"},
---[127] = {"Queen B. Jeans"},
---[128] = {"B. Brand Jeans"},
---[129] = {"Heart Slacks"},
---[130] = {"Casual Slacks"},
---[131] = {"Bubble's Gear"},
---[132] = {"Chuckola Pants"}, 
---[133] = {"Smart Pants"},
---[134] = {"School Slacks"},
---[135] = {"Oho Jee Wear"},
---[136] = {"Oho Gear"},
---[137] = {"Casual Coral"},
---[138] = {"Piranha Suit"},
---[139] = {"Anuboo Jeans"},
---[140] = {"Ancient Pants"},
---[141] = {"Heavy Slacks"},
---[142] = {"Light Slacks"},
---[143] = {"Harhall's Pants"},
---[144] = {"Jeanie Jeans"},
---[145] = {"Wool Trousers"},
---[146] = {"Random Slacks"},
---[147] = {"Jeaniest Jeans"},
---[148] = {"Safe Guard"},
---[149] = {"Iron Pants"},
---
-}
+
+---- List of items
+-- i stands for item
+iMushroom1 = {0x48E2, "Mushroom"} -- 48E2
+iMushroom2 = {0x48E3, "Super Mushroom"}
+iMushroom3 = {0x48E4, "Ultra Mushroom"}
+iMushroom4 = {0x48E5, "Max Mushroom"}
+iNuts1 = {0x48E6, "Nuts"}
+iNuts2 = {0x48E7, "Super Nuts"}
+iNuts3 = {0x48E8, "Ultra Nuts"}
+iNuts4 = {0x48E9, "Max Nuts"}
+iSyrup1 = {0x48EA, "Syrup"}
+iSyrup2 = {0x48EB, "Super Syrup"}
+iSyrup3 = {0x48EC, "Ultra Syrup"}
+iSyrup4 = {0x48ED, "Max Syrup"}
+iRevivemushroom1 = {0x48EE, "1-Up Mushroom"}
+iRevivemushroom2 = {0x48EF, "1-Up Super"}
+iMushroomgold = {0x48F0, "Golden Mushroom"}
+iRefreshingherb = {0x48F1, "Refreshing Herb"}
+iPepperred = {0x48F2, "Red Pepper"}
+iPeppergreen = {0x48F3, "Green Pepper"}
+iWoohooblend = {0x48F4, "Woohoo Blend"}
+iHoohooblend = {0x48F5, "Hoohoo Blend"}
+iChuckleblend = {0x48F6, "Chuckle Blend"}
+iTeeheeblend = {0x48F7, "Teehee Blend"}
+iHoolumbian = {0x48F8, "Hoolumbian"}
+iChuckoccino = {0x48F9, "Chuckoccino"}
+iTeeheespresso = {0x48FA, "Teeheespresso"}
+iBeanbeanMap  = {0x490A, 0, "Beanbean Map"} -- Byte, 26
+iPeasleysRose = {0x490A, 1, "Peasley's Rose", "./items/PeasleysRose.png", "./disabled_items/PeasleysRose.png"} -- 27
+iBeanbeanBrooch = {0x490A, 2, "Beanbean Brooch", "./items/BeanbeanBrooch.png", "./disabled_items/BeanbeanBrooch.png"} -- 28
+iRedGoblet = {0x490A, 3, "Red Goblet", "./items/RedGoblet.png", "./disabled_items/RedGoblet.png"} -- 29
+iGreenGoblet = {0x490A, 4, "Green Goblet", "./items/GreenGoblet.png", "./disabled_items/GreenGoblet.png"} -- 30
+iRedChuckolaFruit = {0x490A, 5, "Red Chuckola Fruit", "./items/ChuckolaFruitRed.png", "./disabled_items/ChuckolaFruitRed.png"} -- 31
+iWhiteChuckolaFruit = {0x490A, 6, "White Chuckola Fruit", "./items/ChuckolaFruitWhite.png", "./disabled_items/ChuckolaFruitWhite.png"} -- 32
+iPurpleChuckoloaFruit = {0x490A, 7, "Purple Chuckola Fruit", "./items/ChuckolaFruitPurple.png", "./disabled_items/ChuckolaFruitPurple.png"} -- 33
+iMembershipCard = {0x490B, 0, "Membership Card", "./items/MembershipCard.png", "./disabled_items/MembershipCard.png"} -- Byte, 34
+iWinkleCard = {0x490B, 1, "Winkle Card", "./items/WinkleCard.png", "./disabled_items/WinkleCard.png"} -- 35
+iPeachsExtraDress = {0x490B, 2, "Peach's Extra Dress", "./items/PeachsExtraDress.png", "./disabled_items/PeachsExtraDress.png"} -- 36
+iFakeBeanstar = {0x490B, 3, "Fake Beanstar", "./items/FakeBeanstar.png", "./disabled_items/FakeBeanstar.png"} -- 37
+iCrabbieGrass = {0x490B, 4, "Crabbie Grass"} -- 38
+iRedPearlBean = {0x490B, 5, "Red Pearl Bean", "./items/RedPearlBean.png", "./disabled_items/RedPearlBean.png"} -- 39
+iGreenPearlBean = {0x490B, 6, "Green Pearl Bean", "./items/GreenPearlBeanGreenPearlBean.png", "./disabled_items/GreenPearlBean.png"} -- 40
+iBeanFruit1 = {0x490B, 7, "Bean Fruit (1)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"} -- 41
+iBeanFruit2 = {0x490C, 0, "Bean Fruit (2)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"} -- Byte, 42
+iBeanFruit3 = {0x490C, 1, "Bean Fruit (3)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"} -- 43
+iBeanFruit4 = {0x490C, 2, "Bean Fruit (4)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"} -- 44
+iBeanFruit5 = {0x490C, 3, "Bean Fruit (5)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"} -- 45
+iBeanFruit6 = {0x490C, 4, "Bean Fruit (6)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"} -- 46
+iBeanFruit7 = {0x490C, 5, "Bean Fruit (7)", "./items/BeanFruit.png", "./disabled_items/BeanFruit.png"} -- 47
+iNeonEggBlue = {0x490C, 6, "Blue Neon Egg", "./items/NeonEggBlue.png", "./disabled_items/NeonEggBlue.png"} -- 48
+iNeonEggRed = {0x490C, 7, "Red Neon Egg", "./items/NeonEggRed.png", "./disabled_items/NeonEggRed.png"} -- 49
+iNeonEggGreen = {0x490D, 0, "Green Neon Egg", "./items/NeonEggGreen.png", "./disabled_items/NeonEggGreen.png"} -- Byte, 50
+iNeonEggYellow = {0x490D, 1, "Yellow Neon Egg", "./items/NeonEggYellow.png", "./disabled_items/NeonEggYellow.png"} -- 51
+iNeonEggPurple = {0x490D, 2, "Purple Neon Egg", "./items/NeonEggPurple.png", "./disabled_items/NeonEggPurple.png"} -- 52
+iNeonEggOrange = {0x490D, 3, "Orange Neon Egg", "./items/NeonEggOrange.png", "./disabled_items/NeonEggOrange.png"} -- 53
+iNeonEggAzure = {0x490D, 4, "Azure Neon Egg", "./items/NeonEggAzure.png", "./disabled_items/NeonEggAzure.png"} -- 54
+iBeanstarPiece1 = {0x490D, 5, "Beanstar Piece (1)", "./items/BeanstarPiece1.png", "./disabled_items/BeanstarPiece1.png"} -- 55
+iBeanstarPiece2 = {0x490D, 6, "Beanstar Piece (2)", "./items/BeanstarPiece2.png", "./disabled_items/BeanstarPiece2.png"} -- 56
+iBeanstarPiece3 = {0x490D, 7, "Beanstar Piece (3)", "./items/BeanstarPiece3.png", "./disabled_items/BeanstarPiece3.png"} -- 57
+iBeanstarPiece4 = {0x490E, 0, "Beanstar Piece (4)", "./items/BeanstarPiece4.png", "./disabled_items/BeanstarPiece4.png"} -- Byte, 58
+iBeanstar = {0x490E, 1, "Beanstar", "./items/RealBeanstar.png", "./disabled_items/RealBeanstar.png"} -- 59
+iSpangle = {0x490E, 2, "Spangle", "./items/Spangle.png", "./disabled_items/Spangle.png"} -- 60
+iBeanlet1 = {0x490E, 3, "Beanlet (1)"} -- 61
+iBeanlet1 = {0x490E, 4, "Beanlet (2)"} -- 62
+iBeanlet1 = {0x490E, 5, "Beanlet (3)"} -- 63
+iBeanlet1 = {0x490E, 6, "Beanlet (4)"} -- 64
+iBeanlet1 = {0x490E, 7, "Beanlet (5)"} -- 65
+iBeanstone1 = {0x490F, 0, "Beanstone (1)"} -- Byte, 66
+iBeanstone2 = {0x490F, 1, "Beanstone (2)"} -- 67
+iBeanstone3 = {0x490F, 2, "Beanstone (3)"} -- 68
+iBeanstone4 = {0x490F, 3, "Beanstone (4)"} -- 69
+iBeanstone5 = {0x490F, 4, "Beanstone (5)"} -- 70
+iBeanstone6 = {0x490F, 5, "Beanstone (6)"} -- 71
+iBeanstone7 = {0x490F, 6, "Beanstone (7)"} -- 72
+iBeanstone8 = {0x490F, 7, "Beanstone (8)"} -- 73
+iBeanstone9 = {0x4910, 0, "Beanstone (9)"} -- 74
+iBeanstone10 = {0x4910, 1, "Beanstone (10)"} -- 75
+iSecretScroll1 = {0x4910, 2, "Secret Scroll 1", "./items/SecretScroll1.png", "./disabled_items/SecretScroll1.png"} -- 76
+iSecretScroll2 = {0x4910, 3, "Secret Scroll 2", "./items/SecretScroll2.png", "./disabled_items/SecretScroll2.png"} -- 77
+iHammers1 = {0x4338, 3, "Hammers", "./items/Hammers.png", "./disabled_items/Hammers.png"} -- 78
+iHammers2 = {0x4338, 4, "Super Hammers", "./items/Hammers2.png"} -- 79
+iHammers3 = {0x4338, 5, "Ultra Hammers", "./items/Hammers3.png"} -- 80
+iFirebrand = {0x4339, 0, "Firebrand", "./items/FirebrandFlame.png", "./disabled_items/FirebrandFlame.png"} -- 81
+iThunderhand = {0x4339, 1, "Thunderhand", "./items/ThunderhandSpark.png", "./disabled_items/ThunderhandSpark.png"} -- 82
+iGreedWallet = {0x4982, "Greed Wallet"} -- $4982, 78
+iBonusRing = {0x4983, "Bonus Ring"} -- 79
+iExciteSpring = {0x4984, "Excite Spring"} -- 80
+iGreatForce = {0x4985, "Great Force"} -- 81
+iPowerGrip = {0x4986, "Power Grip"} -- 82
+iCobaltNecktie = {0x4987, "Cobalt Necktie"} -- 83
+iGameBoyHorrorSP = {0x4988, "GameBoy Horror SP"} -- 84
 
 function itemFlag(ItemAddress)
-	value1 = memory.read_u8(ItemTable[ItemAddress][1]+ItemByte, "EWRAM")
-	value2 = 2^ItemTable[ItemAddress][2]
+	value1 = memory.read_u8(ItemAddress[1], "EWRAM")
+	value2 = 2^ItemAddress[2]
 	andedvalues = value1 & value2
 	if andedvalues > 0 then
 		bitresult = 1
@@ -210,22 +110,23 @@ function itemFlag(ItemAddress)
 end
 	
 function itemStatus(ItemAddress, XPos, YPos)
-	if ItemAddress >= 78 and ItemAddress <= 80 then
-		ReadHammers = itemFlag(78) + itemFlag(79) + itemFlag(80)
+	-- Special check for Hammers
+	if (ItemAddress == iHammers1) or (ItemAddress == iHammers2) or (ItemAddress == iHammers3) then
+		ReadHammers = itemFlag(iHammers1) + itemFlag(iHammers2) + itemFlag(iHammers3)
 		if ReadHammers == 0 then
-			drawImage = forms.drawImage(picture_box, ItemTable[78][5], 10+((XPos-1)*55), 10+((YPos-1)*55))
+			drawImage = forms.drawImage(picture_box, iHammers1[5], 10+((XPos-1)*55), 10+((YPos-1)*55))
 		elseif ReadHammers == 1 then
-			drawImage = forms.drawImage(picture_box, ItemTable[78][4], 10+((XPos-1)*55), 10+((YPos-1)*55))
+			drawImage = forms.drawImage(picture_box, iHammers1[4], 10+((XPos-1)*55), 10+((YPos-1)*55))
 		elseif ReadHammers == 2 then
-			drawImage = forms.drawImage(picture_box, ItemTable[79][4], 10+((XPos-1)*55), 10+((YPos-1)*55))
+			drawImage = forms.drawImage(picture_box, iHammers2[4], 10+((XPos-1)*55), 10+((YPos-1)*55))
 		elseif ReadHammers == 3 then
-			drawImage = forms.drawImage(picture_box, ItemTable[80][4], 10+((XPos-1)*55), 10+((YPos-1)*55))
+			drawImage = forms.drawImage(picture_box, iHammers3[4], 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
 	else
 		if itemFlag(ItemAddress) == 0 then
-			drawImage = forms.drawImage(picture_box, ItemTable[ItemAddress][5], 10+((XPos-1)*55), 10+((YPos-1)*55))
+			drawImage = forms.drawImage(picture_box, ItemAddress[5], 10+((XPos-1)*55), 10+((YPos-1)*55))
 		else
-			drawImage = forms.drawImage(picture_box, ItemTable[ItemAddress][4], 10+((XPos-1)*55), 10+((YPos-1)*55))
+			drawImage = forms.drawImage(picture_box, ItemAddress[4], 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
 	end
 	
@@ -233,52 +134,55 @@ function itemStatus(ItemAddress, XPos, YPos)
 end
 
 function refreshItems()
-	PeasleysRose = itemStatus(27, 2, 1)
-	BeanbeanBrooch = itemStatus(28, 3, 1)
-	RedGoblet = itemStatus(29, 1, 2)
-	GreenGoblet = itemStatus(30, 1, 3)
-	RedChuckolaFruit = itemStatus(31, 4, 1)
-	WhiteChuckolaFruit = itemStatus(32,4, 2)
-	PurpleChuckoloaFruit = itemStatus(33, 4, 3)
-	MembershipCard = itemStatus(34, 5, 3)
-	WinkleCard = itemStatus(35, 6, 3)
-	PeachsExtraDress = itemStatus(36, 5, 2)
-	FakeBeanstar = itemStatus(37, 5, 1)
-	RedPearlBean = itemStatus(39, 3, 2)
-	GreenPearlBean = itemStatus(40, 3, 3)
-	BeanFruit1 = itemStatus(41, 1, 4)
-	BeanFruit2 = itemStatus(42, 2, 4)
-	BeanFruit3 = itemStatus(43, 3, 4)
-	BeanFruit4 = itemStatus(44, 4, 4)
-	BeanFruit5 = itemStatus(45, 5, 4)
-	BeanFruit6 = itemStatus(46, 6, 4)
-	BeanFruit7 = itemStatus(47, 7, 4)
-	NeonEggBlue = itemStatus(48, 1, 5)
-	NeonEggRed = itemStatus(49, 2, 5)
-	NeonEggGreen = itemStatus(50, 3, 5)
-	NeonEggYellow = itemStatus(51, 4, 5)
-	NeonEggPurple = itemStatus(52, 5, 5)
-	NeonEggOrange = itemStatus(53, 6, 5)
-	NeonEggAzure = itemStatus(54, 7, 5)
-	BeanstarPiece1 = itemStatus(55, 6, 1)
-	BeanstarPiece2 = itemStatus(56, 7, 1)
-	BeanstarPiece3 = itemStatus(57, 7, 2)
-	BeanstarPiece4 = itemStatus(58, 6, 2)
-	--RealBeanstar = itemStatus(59)
-	Spangle = itemStatus(60, 7, 3)
-	--SecretScroll1 = itemStatus(76)
-	--SecretScroll2 = itemStatus(77)
-	Hammers = itemStatus(78, 1, 1)
-	SuperHammers = itemStatus(79, 1, 1)
-	UltraHammers = itemStatus(80, 1, 1)
-	Firebrand = itemStatus(81, 2, 2)
-	Thunderhand = itemStatus(82, 2, 3)
+	forms.clearImageCache(picture_box)
+	PeasleysRose = itemStatus(iPeasleysRose, 2, 1)
+	BeanbeanBrooch = itemStatus(iBeanbeanBrooch, 3, 1)
+	RedGoblet = itemStatus(iRedGoblet, 1, 2)
+	GreenGoblet = itemStatus(iGreenGoblet, 1, 3)
+	RedChuckolaFruit = itemStatus(iRedChuckolaFruit, 4, 1)
+	WhiteChuckolaFruit = itemStatus(iWhiteChuckolaFruit,4, 2)
+	PurpleChuckoloaFruit = itemStatus(iPurpleChuckoloaFruit, 4, 3)
+	MembershipCard = itemStatus(iMembershipCard, 5, 3)
+	WinkleCard = itemStatus(iWinkleCard, 6, 3)
+	PeachsExtraDress = itemStatus(iPeachsExtraDress, 5, 2)
+	FakeBeanstar = itemStatus(iFakeBeanstar, 5, 1)
+	RedPearlBean = itemStatus(iRedPearlBean, 3, 2)
+	GreenPearlBean = itemStatus(iGreenPearlBean, 3, 3)
+	BeanFruit1 = itemStatus(iBeanFruit1, 1, 4)
+	BeanFruit2 = itemStatus(iBeanFruit2, 2, 4)
+	BeanFruit3 = itemStatus(iBeanFruit3, 3, 4)
+	BeanFruit4 = itemStatus(iBeanFruit4, 4, 4)
+	BeanFruit5 = itemStatus(iBeanFruit5, 5, 4)
+	BeanFruit6 = itemStatus(iBeanFruit6, 6, 4)
+	BeanFruit7 = itemStatus(iBeanFruit7, 7, 4)
+	NeonEggBlue = itemStatus(iNeonEggBlue, 1, 5)
+	NeonEggRed = itemStatus(iNeonEggRed, 2, 5)
+	NeonEggGreen = itemStatus(iNeonEggGreen, 3, 5)
+	NeonEggYellow = itemStatus(iNeonEggYellow, 4, 5)
+	NeonEggPurple = itemStatus(iNeonEggPurple, 5, 5)
+	NeonEggOrange = itemStatus(iNeonEggOrange, 6, 5)
+	NeonEggAzure = itemStatus(iNeonEggAzure, 7, 5)
+	BeanstarPiece1 = itemStatus(iBeanstarPiece1, 6, 1)
+	BeanstarPiece2 = itemStatus(iBeanstarPiece2, 7, 1)
+	BeanstarPiece3 = itemStatus(iBeanstarPiece3, 7, 2)
+	BeanstarPiece4 = itemStatus(iBeanstarPiece4, 6, 2)
+	----RealBeanstar = itemStatus(i--)
+	Spangle = itemStatus(iSpangle, 7, 3)
+	--SecretScroll1 = itemStatus(i--)
+	--SecretScroll2 = itemStatus(i--)
+	Hammers = itemStatus(iHammers1, 1, 1)
+	SuperHammers = itemStatus(iHammers2, 1, 1)
+	UltraHammers = itemStatus(iHammers3, 1, 1)
+	Firebrand = itemStatus(iFirebrand, 2, 2)
+	Thunderhand = itemStatus(iThunderhand, 2, 3)
 end
 
 
 while true do
-	refreshItems()
-	forms.refresh(picture_box)
+	refreshrate = emu.framecount() % 120
+	if refreshrate == 0 then
+		refreshItems()
+		forms.refresh(picture_box)
+	end
 	emu.frameadvance();
-end
-
+end	
