@@ -1,3 +1,4 @@
+refreshRate = 120
 boxWidth = 7
 boxHeight = 6
 itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
@@ -210,8 +211,8 @@ end
 refreshItems()
 
 while true do
-	refreshrate = emu.framecount() % 120
-	if refreshrate == 0 then
+	moduloRefresh = emu.framecount() % refreshRate
+	if moduloRefresh == 0 then
 		refreshItems()
 		forms.refresh(picture_box)
 	end
