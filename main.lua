@@ -19,7 +19,7 @@ while true do
 	if readTitleScreen == 0 then
 		if moduloRefresh == 0 then
 			forms.clear(picture_box, backgroundColor)
-			forms.drawText(picture_box, 30, 140, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") 
+			forms.drawText(picture_box, 30, 400, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") 
 			forms.refresh(picture_box)
 		end
 	else
