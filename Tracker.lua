@@ -162,4 +162,4 @@ function refreshItems()
 end
 
 local readTitleScreen = readRam("titleScreen")
-if readTitleScreen ~= 0 then refreshItems() else forms.drawText(picture_box, 30, 140, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold")  end
+if readTitleScreen ~= 0 then refreshItems() else forms.drawText(picture_box, 30, 400, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold")  end
