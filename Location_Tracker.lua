@@ -1,32 +1,27 @@
-dofile("tables.lua")
-dofile("logic.lua")
-refreshRate = 1
-
-
-function itemFlag(ItemAddress)
-	local itemType = ramTable[ItemAddress][1]
-	-- numbers 0-7: read bit, 8: consumables/equipment
-	local bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
-	local bitresult = nil
-	
-	if itemType == 8 then
-		if (bytevalue == 255) or (bytevalue == 0) then
-			bitresult = 0
-		else
-			bitresult = 1
-		end
-	elseif itemType < 8 then
-		bitvalue = 2^itemType
-		andedvalues = bytevalue & bitvalue
-		if andedvalues > 0 then
-			bitresult = 1
-		else
-			bitresult = 0
-		end
-	end
-	
-	return bitresult
-end
+--function itemFlag(ItemAddress)
+--	local itemType = ramTable[ItemAddress][1]
+--	-- numbers 0-7: read bit, 8: consumables/equipment
+--	local bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
+--	local bitresult = nil
+--	
+--	if itemType == 8 then
+--		if (bytevalue == 255) or (bytevalue == 0) then
+--			bitresult = 0
+--		else
+--			bitresult = 1
+--		end
+--	elseif itemType < 8 then
+--		bitvalue = 2^itemType
+--		andedvalues = bytevalue & bitvalue
+--		if andedvalues > 0 then
+--			bitresult = 1
+--		else
+--			bitresult = 0
+--		end
+--	end
+--	
+--	return bitresult
+--end
 
 
 function locFlag(ItemAddress)
@@ -46,8 +41,38 @@ function flip(number)
 end
 
 
+function drawLocation(LocationAvailability, LocationsDone, Location1, Location2, Location3, YPos)
+	if LocationAvailability > 5 then
+		forms.drawImage(picture_box, Location1, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining6.png", 310, YPos)
+	elseif LocationAvailability == 5 then
+		forms.drawImage(picture_box, Location1, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining5.png", 310, YPos)
+	elseif LocationAvailability == 4 then
+		forms.drawImage(picture_box, Location1, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining4.png", 310, YPos)
+	elseif LocationAvailability == 3 then
+		forms.drawImage(picture_box, Location1, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining3.png", 310, YPos)
+	elseif LocationAvailability == 2 then
+		forms.drawImage(picture_box, Location1, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining2.png", 310, YPos)
+	elseif LocationAvailability == 1 then
+		forms.drawImage(picture_box, Location1, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining1.png", 310, YPos)
+	elseif LocationAvailability == 0 and LocationsDone > 0 then
+		forms.drawImage(picture_box, Location2, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining7.png", 310, YPos)
+	elseif LocationAvailability > 0 then
+		forms.drawImage(picture_box, Location2, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining0.png", 310, YPos)
+	elseif LocationsDone == 0 then
+		forms.drawImage(picture_box, Location3, -10, YPos)
+		forms.drawImage(picture_box, "./location_names/Remaining8.png", 310, YPos)
+	end	
+end
+
 function loadLocFlags()
-	console.clear()
 	refreshItemFlags()
 	
 	local canrOutskirts = 0
@@ -623,6 +648,41 @@ function loadLocFlags()
 		canrOutskirts = canrOutskirts + hasrBeanFruits; sumrOutskirts = sumrOutskirts - doneBeanFruits
 	end
 	
+	
+	
+	-- Draw location availabity to item tracker
+	--drawLocation(LocationAvailability, LocationsDone, Location1, Location2, Location3, YPos)
+	drawLocation(canrStardust, sumrStardust, "./location_names/StardustFields1.png", "./location_names/StardustFields2.png", "./location_names/StardustFields3.png", 350)
+	drawLocation(canrHoohoo, sumrHoohoo, "./location_names/HoohooMountain1.png", "./location_names/HoohooMountain2.png", "./location_names/HoohooMountain3.png", 395)
+	drawLocation(canrOutskirts, sumrOutskirts, "./location_names/Outskirts1.png", "./location_names/Outskirts2.png", "./location_names/Outskirts3.png", 440)
+	drawLocation(canrCastleTown, sumrCastleTown, "./location_names/BeanbeanCastleTown1.png", "./location_names/BeanbeanCastleTown2.png", "./location_names/BeanbeanCastleTown3.png", 485)
+	drawLocation(canrChucklehuck, sumrChucklehuck, "./location_names/ChucklehuckWoods1.png", "./location_names/ChucklehuckWoods2.png", "./location_names/ChucklehuckWoods3.png", 530)
+	drawLocation(canrHooniversity, sumrHooniversity, "./location_names/Hooniversity1.png", "./location_names/Hooniversity2.png", "./location_names/Hooniversity3.png", 575)
+	drawLocation(canrOasis, sumrOasis, "./location_names/OhoOasis1.png", "./location_names/OhoOasis2.png", "./location_names/OhoOasis3.png", 620)
+	drawLocation(canrTeehee, sumrTeehee, "./location_names/TeeheeValley1.png", "./location_names/TeeheeValley2.png", "./location_names/TeeheeValley3.png", 665)
+	drawLocation(canrGwarhar, sumrGwarhar, "./location_names/GwarharLagoon1.png", "./location_names/GwarharLagoon2.png", "./location_names/GwarharLagoon3.png", 710)
+	drawLocation(canrJokes, sumrJokes, "./location_names/JokesEnd1.png", "./location_names/JokesEnd2.png", "./location_names/JokesEnd3.png", 755)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	--[[ gui.text leftovers
 	if canrStardust > 5 then
 		gui.text(1, 60, "YES: Stardust Fields")
 	elseif canrStardust > 0 then
@@ -702,50 +762,5 @@ function loadLocFlags()
 	else
 		gui.text(1, 195, " NO: Joke's End")
 	end
-	
-	
-	
-	
-	--gui.text(1, 45, canrStardust .. " / " .. sumrStardust .. " - Stardust")
-	--gui.text(1, 60, canrHoohoo .. " / " .. sumrHoohoo .. " - Mountain")
-	--gui.text(1, 75, canrOutskirts .. " / " .. sumrOutskirts .. " - Outskirts")
-	--gui.text(1, 90, canrCastleTown .. " / " .. sumrCastleTown .. " - Town")
-	--gui.text(1, 105, canrChucklehuck .. " / " .. sumrChucklehuck .. " - Woods")
-	--gui.text(1, 120, canrHooniversity .. " / " .. sumrHooniversity .. " - Hooniv.")
-	--gui.text(1, 135, canrOasis .. " / " .. sumrOasis .. " - Oasis")
-	--gui.text(1, 150, canrTeehee .. " / " .. sumrTeehee .. " - Teehee")
-	--gui.text(1, 165, canrGwarhar .. " / " .. sumrGwarhar .. " - Gwarhar")
-	--gui.text(1, 180, canrJokes .. " / " .. sumrJokes .. " - Joke's")
-	--Stardust
-	--Hoohoo
-	--Outskirts
-	--CastleTown
-	--Chucklehuck
-	--Hooniversity
-	--Oasis
-	--Teehee
-	--Fungitown
-	--Gwarhar
-	--Jokes
+	]]
 end
-
-
-function refreshlocs()
-	console.clear()
-	refreshItemFlags()
-	loadLocFlags()
-	-- local locTotal = getAvailablelocTotals()
-	-- local locMaxTotal = getMaxlocTotals()
-	-- print(locTotal .. " / " .. locMaxTotal)
-end
-
-loadLocFlags()
-
-client.SetClientExtraPadding(220,0,0,0)
-
-while true do
-	--console.clear()
-	local moduloRefresh = emu.framecount() % refreshRate
-	if moduloRefresh == 0 then loadLocFlags() end
-	emu.frameadvance();
-end	

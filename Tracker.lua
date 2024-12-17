@@ -1,7 +1,7 @@
 --refreshRate = 180
 backgroundColor = "#111111"
 boxWidth = 7
-boxHeight = 6
+boxHeight = 14.2
 itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
 picture_box = forms.pictureBox(itemtracker, 0, 0, 20+(55*boxWidth), 20+(55*boxHeight))
 forms.setDefaultBackgroundColor(picture_box, backgroundColor)
@@ -80,6 +80,18 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.3-1)*55))
 		end
 	
+	-- Special check for Chuckola Fruits
+	elseif (ItemAddress == "iRedChuckolaFruit") or (ItemAddress == "iPurpleChuckolaFruit") or (ItemAddress == "iWhiteChuckolaFruit") then
+		if itemFlag("ChuckolaFruitFlag") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		elseif itemFlag(ItemAddress) == 0 then
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		end
+	
+	
+	
 	-- Generic item check
 	elseif itemType == 1 then
 		if itemFlag(ItemAddress) == 0 then
@@ -141,8 +153,8 @@ function refreshItems()
 	ExciteSpring = drawItem("iExciteSpring", 3, 6, "./items/ExciteSpring.png", "./disabled_items/ExciteSpring.png")
 	GreatForce = drawItem("iGreatForce", 4, 6, "./items/GreatForce.png", "./disabled_items/GreatForce.png")
 	PowerGrip = drawItem("iPowerGrip", 5, 6, "./items/PowerGrip.png", "./disabled_items/PowerGrip.png")
-	CobaltNecktie = drawItem("iCobaltNecktie", 6, 6, "items/CobaltNecktie.png", "./disabled_items/CobaltNecktie.png")
-	GameBoyHorrorSP = drawItem("iGameBoyHorrorSP", 7, 6, "items/GameBoyHorrorSP.png", "./disabled_items/GameBoyHorrorSP.png")
+	CobaltNecktie = drawItem("iCobaltNecktie", 6, 6, "./items/CobaltNecktie.png", "./disabled_items/CobaltNecktie.png")
+	GameBoyHorrorSP = drawItem("iGameBoyHorrorSP", 7, 6, "./items/GameBoyHorrorSP.png", "./disabled_items/GameBoyHorrorSP.png")
 	forms.clearImageCache(picture_box)
 	--"SecretScroll1 "= drawItem(i--)
 	--"SecretScroll2 "= drawItem(i--)

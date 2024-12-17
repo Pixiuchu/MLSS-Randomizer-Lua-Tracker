@@ -28,7 +28,7 @@ function equals(o1, o2, ignore_mt)
 			if value2 == nil then
 				value2 = 0
 			end
-			local keyaddress = string.format("0x%X", key1)
+			local keyaddress = string.format("x%X", key1)
 			local value1hex = string.format("0x%02X", value1)
 			local value2hex = string.format("0x%02X", value2)
 			local preresult = value1hex - value2hex
@@ -49,7 +49,13 @@ function equals(o1, o2, ignore_mt)
 			if bitchange ~= 255 then 
 				-- example: BlockStardustFields1 = {1, 0x4564, "EWRAM", 0}, -- Stardust Fields Room 1 Block 1
 				-- finalprint = print("block_" .. keyaddress .. "_" .. bitchange .. " = {1, " .. keyaddress .. ", \"EWRAM\", " .. bitchange .. "},") -- value2hex .. " -> " .. value1hex .. " (bit: " .. bitchange ..")")
-				finalprint = print(keyaddress .. "\t" .. bitchange)
+				
+				--[[ example:
+				x456F_7 = {7, 0x456F}; x456F_7 = locFlag(x456F_7); canStardust = canStardust + flip(x456F_7); sumStardust = sumStardust - x456F_7
+				]]
+				
+				--finalprint = print(keyaddress .. "\t" .. bitchange)
+				finalprint = print(keyaddress .. "_" .. bitchange .. " = {" .. bitchange .. ", 0" .. keyaddress .. "}; " .. keyaddress .. "_" .. bitchange .. " = locFlag(" .. keyaddress .. "_" .. bitchange .. "); canReplace = canReplace + flip(" .. keyaddress .. "_" .. bitchange .. "); sumReplace = sumReplace - " .. keyaddress .. "_" .. bitchange)
 			else
 				finalprint = print(keyaddress .. ": " .. value2hex .. " -> " .. value1hex .. " (multiple bits)")
 			end
@@ -66,10 +72,21 @@ function equals(o1, o2, ignore_mt)
 end
 
 while true do
-    dictOld = dict
-    dict = memory.read_bytes_as_dict(0x4560, 100, "EWRAM")
+    table1Old = table1
+    table1 = memory.read_bytes_as_dict(0x42F0, 0x270, "EWRAM")
     
-	equals(dict, dictOld, false)
+    table2Old = table2
+    table2 = memory.read_bytes_as_dict(0x4560, 0x100, "EWRAM")
+
+
+	-- table1Old = table1
+    -- table1 = memory.read_bytes_as_dict(0x41F0, 0x15E, "EWRAM")
+    -- 
+    -- table2Old = table2
+    -- table2 = memory.read_bytes_as_dict(0x434F, 0x300, "EWRAM")
+    
+	equals(table1, table1Old, false)
+	equals(table2, table2Old, false)
 	
 	
     -- if string_d ~= string_do then

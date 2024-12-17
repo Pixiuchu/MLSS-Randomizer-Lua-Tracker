@@ -39,7 +39,7 @@ iRedGoblet = {3, 0x490A, "EWRAM", "Red Goblet"},
 iGreenGoblet = {4, 0x490A, "EWRAM", "Green Goblet"}, 
 iRedChuckolaFruit = {5, 0x490A, "EWRAM", "Red Chuckola Fruit"}, 
 iWhiteChuckolaFruit = {6, 0x490A, "EWRAM", "White Chuckola Fruit"}, 
-iPurpleChuckoloaFruit = {7, 0x490A, "EWRAM", "Purple Chuckola Fruit"}, 
+iPurpleChuckolaFruit = {7, 0x490A, "EWRAM", "Purple Chuckola Fruit"}, 
 iMembershipCard = {0, 0x490B, "EWRAM", "Membership Card"}, 
 iWinkleCard = {1, 0x490B, "EWRAM", "Winkle Card"}, 
 iPeachsExtraDress = {2, 0x490B, "EWRAM", "Peach's Extra Dress"}, 
@@ -99,8 +99,9 @@ iGameBoyHorrorSP = {8, 0x4988, "EWRAM", "Game Boy Horror SP"},
 
 
 -- Story Flags
-BeanstarFlag1 = {1, 0x430B, "EWRAM", 3},--Cutscene where you get Beanstar, Dress, Fake Beanstar, ...
-BeanstarFlag2_Rando = {1, 0x3003, "EWRAM", 0}, --Cutscene where you get Beanstar, Dress, Fake Beanstar, ... 0x430B, but rando stores at 0x3003
+ChuckolaFruitFlag = {3, 0x4302, "EWRAM"}, --Enables after Chuckroot moves
+BeanstarFlag1 = {3, 0x430B, "EWRAM"},--Cutscene where you get Beanstar, Dress, Fake Beanstar, ...
+BeanstarFlag2_Rando = {0, 0x3003, "EWRAM"}, --Cutscene where you get Beanstar, Dress, Fake Beanstar, ... 0x430B, but rando stores at 0x3003
 }
 
 function refreshItemFlags()
@@ -112,7 +113,7 @@ function refreshItemFlags()
 		GreenGoblet = itemFlag("iGreenGoblet"),
 		RedChuckolaFruit = itemFlag("iRedChuckolaFruit"),
 		WhiteChuckolaFruit = itemFlag("iWhiteChuckolaFruit"),
-		PurpleChuckoloaFruit = itemFlag("iPurpleChuckoloaFruit"),
+		PurpleChuckolaFruit = itemFlag("iPurpleChuckolaFruit"),
 		MembershipCard = itemFlag("iMembershipCard"),
 		WinkleCard = itemFlag("iWinkleCard"),
 		PeachsExtraDress = itemFlag("iPeachsExtraDress"),
