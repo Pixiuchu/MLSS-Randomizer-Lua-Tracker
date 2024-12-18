@@ -1,7 +1,7 @@
 --refreshRate = 180
 backgroundColor = "#111111"
 boxWidth = 7
-boxHeight = 14.2
+boxHeight = 15.4
 itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
 picture_box = forms.pictureBox(itemtracker, 0, 0, 20+(55*boxWidth), 20+(55*boxHeight))
 forms.setDefaultBackgroundColor(picture_box, backgroundColor)
@@ -70,14 +70,14 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 				drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
 			end
 		elseif (itemFlag("iRealBeanstar") == 1) and (itemFlag("BeanstarFlag1") == 0) then
-			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.3-1)*55))
+			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.25-1)*55))
 			if itemFlag(ItemAddress) == 0 then
 				drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
 			else
 				drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
 			end
 		elseif (itemFlag("iRealBeanstar") == 1) and (itemFlag("BeanstarFlag1") == 1) then
-			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.3-1)*55))
+			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.25-1)*55))
 		end
 	
 	-- Special check for Chuckola Fruits
@@ -90,7 +90,25 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
 	
+	-- Special check for Peach's Extra Dress
+	elseif ItemAddress == "iPeachsExtraDress" then
+		if itemFlag("JokesEndFawfulFlag") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		elseif itemFlag(ItemAddress) == 0 then
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		end
 	
+	-- Special check for Neon Eggs
+	elseif (ItemAddress == "iNeonEggBlue") or (ItemAddress == "iNeonEggRed") or (ItemAddress == "iNeonEggGreen") or (ItemAddress == "iNeonEggYellow") or (ItemAddress == "iNeonEggPurple") or (ItemAddress == "iNeonEggOrange") or (ItemAddress == "iNeonEggAzure") then
+		if itemFlag("NeonEggsGivenFlag") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		elseif itemFlag(ItemAddress) == 0 then
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		end
 	
 	-- Generic item check
 	elseif itemType == 1 then
@@ -109,7 +127,6 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 	
 	return drawImage
 end
-
 
 
 function refreshItems()
@@ -133,13 +150,13 @@ function refreshItems()
 	BeanFruit5 = drawItem("iBeanFruit5", 5, 4, "./items/BeanFruit.png", "./disabled_items/BeanFruit.png")
 	BeanFruit6 = drawItem("iBeanFruit6", 6, 4, "./items/BeanFruit.png", "./disabled_items/BeanFruit.png")
 	BeanFruit7 = drawItem("iBeanFruit7", 7, 4, "./items/BeanFruit.png", "./disabled_items/BeanFruit.png")
-	NeonEggBlue = drawItem("iNeonEggBlue", 1, 5, "./items/NeonEggBlue.png", "./disabled_items/NeonEggBlue.png")
-	NeonEggRed = drawItem("iNeonEggRed", 2, 5, "./items/NeonEggRed.png", "./disabled_items/NeonEggRed.png")
-	NeonEggGreen = drawItem("iNeonEggGreen", 3, 5, "./items/NeonEggGreen.png", "./disabled_items/NeonEggGreen.png")
-	NeonEggYellow = drawItem("iNeonEggYellow", 4, 5, "./items/NeonEggYellow.png", "./disabled_items/NeonEggYellow.png")
-	NeonEggPurple = drawItem("iNeonEggPurple", 5, 5, "./items/NeonEggPurple.png", "./disabled_items/NeonEggPurple.png")
+	NeonEggBlue = drawItem("iNeonEggBlue", 3, 5, "./items/NeonEggBlue.png", "./disabled_items/NeonEggBlue.png")
+	NeonEggRed = drawItem("iNeonEggRed", 5, 5, "./items/NeonEggRed.png", "./disabled_items/NeonEggRed.png")
+	NeonEggGreen = drawItem("iNeonEggGreen", 1, 5, "./items/NeonEggGreen.png", "./disabled_items/NeonEggGreen.png")
+	NeonEggYellow = drawItem("iNeonEggYellow", 7, 5, "./items/NeonEggYellow.png", "./disabled_items/NeonEggYellow.png")
+	NeonEggPurple = drawItem("iNeonEggPurple", 4, 5, "./items/NeonEggPurple.png", "./disabled_items/NeonEggPurple.png")
 	NeonEggOrange = drawItem("iNeonEggOrange", 6, 5, "./items/NeonEggOrange.png", "./disabled_items/NeonEggOrange.png")
-	NeonEggAzure = drawItem("iNeonEggAzure", 7, 5, "./items/NeonEggAzure.png", "./disabled_items/NeonEggAzure.png")
+	NeonEggAzure = drawItem("iNeonEggAzure", 2, 5, "./items/NeonEggAzure.png", "./disabled_items/NeonEggAzure.png")
 	BeanstarPiece1 = drawItem("iBeanstarPiece1", 6, 1, "./items/BeanstarPiece1.png", "./disabled_items/BeanstarPiece1.png")
 	BeanstarPiece2 = drawItem("iBeanstarPiece2", 7, 1, "./items/BeanstarPiece2.png", "./disabled_items/BeanstarPiece2.png")
 	BeanstarPiece3 = drawItem("iBeanstarPiece3", 7, 2, "./items/BeanstarPiece3.png", "./disabled_items/BeanstarPiece3.png")

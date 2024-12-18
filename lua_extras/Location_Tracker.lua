@@ -40,35 +40,104 @@ function flip(number)
 	if number == 0 then return 1 else return 0 end
 end
 
+local numberTable = {
+	[0] = "./location_names/Number0.png",
+	[1] = "./location_names/Number1.png",
+	[2] = "./location_names/Number2.png",
+	[3] = "./location_names/Number3.png",
+	[4] = "./location_names/Number4.png",
+	[5] = "./location_names/Number5.png",
+	[6] = "./location_names/Number6.png",
+	[7] = "./location_names/Number7.png",
+	[8] = "./location_names/Number8.png",
+	[9] = "./location_names/Number9.png",
+	[10] = "./location_names/Number0Red.png",
+	[11] = "./location_names/Number1Red.png",
+	[12] = "./location_names/Number2Red.png",
+	[13] = "./location_names/Number3Red.png",
+	[14] = "./location_names/Number4Red.png",
+	[15] = "./location_names/Number5Red.png",
+	[16] = "./location_names/Number6Red.png",
+	[17] = "./location_names/Number7Red.png",
+	[18] = "./location_names/Number8Red.png",
+	[19] = "./location_names/Number9Red.png",
+	[20] = "./location_names/NumberSlash.png",
+	[21] = "./location_names/NumberMinus.png",
+}
+
+
+function drawNumbers(LocationAvailability, LocationsDone, YPos)
+	if LocationsDone>0 then
+		local canrLoc1 = math.floor(LocationAvailability/100 % 10)
+		local canrLoc2 = math.floor(LocationAvailability/10 % 10)
+		local canrLoc3 = math.floor(LocationAvailability/1 % 10)
+		local sumrLoc1 = math.floor(LocationsDone/100 % 10)
+		local sumrLoc2 = math.floor(LocationsDone/10 % 10)
+		local sumrLoc3 = math.floor(LocationsDone/1 % 10)
+		
+		if LocationAvailability >= 100 then
+			forms.drawImage(picture_box, numberTable[21], 291-20, YPos+14)
+			forms.drawImage(picture_box, numberTable[canrLoc1], 291, YPos+14)
+			forms.drawImage(picture_box, numberTable[canrLoc2], 291+14, YPos+14)
+			forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos+14)
+			forms.drawImage(picture_box, numberTable[20], 291+45, YPos+13)
+		elseif LocationAvailability >= 10 then
+			forms.drawImage(picture_box, numberTable[21], 291-20, YPos+14)
+			forms.drawImage(picture_box, numberTable[canrLoc2], 291+14, YPos+14)
+			forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos+14)
+			forms.drawImage(picture_box, numberTable[20], 291+45, YPos+12)
+		elseif LocationAvailability > 0 then
+			forms.drawImage(picture_box, numberTable[21], 291-20, YPos+14)
+			forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos+14)
+			forms.drawImage(picture_box, numberTable[20], 291+45, YPos+12)
+		end
+		
+		if LocationAvailability == 0 then
+			sumrLoc1 = sumrLoc1 + 10
+			sumrLoc2 = sumrLoc2 + 10
+			sumrLoc3 = sumrLoc3 + 10
+		end
+		
+		if LocationsDone >= 100 then
+			forms.drawImage(picture_box, numberTable[sumrLoc1], 291+56, YPos+14)
+			forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70, YPos+14)
+			forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos+14)
+		elseif LocationsDone >= 10 then
+			forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70, YPos+14)
+			forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos+14)
+		else
+			forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos+14)
+		end
+			
+	end
+		
+	
+	--if canrStardust3 == 9 then
+	--	forms.drawImage(picture_box, "./location_names/Number9.png", 310, 400)
+	--end
+
+end
+
 
 function drawLocation(LocationAvailability, LocationsDone, Location1, Location2, Location3, YPos)
 	if LocationAvailability > 5 then
-		forms.drawImage(picture_box, Location1, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining6.png", 310, YPos)
+		forms.drawImage(picture_box, Location1, -20, YPos)
 	elseif LocationAvailability == 5 then
-		forms.drawImage(picture_box, Location1, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining5.png", 310, YPos)
+		forms.drawImage(picture_box, Location1, -20, YPos)
 	elseif LocationAvailability == 4 then
-		forms.drawImage(picture_box, Location1, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining4.png", 310, YPos)
+		forms.drawImage(picture_box, Location1, -20, YPos)
 	elseif LocationAvailability == 3 then
-		forms.drawImage(picture_box, Location1, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining3.png", 310, YPos)
+		forms.drawImage(picture_box, Location1, -20, YPos)
 	elseif LocationAvailability == 2 then
-		forms.drawImage(picture_box, Location1, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining2.png", 310, YPos)
+		forms.drawImage(picture_box, Location1, -20, YPos)
 	elseif LocationAvailability == 1 then
-		forms.drawImage(picture_box, Location1, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining1.png", 310, YPos)
+		forms.drawImage(picture_box, Location1, -20, YPos)
 	elseif LocationAvailability == 0 and LocationsDone > 0 then
-		forms.drawImage(picture_box, Location2, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining7.png", 310, YPos)
+		forms.drawImage(picture_box, Location2, -20, YPos)
 	elseif LocationAvailability > 0 then
-		forms.drawImage(picture_box, Location2, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining0.png", 310, YPos)
+		forms.drawImage(picture_box, Location2, -20, YPos)
 	elseif LocationsDone == 0 then
-		forms.drawImage(picture_box, Location3, -10, YPos)
-		forms.drawImage(picture_box, "./location_names/Remaining8.png", 310, YPos)
+		forms.drawImage(picture_box, Location3, -20, YPos)
 	end	
 end
 
@@ -386,7 +455,7 @@ function loadLocFlags()
     local x456D_7 = {7, 0x456D}; x456D_7 = locFlag(x456D_7); canrHoohoo = canrHoohoo + flip(x456D_7); sumrHoohoo = sumrHoohoo - x456D_7 --Hoohoo Mountain Base Boostatue Room Block 1
     if canCrash() or has("Hammers2") then local x456E_0 = {0, 0x456E}; x456E_0 = locFlag(x456E_0); canrHoohoo = canrHoohoo + flip(x456E_0); sumrHoohoo = sumrHoohoo - x456E_0 end --Hoohoo Mountain Base Boostatue Room Block 2
     if canDig() then local x456E_1 = {1, 0x456E}; x456E_1 = locFlag(x456E_1); canrHoohoo = canrHoohoo + flip(x456E_1); sumrHoohoo = sumrHoohoo - x456E_1 end --Hoohoo Mountain Base Boostatue Room Digspot 1
-    if canDig() then local x456E_2 = {2, 0x456E}; x456E_2 = locFlag(x456E_2); canrHoohoo = canrHoohoo + flip(x456E_2); sumrHoohoo = sumrHoohoo - x456E_2 end --Hoohoo Mountain Base Boostatue Room Digspot 2
+    if canDig() and (canCrash() or has("Hammers2")) then local x456E_2 = {2, 0x456E}; x456E_2 = locFlag(x456E_2); canrHoohoo = canrHoohoo + flip(x456E_2); sumrHoohoo = sumrHoohoo - x456E_2 end --Hoohoo Mountain Base Boostatue Room Digspot 2
     if has("Hammers3") and canDig() then local x456E_3 = {3, 0x456E}; x456E_3 = locFlag(x456E_3); canrHoohoo = canrHoohoo + flip(x456E_3); sumrHoohoo = sumrHoohoo - x456E_3 end --Hoohoo Mountain Base Boostatue Room Digspot 3 (Right Side)
     local x456D_2 = {2, 0x456D}; x456D_2 = locFlag(x456D_2); canrHoohoo = canrHoohoo + flip(x456D_2); sumrHoohoo = sumrHoohoo - x456D_2 --Hoohoo Mountain Base Bridge Room Block 1
     local x456D_3 = {3, 0x456D}; x456D_3 = locFlag(x456D_3); canrHoohoo = canrHoohoo + flip(x456D_3); sumrHoohoo = sumrHoohoo - x456D_3 --Hoohoo Mountain Base Bridge Room Block 2
@@ -648,6 +717,8 @@ function loadLocFlags()
 		canrOutskirts = canrOutskirts + hasrBeanFruits; sumrOutskirts = sumrOutskirts - doneBeanFruits
 	end
 	
+	local canrTotal = canrStardust + canrHoohoo + canrOutskirts + canrCastleTown + canrChucklehuck + canrHooniversity + canrOasis + canrTeehee + canrGwarhar + canrJokes
+	local sumrTotal = sumrStardust + sumrHoohoo + sumrOutskirts + sumrCastleTown + sumrChucklehuck + sumrHooniversity + sumrOasis + sumrTeehee + sumrGwarhar + sumrJokes
 	
 	
 	-- Draw location availabity to item tracker
@@ -662,12 +733,40 @@ function loadLocFlags()
 	drawLocation(canrTeehee, sumrTeehee, "./location_names/TeeheeValley1.png", "./location_names/TeeheeValley2.png", "./location_names/TeeheeValley3.png", 665)
 	drawLocation(canrGwarhar, sumrGwarhar, "./location_names/GwarharLagoon1.png", "./location_names/GwarharLagoon2.png", "./location_names/GwarharLagoon3.png", 710)
 	drawLocation(canrJokes, sumrJokes, "./location_names/JokesEnd1.png", "./location_names/JokesEnd2.png", "./location_names/JokesEnd3.png", 755)
+	drawLocation(canrTotal, sumrTotal, "./location_names/TOTAL1.png", "./location_names/TOTAL2.png", "./location_names/TOTAL3.png", 823)
+	
+	
+	
+	drawNumbers(canrStardust, sumrStardust, 350)
+	drawNumbers(canrHoohoo, sumrHoohoo, 395)
+	drawNumbers(canrOutskirts, sumrOutskirts, 440)
+	drawNumbers(canrCastleTown, sumrCastleTown, 485)
+	drawNumbers(canrChucklehuck, sumrChucklehuck, 530)
+	drawNumbers(canrHooniversity, sumrHooniversity, 575)
+	drawNumbers(canrOasis, sumrOasis, 620)
+	drawNumbers(canrTeehee, sumrTeehee, 665)
+	drawNumbers(canrGwarhar, sumrGwarhar, 710)
+	drawNumbers(canrJokes, sumrJokes, 755)
+	drawNumbers(canrTotal, sumrTotal, 823)
 	
 	
 	
 	
 	
 	
+	
+	
+	-- gui.text(1, 45, canrStardust .. " / " .. sumrStardust .. " - Stardust")
+	-- gui.text(1, 60, canrHoohoo .. " / " .. sumrHoohoo .. " - Mountain")
+	-- gui.text(1, 75, canrOutskirts .. " / " .. sumrOutskirts .. " - Outskirts")
+	-- gui.text(1, 90, canrCastleTown .. " / " .. sumrCastleTown .. " - Town")
+	-- gui.text(1, 105, canrChucklehuck .. " / " .. sumrChucklehuck .. " - Woods")
+	-- gui.text(1, 120, canrHooniversity .. " / " .. sumrHooniversity .. " - Hooniv.")
+	-- gui.text(1, 135, canrOasis .. " / " .. sumrOasis .. " - Oasis")
+	-- gui.text(1, 150, canrTeehee .. " / " .. sumrTeehee .. " - Teehee")
+	-- gui.text(1, 165, canrGwarhar .. " / " .. sumrGwarhar .. " - Gwarhar")
+	-- gui.text(1, 180, canrJokes .. " / " .. sumrJokes .. " - Joke's")
+
 	
 	
 	

@@ -100,8 +100,10 @@ iGameBoyHorrorSP = {8, 0x4988, "EWRAM", "Game Boy Horror SP"},
 
 -- Story Flags
 ChuckolaFruitFlag = {3, 0x4302, "EWRAM"}, --Enables after Chuckroot moves
+NeonEggsGivenFlag = {5, 0x434D, "EWRAM"}, --Enables after you hand over the Neon Eggs; 0x4406_3 would also work 5, 0x434D
 BeanstarFlag1 = {3, 0x430B, "EWRAM"},--Cutscene where you get Beanstar, Dress, Fake Beanstar, ...
 BeanstarFlag2_Rando = {0, 0x3003, "EWRAM"}, --Cutscene where you get Beanstar, Dress, Fake Beanstar, ... 0x430B, but rando stores at 0x3003
+JokesEndFawfulFlag = {7, 0x430B, "EWRAM"}, --Enables after you meet Fawful in Joke's End x430B_7 
 }
 
 function refreshItemFlags()
@@ -150,6 +152,12 @@ function refreshItemFlags()
 		GreatForce = itemFlag("iGreatForce"),
 		PowerGrip = itemFlag("iPowerGrip"),
 		CobaltNecktie = itemFlag("iCobaltNecktie"),
-		GameBoyHorrorSP = itemFlag("iGameBoyHorrorSP")
+		GameBoyHorrorSP = itemFlag("iGameBoyHorrorSP"),
+		
+		-- Special flags
+		ChuckolasReturned = itemFlag("ChuckolaFruitFlag"),
+		NeonEggsComplete = itemFlag("NeonEggsGivenFlag"),
+		BeanstarComplete = itemFlag("BeanstarFlag2_Rando"),
+		JokesEndComplete = itemFlag("JokesEndFawfulFlag"),
 	}
 end

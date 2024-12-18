@@ -49,7 +49,7 @@ end
 
 function canPreChuckolator()
 	local hasitem = nil
-	if (has("BeanbeanBrooch") and has("RedChuckolaFruit") and has("WhiteChuckolaFruit") and has("PurpleChuckolaFruit")) then hasitem = true else hasitem = false end
+	if has("ChuckolasReturned") or (has("BeanbeanBrooch") and has("RedChuckolaFruit") and has("WhiteChuckolaFruit") and has("PurpleChuckolaFruit")) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -127,18 +127,18 @@ end
 
 function canNeonEggs()
 	local hasitem = nil
-	if (has("NeonEggBlue") and has("NeonEggRed") and has("NeonEggGreen") and has("NeonEggYellow") and has("NeonEggPurple") and has("NeonEggOrange") and has("NeonEggAzure")) then hasitem = true else hasitem = false end
+	if has("NeonEggsComplete") or (has("NeonEggBlue") and has("NeonEggRed") and has("NeonEggGreen") and has("NeonEggYellow") and has("NeonEggPurple") and has("NeonEggOrange") and has("NeonEggAzure")) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
 function canBeanstar()
 	local hasitem = nil
-	if (canChuckolator() and has("PeasleysRose") and has("BeanstarPiece1") and has("BeanstarPiece2") and has("BeanstarPiece3") and has("BeanstarPiece4")) then hasitem = true else hasitem = false end
+	if has("BeanstarComplete") or (canChuckolator() and has("PeasleysRose") and has("BeanstarPiece1") and has("BeanstarPiece2") and has("BeanstarPiece3") and has("BeanstarPiece4")) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
 function canBirdo()
 	local hasitem = nil
-	if (canJokesDeep() and canBeanstar() and has("FakeBeanstar") and has("PeachsExtraDress")) then hasitem = true else hasitem = false end
+	if has("JokesEndComplete") or (canJokesDeep() and canBeanstar() and has("FakeBeanstar") and has("PeachsExtraDress")) then hasitem = true else hasitem = false end
 	return hasitem
 end
