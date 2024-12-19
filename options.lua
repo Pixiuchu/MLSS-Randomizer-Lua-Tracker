@@ -38,4 +38,17 @@ Future options that may be implemented:
 	highlight_areas_with_progression = false --Banned for speedruns; definitely will be added
 
 Any setting at the top that has a double dash "--" means it's not implemented yet.
+
+
+Other ideas I have:
+- hidden digspot displayer (shows where the hidden digspots are in the game itself)
+- seed logger that logs the order you grabbed locations and what items were inside, found in the seeds folder
+- automatically load your seed settings
+- automatic timer that doesn't need livesplit
+- "speedrun mode" option
+- "generate spoiler log" option; this would give you a list of every item.
+
+- if the project gets too big, it'd be better to move the project separate from bizhawk,
+  which will probably be a v2.0 version, but it would still require a lua script through bizhawk.
+  This is the long term plan.
 ]]--
