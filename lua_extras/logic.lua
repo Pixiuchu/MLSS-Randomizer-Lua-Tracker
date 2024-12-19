@@ -30,8 +30,8 @@ end
 
 function canHardLogic()
 	local hasitem = nil
-	--if hardLogicOption() then hasitem = true
-	if canCrash() then hasitem = true else hasitem = false end
+	if has("hardLogicOption") then hasitem = true
+	elseif canCrash() then hasitem = true else hasitem = false end
 	return hasitem
 end
 

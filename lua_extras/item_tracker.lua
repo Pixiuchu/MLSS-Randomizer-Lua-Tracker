@@ -1,47 +1,22 @@
---refreshRate = 180
-backgroundColor = "#111111"
-boxWidth = 7
-boxHeight = 15.4
-itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
-picture_box = forms.pictureBox(itemtracker, 0, 0, 20+(55*boxWidth), 20+(55*boxHeight))
-forms.setDefaultBackgroundColor(picture_box, backgroundColor)
-forms.drawBox(picture_box,-5, -5, 25+(55*boxWidth), 25+(55*boxHeight), 0xFF00)
-
-
-
----- List of items
--- i stands for item
-
-function readRam(ItemAddress)
-	local bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
-	return bytevalue
+if location_tracker == true then
+	backgroundColor = "#111111"
+	boxWidth = 7
+	boxHeight = 15.4
+	itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
+	picture_box = forms.pictureBox(itemtracker, 0, 0, 20+(55*boxWidth), 20+(55*boxHeight))
+	forms.setDefaultBackgroundColor(picture_box, backgroundColor)
+	forms.drawBox(picture_box,-5, -5, 25+(55*boxWidth), 25+(55*boxHeight), 0xFF00)
+elseif (location_tracker == true and separate_windows == true) or location_tracker == false then
+	backgroundColor = "#111111"
+	boxWidth = 7
+	boxHeight = 6
+	itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
+	picture_box = forms.pictureBox(itemtracker, 0, 0, 20+(55*boxWidth), 20+(55*boxHeight))
+	forms.setDefaultBackgroundColor(picture_box, backgroundColor)
+	forms.drawBox(picture_box,-5, -5, 25+(55*boxWidth), 25+(55*boxHeight), 0xFF00)
 end
 
-function itemFlag(ItemAddress)
-	local itemType = ramTable[ItemAddress][1]
-	-- numbers 0-7: read bit, 8: consumables/equipment
-	local bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
-	local bitresult = nil
-	
-	if itemType == 8 then
-		if (bytevalue == 255) or (bytevalue == 0) then
-			bitresult = 0
-		else
-			bitresult = 1
-		end
-	elseif itemType < 8 then
-		bitvalue = 2^itemType
-		andedvalues = bytevalue & bitvalue
-		if andedvalues > 0 then
-			bitresult = 1
-		else
-			bitresult = 0
-		end
-	end
-	
-	return bitresult
-end
-	
+
 function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 	local itemType = ramTable[ItemAddress][1]
 	-- Special check for Hammers
@@ -177,6 +152,3 @@ function refreshItems()
 	--"SecretScroll2 "= drawItem(i--)
 	-- Mush Badge, Secret Scrolls, 
 end
-
-local readTitleScreen = readRam("titleScreen")
-if readTitleScreen ~= 0 then refreshItems() else forms.drawText(picture_box, 30, 400, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold")  end

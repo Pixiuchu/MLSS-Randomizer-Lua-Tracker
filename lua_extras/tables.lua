@@ -1,4 +1,41 @@
----- List of items
+function convertBool(option)
+	-- Converts a bool into a 1 or 0 number
+	local optionresult
+	if option == true then optionresult = 1 else optionresult = 0 end
+	return optionresult
+end
+
+function readRam(ItemAddress)
+	local bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
+	return bytevalue
+end
+
+function itemFlag(ItemAddress)
+	local itemType = ramTable[ItemAddress][1]
+	-- numbers 0-7: read bit, 8: consumables/equipment
+	local bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
+	local bitresult = nil
+	
+	if itemType == 8 then
+		if (bytevalue == 255) or (bytevalue == 0) then
+			bitresult = 0
+		else
+			bitresult = 1
+		end
+	elseif itemType < 8 then
+		bitvalue = 2^itemType
+		andedvalues = bytevalue & bitvalue
+		if andedvalues > 0 then
+			bitresult = 1
+		else
+			bitresult = 0
+		end
+	end
+	
+	return bitresult
+end
+
+---- List of flags and items
 -- i stands for item
 -- any name ending with _Rando is a ram address specific to the randomizer
 ramTable = {
@@ -107,6 +144,7 @@ BeanstarFlag2_Rando = {0, 0x3003, "EWRAM"}, --Cutscene where you get Beanstar, D
 JokesEndFawfulFlag = {7, 0x430B, "EWRAM"}, --Enables after you meet Fawful in Joke's End x430B_7 
 }
 
+
 function refreshItemFlags()
 	-- FT = Flag Table
 	FT = {
@@ -161,5 +199,8 @@ function refreshItemFlags()
 		NeonEggsComplete = itemFlag("NeonEggsGivenFlag"),
 		BeanstarComplete = itemFlag("BeanstarFlag2_Rando"),
 		JokesEndComplete = itemFlag("JokesEndFawfulFlag"),
+		
+		-- Option flags
+		hardLogicOption = convertBool(difficult_logic),
 	}
 end
