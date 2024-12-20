@@ -13,7 +13,7 @@ if location_tracker == true then
 	dofile("./lua_extras/location_tracker.lua")
 end
 
-local refreshRate = 180
+local refreshRate = 120
 local framecount_old = 0
 local framecount = 0
 

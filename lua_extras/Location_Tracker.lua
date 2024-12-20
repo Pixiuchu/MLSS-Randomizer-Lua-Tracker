@@ -61,38 +61,48 @@ function drawNumbers(LocationAvailability, LocationsDone, YPos)
 		local sumrLoc2 = math.floor(LocationsDone/10 % 10)
 		local sumrLoc3 = math.floor(LocationsDone/1 % 10)
 		
-		if LocationAvailability >= 100 then
-			forms.drawImage(picture_box, numberTable[21], 291-20, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[canrLoc1], 291, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[canrLoc2], 291+14, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[20], 291+45, YPos-small_window+13)
-		elseif LocationAvailability >= 10 then
-			forms.drawImage(picture_box, numberTable[21], 291-20, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[canrLoc2], 291+14, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[20], 291+45, YPos-small_window+12)
-		elseif LocationAvailability > 0 then
-			forms.drawImage(picture_box, numberTable[21], 291-20, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[20], 291+45, YPos-small_window+12)
+		if show_available == true then
+			if LocationAvailability >= 100 then
+				forms.drawImage(picture_box, numberTable[21], 291-20, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[canrLoc1], 291, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[canrLoc2], 291+14, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos-small_window+14)
+				if show_available == true and show_remaining == true then
+					forms.drawImage(picture_box, numberTable[20], 291+45, YPos-small_window+12)
+				end
+			elseif LocationAvailability >= 10 then
+				forms.drawImage(picture_box, numberTable[21], 291-20, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[canrLoc2], 291+14, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos-small_window+14)
+				if show_available == true and show_remaining == true then
+					forms.drawImage(picture_box, numberTable[20], 291+45, YPos-small_window+12)
+				end
+			elseif LocationAvailability > 0 then
+				if show_available == true and show_remaining == true then
+					forms.drawImage(picture_box, numberTable[20], 291+45, YPos-small_window+12)
+				end
+				forms.drawImage(picture_box, numberTable[21], 291-20, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[canrLoc3], 291+28, YPos-small_window+14)
+			end
 		end
 		
-		if LocationAvailability == 0 then
-			sumrLoc1 = sumrLoc1 + 10
-			sumrLoc2 = sumrLoc2 + 10
-			sumrLoc3 = sumrLoc3 + 10
-		end
-		
-		if LocationsDone >= 100 then
-			forms.drawImage(picture_box, numberTable[sumrLoc1], 291+56, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
-		elseif LocationsDone >= 10 then
-			forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70, YPos-small_window+14)
-			forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
-		else
-			forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
+		if show_remaining == true then
+			if LocationAvailability == 0 then
+				sumrLoc1 = sumrLoc1 + 10
+				sumrLoc2 = sumrLoc2 + 10
+				sumrLoc3 = sumrLoc3 + 10
+			end
+			
+			if LocationsDone >= 100 then
+				forms.drawImage(picture_box, numberTable[sumrLoc1], 291+56, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
+			elseif LocationsDone >= 10 then
+				forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
+			else
+				forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
+			end
 		end
 			
 	end
@@ -411,8 +421,8 @@ function loadLocFlags()
     if canGwarhar() and canDash() then local x458C_3 = {3, 0x458C}; x458C_3 = locFlag(x458C_3); canrGwarhar = canrGwarhar + flip(x458C_3); sumrGwarhar = sumrGwarhar - x458C_3 end --Gwarhar Lagoon First Underwater Area Room 2 Coin Block
     if canGwarhar() and canDig() then local x458A_4 = {4, 0x458A}; x458A_4 = locFlag(x458A_4); canrGwarhar = canrGwarhar + flip(x458A_4); sumrGwarhar = sumrGwarhar - x458A_4 end --Gwarhar Lagoon Massage Parlor Entrance Digspot
     if canGwarhar() and canDig() then local x458A_3 = {3, 0x458A}; x458A_3 = locFlag(x458A_3); canrGwarhar = canrGwarhar + flip(x458A_3); sumrGwarhar = sumrGwarhar - x458A_3 end --Gwarhar Lagoon Pipe Room Digspot
-    if canGwarhar() and has("Firebrand") and has("Thunderhand") then local x4346_6 = {6, 0x4346}; x4346_6 = locFlag(x4346_6); canrGwarhar = canrGwarhar + flip(x4346_6); sumrGwarhar = sumrGwarhar - x4346_6 end --Gwarhar Lagoon Green Pearl Bean
-    if canGwarhar() and has("Firebrand") and has("Thunderhand") then local x4346_7 = {7, 0x4346}; x4346_7 = locFlag(x4346_7); canrGwarhar = canrGwarhar + flip(x4346_7); sumrGwarhar = sumrGwarhar - x4346_7 end --Gwarhar Lagoon Red Pearl Bean
+    if canGwarhar() and canFirebrand() and has("Thunderhand") then local x4346_6 = {6, 0x4346}; x4346_6 = locFlag(x4346_6); canrGwarhar = canrGwarhar + flip(x4346_6); sumrGwarhar = sumrGwarhar - x4346_6 end --Gwarhar Lagoon Green Pearl Bean
+    if canGwarhar() and canFirebrand() and has("Thunderhand") then local x4346_7 = {7, 0x4346}; x4346_7 = locFlag(x4346_7); canrGwarhar = canrGwarhar + flip(x4346_7); sumrGwarhar = sumrGwarhar - x4346_7 end --Gwarhar Lagoon Red Pearl Bean
     if canGwarharDeep() then local x458B_4 = {4, 0x458B}; x458B_4 = locFlag(x458B_4); canrGwarhar = canrGwarhar + flip(x458B_4); sumrGwarhar = sumrGwarhar - x458B_4 end --Gwarhar Lagoon East of Stone Bridge Block
     if canGwarharDeep() and canDig() then local x458A_6 = {6, 0x458A}; x458A_6 = locFlag(x458A_6); canrGwarhar = canrGwarhar + flip(x458A_6); sumrGwarhar = sumrGwarhar - x458A_6 end --Gwarhar Lagoon Entrance to West Underwater Area Digspot
     if canGwarharDeep() and canDig() then local x458A_7 = {7, 0x458A}; x458A_7 = locFlag(x458A_7); canrGwarhar = canrGwarhar + flip(x458A_7); sumrGwarhar = sumrGwarhar - x458A_7 end --Gwarhar Lagoon Fire Dash Puzzle Room 1 Digspot 1
@@ -510,7 +520,7 @@ function loadLocFlags()
     if (canCrash() or has("Hammers2")) and canDig() then local x4571_3 = {3, 0x4571}; x4571_3 = locFlag(x4571_3); canrHoohoo = canrHoohoo + flip(x4571_3); sumrHoohoo = sumrHoohoo - x4571_3 end --Hoohoo Village Super Hammer Cave Digspot
     if canJokes() and canDig() then local x4592_6 = {6, 0x4592}; x4592_6 = locFlag(x4592_6); canrJokes = canrJokes + flip(x4592_6); sumrJokes = sumrJokes - x4592_6 end --Joke's End First Boiler Room Digspot 1
     if canJokes() and canDig() then local x4592_7 = {7, 0x4592}; x4592_7 = locFlag(x4592_7); canrJokes = canrJokes + flip(x4592_7); sumrJokes = sumrJokes - x4592_7 end --Joke's End First Boiler Room Digspot 2
-    if canJokes() and canDig() then local x4592_2 = {2, 0x4592}; x4592_2 = locFlag(x4592_2); canrJokes = canrJokes + flip(x4592_2); sumrJokes = sumrJokes - x4592_2 end --Joke's End Pipe Digspot
+	if canSurf() and canDig() then local x4592_2 = {2, 0x4592}; x4592_2 = locFlag(x4592_2); canrJokes = canrJokes + flip(x4592_2); sumrJokes = sumrJokes - x4592_2 end --Joke's End Pipe Digspot
     if canJokes() and canHardLogic() then local x4593_0 = {0, 0x4593}; x4593_0 = locFlag(x4593_0); canrJokes = canrJokes + flip(x4593_0); sumrJokes = sumrJokes - x4593_0 end --Joke's End Furnace Room 1 Block 1
     if canJokes() and canHardLogic() then local x4593_1 = {1, 0x4593}; x4593_1 = locFlag(x4593_1); canrJokes = canrJokes + flip(x4593_1); sumrJokes = sumrJokes - x4593_1 end --Joke's End Furnace Room 1 Block 2
     if canJokes() and canHardLogic() then local x4593_2 = {2, 0x4593}; x4593_2 = locFlag(x4593_2); canrJokes = canrJokes + flip(x4593_2); sumrJokes = sumrJokes - x4593_2 end --Joke's End Furnace Room 1 Block 3

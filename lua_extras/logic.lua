@@ -4,6 +4,13 @@ function has(item)
 	return hasitem
 end
 
+-- Special functions for when you temporarily lose singular items
+function canFirebrand()
+	local hasitem = nil
+	if has("Firebrand") or has("FirebrandRando") then hasitem = true else hasitem = false end
+	return hasitem
+end
+
 function canDig()
 	local hasitem = nil
 	if has("GreenGoblet") and has("Hammers1") then hasitem = true else hasitem = false end
@@ -18,7 +25,7 @@ end
 
 function canDash()
 	local hasitem = nil
-	if (has("RedPearlBean") and has("Firebrand")) then hasitem = true else hasitem = false end
+	if (has("RedPearlBean") and canFirebrand()) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -43,7 +50,7 @@ end
 
 function canPearls()
 	local hasitem = nil
-	if has("GreenPearlBean") and has("Thunderhand") and has("RedPearlBean") and has("Firebrand") then hasitem = true else hasitem = false end
+	if has("GreenPearlBean") and has("Thunderhand") and canDash() then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -55,7 +62,7 @@ end
 
 function canChuckolator()
 	local hasitem = nil
-	if canPreChuckolator() and (has("Hammers1") or has("Firebrand") or has("Thunderhand")) then hasitem = true else hasitem = false end
+	if canPreChuckolator() and (has("Hammers1") or canFirebrand() or has("Thunderhand")) then hasitem = true else hasitem = false end
 	return hasitem -- include MushBadge?
 end
 
@@ -73,7 +80,7 @@ end
 
 function canSink()
 	local hasitem = nil
-	if (canTeehee() and has("Firebrand") and has("MembershipCard")) then hasitem = true else hasitem = false end
+	if (canTeehee() and canFirebrand() and has("MembershipCard")) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -103,7 +110,7 @@ end
 
 function canJokes()
 	local hasitem = nil
-	if (canSurf() and has("Firebrand")) then hasitem = true else hasitem = false end
+	if (canSurf() and canFirebrand()) then hasitem = true else hasitem = false end
 	return hasitem
 end
 

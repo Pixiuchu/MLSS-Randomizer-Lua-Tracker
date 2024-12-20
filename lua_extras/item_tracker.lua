@@ -32,27 +32,14 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 			drawImage = forms.drawImage(picture_box, "./items/Hammers3.png", 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
 	
-	
 	-- Special check for Beanstar Pieces + Real Beanstar special behaviour
 	elseif (ItemAddress == "iBeanstarPiece1") or (ItemAddress == "iBeanstarPiece2") or (ItemAddress == "iBeanstarPiece3") or (ItemAddress == "iBeanstarPiece4") then
-		--ReadBeanstarPieces = itemFlag("iBeanstarPiece1") + itemFlag("iBeanstarPiece2") + itemFlag("iBeanstarPiece3") + itemFlag("iBeanstarPiece4")
-		if itemFlag("BeanstarFlag2_Rando") == 1 then
+		if itemFlag("BeanstarFlag1") == 1 or itemFlag("iRealBeanstar") == 1 then
 			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.25-1)*55))
-		elseif (itemFlag("iRealBeanstar") == 0) and ((itemFlag("BeanstarFlag1") == 0) or (itemFlag("BeanstarFlag1") == 1)) then
-			if (itemFlag(ItemAddress)) == 1 or (itemFlag("BeanstarFlag1") == 1) then
-				drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
-			else
-				drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
-			end
-		elseif (itemFlag("iRealBeanstar") == 1) and (itemFlag("BeanstarFlag1") == 0) then
-			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.25-1)*55))
-			if itemFlag(ItemAddress) == 0 then
-				drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
-			else
-				drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
-			end
-		elseif (itemFlag("iRealBeanstar") == 1) and (itemFlag("BeanstarFlag1") == 1) then
-			drawImage = forms.drawImage(picture_box, "./items/RealBeanstar.png", 10+((6.25-1)*55), 10+((1.25-1)*55))
+		elseif itemFlag(ItemAddress) == 0 then
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
 	
 	-- Special check for Chuckola Fruits
@@ -83,6 +70,16 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
 		else
 			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		end
+	
+	-- Special check for Fire Palace
+	elseif ItemAddress == "iFirebrand" then
+		if itemFlag("iFirebrand") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		elseif itemFlag("iFirebrandRAM") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
 	
 	-- Generic item check

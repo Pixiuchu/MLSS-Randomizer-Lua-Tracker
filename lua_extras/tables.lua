@@ -6,7 +6,15 @@ function convertBool(option)
 end
 
 function readRam(ItemAddress)
-	local bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
+	local bytevalue
+	local size = ramTable[ItemAddress][1]
+	if size == 1 then
+		bytevalue = memory.read_u8(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
+	elseif size == 2 then
+		bytevalue = memory.read_u16_le(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
+	else
+		bytevalue = memory.read_u32_le(ramTable[ItemAddress][2], ramTable[ItemAddress][3])
+	end
 	return bytevalue
 end
 
@@ -40,8 +48,8 @@ end
 -- any name ending with _Rando is a ram address specific to the randomizer
 ramTable = {
 -- Generic values
-titleScreen = {0, 0x0FFB, "IWRAM"},
-currentRoom = {0, 0x2332, "IWRAM"},
+titleScreen = {1, 0x0FFB, "IWRAM"},
+currentRoom = {2, 0x2332, "IWRAM"},
 
 
 --iMushroom1 = {8, 0x48E2, "EWRAM", "Mushroom"}, -- 48E2
@@ -125,6 +133,7 @@ iHammers1 = {3, 0x4338, "EWRAM", "Hammers"}, -- 78
 iHammers2 = {4, 0x4338, "EWRAM", "Super Hammers"}, -- 79
 iHammers3 = {5, 0x4338, "EWRAM", "Ultra Hammers"}, -- 80
 iFirebrand = {0, 0x4339, "EWRAM", "Firebrand"},
+iFirebrandRAM = {4, 0x3016, "EWRAM"}, -- Is enabled when you enter fire palace room
 iThunderhand = {1, 0x4339, "EWRAM", "Thunderhand"},
 iGreedWallet = {8, 0x4982, "EWRAM", "Greed Wallet"},
 iBonusRing = {8, 0x4983, "EWRAM", "Bonus Ring"},
@@ -139,7 +148,7 @@ iGameBoyHorrorSP = {8, 0x4988, "EWRAM", "Game Boy Horror SP"},
 ChuckolaFruitFlag = {3, 0x4302, "EWRAM"}, --Enables after Chuckroot moves
 SpangleGivenFlag = {7, 0x434A, "EWRAM"}, --Enables after you give Hermie Spangle
 NeonEggsGivenFlag = {5, 0x434D, "EWRAM"}, --Enables after you hand over the Neon Eggs; 0x4406_3 would also work 5, 0x434D
-BeanstarFlag1 = {3, 0x430B, "EWRAM"},--Cutscene where you get Beanstar, Dress, Fake Beanstar, ...
+BeanstarFlag1 = {3, 0x433D, "EWRAM"},--Cutscene where you get Beanstar, Dress, Fake Beanstar, ...; also the Beanstar shop flag!
 BeanstarFlag2_Rando = {0, 0x3003, "EWRAM"}, --Cutscene where you get Beanstar, Dress, Fake Beanstar, ... 0x430B, but rando stores at 0x3003
 JokesEndFawfulFlag = {7, 0x430B, "EWRAM"}, --Enables after you meet Fawful in Joke's End x430B_7 
 }
@@ -194,10 +203,12 @@ function refreshItemFlags()
 		GameBoyHorrorSP = itemFlag("iGameBoyHorrorSP"),
 		
 		-- Special flags
+		FirebrandRando = itemFlag("iFirebrandRAM"),
+		
 		ChuckolasReturned = itemFlag("ChuckolaFruitFlag"),
 		SpangleComplete = itemFlag("SpangleGivenFlag"),
 		NeonEggsComplete = itemFlag("NeonEggsGivenFlag"),
-		BeanstarComplete = itemFlag("BeanstarFlag2_Rando"),
+		BeanstarComplete = itemFlag("BeanstarFlag1"),
 		JokesEndComplete = itemFlag("JokesEndFawfulFlag"),
 		
 		-- Option flags

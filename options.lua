@@ -1,20 +1,24 @@
+--speedrun_rules = true
+
 	-- Tracker settings
 item_tracker = true
 --show_recently_obtained_items = true
 
 	-- Location Tracker settings
-location_tracker = false
---show_available = true
---show_remaining = true
+location_tracker = true
+show_available = true
+show_remaining = true
 
 	-- Logic settings for locations
 difficult_logic = true 
 --coin_blocks = true
---bowsers_castle_skip = false
---skip_minecart = false
---disable_surf = false
+--visible_digspots = true
+--hidden_digspots = true
+
+--skip_minecart = true
 --disable_harhalls_pants = false
---chuckle_beans = false
+--disable_surf = false
+--bowsers_castle_skip = false
 --randomize_enemies = false
 
 
