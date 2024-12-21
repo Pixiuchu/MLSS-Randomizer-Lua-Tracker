@@ -217,6 +217,9 @@ function refreshItemFlags()
 		coinBlockOption = convertBool(coin_blocks),
 		--digspotVisibleOption = convertBool(visible_digspots),
 		--digspotHiddenOption = convertBool(hidden_digspots),
+		minecartOption = convertBool(minecart),
+		harhallOption = convertBool(harhalls_pants),
+		surfingOption = convertBool(surfing),
 		hardLogicOption = convertBool(difficult_logic),
 	}
 end

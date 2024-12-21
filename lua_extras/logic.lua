@@ -21,7 +21,25 @@ function optionDigspots()
 	end
 	return countitem
 end
-	
+
+function optionSurfing()
+	local hasitem = nil
+	if has("surfingOption") then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function optionMinecart()
+	local hasitem = nil
+	if has("minecartOption") then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function optionHarhall()
+	local hasitem = nil
+	if has("harhallOption") then hasitem = true else hasitem = false end
+	return hasitem
+end
+
 
 -- Special functions for when you temporarily lose singular items
 function canFirebrand()

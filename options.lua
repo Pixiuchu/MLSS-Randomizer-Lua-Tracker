@@ -10,14 +10,14 @@ show_available = true
 show_remaining = true
 
 	-- Logic settings for locations
-difficult_logic = true 
-coin_blocks = false
-visible_digspots = true -- setting this to false sets hidden digspots also to false
-hidden_digspots = false
+difficult_logic = false 
+coin_blocks = true
+visible_digspots = true -- setting this to false also sets hidden digspots to false
+hidden_digspots = true
 
---skip_minecart = true
---disable_harhalls_pants = false
---disable_surf = false
+minecart = false
+harhalls_pants = true
+surfing = true
 --bowsers_castle_skip = false
 --randomize_enemies = false
 
