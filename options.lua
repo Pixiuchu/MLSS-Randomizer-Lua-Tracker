@@ -11,9 +11,9 @@ show_remaining = true
 
 	-- Logic settings for locations
 difficult_logic = true 
---coin_blocks = true
---visible_digspots = true
---hidden_digspots = true
+coin_blocks = false
+visible_digspots = true -- setting this to false sets hidden digspots also to false
+hidden_digspots = false
 
 --skip_minecart = true
 --disable_harhalls_pants = false

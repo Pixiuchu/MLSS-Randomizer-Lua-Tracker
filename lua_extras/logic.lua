@@ -4,6 +4,25 @@ function has(item)
 	return hasitem
 end
 
+-- Special functions for options
+function optionCoins()
+	local hasitem = nil
+	if has("coinBlockOption") then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function optionDigspots()
+	local countitem = 0
+	if visible_digspots then 
+		countitem = countitem + 1
+		if hidden_digspots then
+			countitem = countitem + 1
+		end
+	end
+	return countitem
+end
+	
+
 -- Special functions for when you temporarily lose singular items
 function canFirebrand()
 	local hasitem = nil

@@ -212,6 +212,9 @@ function refreshItemFlags()
 		JokesEndComplete = itemFlag("JokesEndFawfulFlag"),
 		
 		-- Option flags
+		coinBlockOption = convertBool(coin_blocks),
+		--digspotVisibleOption = convertBool(visible_digspots),
+		--digspotHiddenOption = convertBool(hidden_digspots),
 		hardLogicOption = convertBool(difficult_logic),
 	}
 end
