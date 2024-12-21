@@ -81,6 +81,16 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 		else
 			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
+		
+	-- Special check for Thunder Palace
+	elseif ItemAddress == "iThunderhand" then
+		if itemFlag("iThunderhand") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		elseif itemFlag("iThunderhandRAM") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		end
 	
 	-- Generic item check
 	elseif itemType == 1 then

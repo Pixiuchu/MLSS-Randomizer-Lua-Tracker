@@ -135,6 +135,7 @@ iHammers3 = {5, 0x4338, "EWRAM", "Ultra Hammers"}, -- 80
 iFirebrand = {0, 0x4339, "EWRAM", "Firebrand"},
 iFirebrandRAM = {4, 0x3016, "EWRAM"}, -- Is enabled when you enter fire palace room
 iThunderhand = {1, 0x4339, "EWRAM", "Thunderhand"},
+iThunderhandRAM = {5, 0x3016, "EWRAM"}, -- Is enabled when you enter thunder palace room
 iGreedWallet = {8, 0x4982, "EWRAM", "Greed Wallet"},
 iBonusRing = {8, 0x4983, "EWRAM", "Bonus Ring"},
 iExciteSpring = {8, 0x4984, "EWRAM", "Excite Spring"},
@@ -204,6 +205,7 @@ function refreshItemFlags()
 		
 		-- Special flags
 		FirebrandRando = itemFlag("iFirebrandRAM"),
+		ThunderhandRando = itemFlag("iThunderhandRAM"),
 		
 		ChuckolasReturned = itemFlag("ChuckolaFruitFlag"),
 		SpangleComplete = itemFlag("SpangleGivenFlag"),

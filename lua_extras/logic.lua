@@ -30,6 +30,12 @@ function canFirebrand()
 	return hasitem
 end
 
+function canThunderhand()
+	local hasitem = nil
+	if has("Thunderhand") or has("ThunderhandRando") then hasitem = true else hasitem = false end
+	return hasitem
+end
+
 function canDig()
 	local hasitem = nil
 	if has("GreenGoblet") and has("Hammers1") then hasitem = true else hasitem = false end
@@ -50,7 +56,7 @@ end
 
 function canCrash()
 	local hasitem = nil
-	if has("GreenPearlBean") and has("Thunderhand") then hasitem = true else hasitem = false end
+	if has("GreenPearlBean") and canThunderhand() then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -69,7 +75,7 @@ end
 
 function canPearls()
 	local hasitem = nil
-	if has("GreenPearlBean") and has("Thunderhand") and canDash() then hasitem = true else hasitem = false end
+	if has("GreenPearlBean") and canThunderhand() and canDash() then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -81,7 +87,7 @@ end
 
 function canChuckolator()
 	local hasitem = nil
-	if canPreChuckolator() and (has("Hammers1") or canFirebrand() or has("Thunderhand")) then hasitem = true else hasitem = false end
+	if canPreChuckolator() and (has("Hammers1") or canFirebrand() or canThunderhand()) then hasitem = true else hasitem = false end
 	return hasitem -- include MushBadge?
 end
 
@@ -93,7 +99,7 @@ end
 
 function canFungitown()
 	local hasitem = nil
-	if (canTeehee() and canChuckolator() and has("PeasleysRose") and has("Thunderhand")) then hasitem = true else hasitem = false end
+	if (canTeehee() and canChuckolator() and has("PeasleysRose") and canThunderhand()) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
