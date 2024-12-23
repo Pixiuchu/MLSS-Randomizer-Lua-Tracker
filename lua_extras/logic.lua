@@ -40,6 +40,17 @@ function optionHarhall()
 	return hasitem
 end
 
+function optionBowser()
+	local hasitem = nil
+	if has("bowserOption") then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function optionEnemies()
+	local hasitem = nil
+	if has("enemyOption") then hasitem = true else hasitem = false end
+	return hasitem
+end
 
 -- Special functions for when you temporarily lose singular items
 function canFirebrand()
@@ -54,6 +65,7 @@ function canThunderhand()
 	return hasitem
 end
 
+-- Normal functions
 function canDig()
 	local hasitem = nil
 	if has("GreenGoblet") and has("Hammers1") then hasitem = true else hasitem = false end
@@ -68,17 +80,17 @@ end
 
 function canDash()
 	local hasitem = nil
-	if (has("RedPearlBean") and canFirebrand()) then hasitem = true else hasitem = false end
+	if (has("RedPearlBean") or has("RedPearlBeanRando")) and canFirebrand() then hasitem = true else hasitem = false end
 	return hasitem
 end
 
 function canCrash()
 	local hasitem = nil
-	if has("GreenPearlBean") and canThunderhand() then hasitem = true else hasitem = false end
+	if (has("GreenPearlBean") or has("GreenPearlBeanRando")) and canThunderhand() then hasitem = true else hasitem = false end
 	return hasitem
 end
 
-function canHardLogic()
+function optionHardLogic()
 	local hasitem = nil
 	if has("hardLogicOption") then hasitem = true
 	elseif canCrash() then hasitem = true else hasitem = false end
@@ -93,7 +105,7 @@ end
 
 function canPearls()
 	local hasitem = nil
-	if has("GreenPearlBean") and canThunderhand() and canDash() then hasitem = true else hasitem = false end
+	if canCrash() and canDash() then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -147,7 +159,7 @@ end
 
 function canGwarharDeep()
 	local hasitem = nil
-	if (canGwarhar() and has("RedPearlBean") and canHardLogic()) then hasitem = true else hasitem = false end
+	if (canGwarhar() and has("RedPearlBean") and optionHardLogic) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -159,7 +171,7 @@ end
 
 function canJokesDeep()
 	local hasitem = nil
-	if (canJokes() and canHardLogic() and canDig()) then hasitem = true else hasitem = false end
+	if (canJokes() and optionHardLogic and canDig()) then hasitem = true else hasitem = false end
 	return hasitem
 end
 

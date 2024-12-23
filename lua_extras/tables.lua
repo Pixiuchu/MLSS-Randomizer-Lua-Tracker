@@ -91,7 +91,9 @@ iPeachsExtraDress = {2, 0x490B, "EWRAM", "Peach's Extra Dress"},
 iFakeBeanstar = {3, 0x490B, "EWRAM", "Fake Beanstar"}, 
 iCrabbieGrass = {4, 0x490B, "EWRAM", "Crabbie Grass"}, 
 iRedPearlBean = {5, 0x490B, "EWRAM", "Red Pearl Bean"}, 
+iRedPearlBeanRAM = {0, 0x302F, "EWRAM"},
 iGreenPearlBean = {6, 0x490B, "EWRAM", "Green Pearl Bean"}, 
+iGreenPearlBeanRAM = {1, 0x302F, "EWRAM"},
 iBeanFruit1 = {7, 0x490B, "EWRAM", "Bean Fruit (1)"}, 
 iBeanFruit2 = {0, 0x490C, "EWRAM", "Bean Fruit (2)"}, 
 iBeanFruit3 = {1, 0x490C, "EWRAM", "Bean Fruit (3)"}, 
@@ -206,6 +208,8 @@ function refreshItemFlags()
 		-- Special flags
 		FirebrandRando = itemFlag("iFirebrandRAM"),
 		ThunderhandRando = itemFlag("iThunderhandRAM"),
+		RedPearlBeanRando = itemFlag("iRedPearlBeanRAM"),
+		GreenPearlBeanRando = itemFlag("iGreenPearlBeanRAM"),
 		
 		ChuckolasReturned = itemFlag("ChuckolaFruitFlag"),
 		SpangleComplete = itemFlag("SpangleGivenFlag"),
@@ -220,6 +224,8 @@ function refreshItemFlags()
 		minecartOption = convertBool(minecart),
 		harhallOption = convertBool(harhalls_pants),
 		surfingOption = convertBool(surfing),
+		bowserOption = convertBool(bowsers_castle),
 		hardLogicOption = convertBool(difficult_logic),
+		enemyOption = convertBool(randomize_enemies),
 	}
 end

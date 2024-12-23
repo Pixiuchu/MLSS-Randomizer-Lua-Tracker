@@ -1,7 +1,10 @@
+refreshItemFlags()
+
 if location_tracker == true then
 	backgroundColor = "#111111"
 	boxWidth = 7
 	boxHeight = 15.4
+	if optionBowser() then boxHeight = boxHeight + 0.9 end
 	itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
 	picture_box = forms.pictureBox(itemtracker, 0, 0, 20+(55*boxWidth), 20+(55*boxHeight))
 	forms.setDefaultBackgroundColor(picture_box, backgroundColor)
@@ -91,6 +94,28 @@ function drawItem(ItemAddress, XPos, YPos, ImageON, ImageOFF)
 		else
 			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
 		end
+	
+	-- Special check for Red Pearl Bean
+	elseif ItemAddress == "iRedPearlBean" then
+		if itemFlag("iRedPearlBean") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		elseif itemFlag("iRedPearlBeanRAM") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		end
+		
+	-- Special check for Green Pearl Bean
+	elseif ItemAddress == "iGreenPearlBean" then
+		if itemFlag("iGreenPearlBean") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		elseif itemFlag("iGreenPearlBeanRAM") == 1 then
+			drawImage = forms.drawImage(picture_box, ImageON, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		else
+			drawImage = forms.drawImage(picture_box, ImageOFF, 10+((XPos-1)*55), 10+((YPos-1)*55))
+		end
+	
+	
 	
 	-- Generic item check
 	elseif itemType == 1 then
