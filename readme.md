@@ -11,6 +11,7 @@ This works on both the Standalone version as well as the Archipelago version.
 Open options.lua in a text file and edit the options. Below you can find a brief explanation for each option:
 
 ## Tracker settings
+- `refresh_rate` = sets the refresh rate of the tracker in frames. It is recommended to keep it at 120 or higher. Set this number higher if you experience lag!
 - `item_tracker` = enables the item tracking
 - `location_tracker` = enables the location tracking
 - `show_available` = shows how many locations you can do with your current items
