@@ -1,4 +1,4 @@
-	-- Location Tracker settings
+	-- Tracker settings
 item_tracker = true
 location_tracker = true
 show_available = true
