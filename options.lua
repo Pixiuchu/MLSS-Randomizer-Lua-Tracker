@@ -11,7 +11,7 @@ coin_blocks = true
 visible_digspots = true -- setting this to false also sets hidden digspots to false
 hidden_digspots = true
 minecart = false
-harhalls_pants = true
+harhalls_pants = false
 surfing = true
 bowsers_castle = false
 randomize_enemies = false
@@ -63,7 +63,7 @@ if speedrun_rules == true then
 	visible_digspots = true
 	hidden_digspots = true
 	minecart = false
-	harhalls_pants = true
+	harhalls_pants = false
 	surfing = true
 	bowsers_castle = false
 end
