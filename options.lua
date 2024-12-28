@@ -1,8 +1,7 @@
 	-- Tracker settings
 item_tracker = true
 location_tracker = true
-items_refreshRate = 15
-locations_refreshRate = 60
+refreshRate = 60
 show_available = true
 show_remaining = true
 

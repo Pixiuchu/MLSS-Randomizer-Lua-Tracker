@@ -5,6 +5,10 @@ v0.6.1
 - Separated item tracker refresh rate and location tracker refresh rate
 	- As a result, changed refresh rates: item -> 15, locations -> 60
 - Fixed bug where rewinding can only be done at less than 40 fps
+- Prevented the following from happening:
+	- Room 0x04D (Hoohoo Mountain Base Room 1) temporarily sets the Peasley's Rose location
+	- Room 0x09E temporarily sets the Winkle Minigame location
+	- ~~Room 0x095 temporarily sets the three Chuckola Fruits locations~~ (pushed for v0.7.0)
 
 
 v0.6.0

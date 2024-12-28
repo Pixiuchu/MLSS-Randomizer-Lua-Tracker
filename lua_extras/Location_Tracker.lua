@@ -135,16 +135,21 @@ end
 function loadLocFlags()
 	refreshItemFlags()
 	
+	--[[ Special flags:
+		0x3040.0 -> 0x42F9.2
+		Room ID: 0x04D
+	]]--
+	
 	local canrStardust = 0
 	local sumrStardust = 19
 	local canrHoohoo = 0
-	local sumrHoohoo = 74
+	local sumrHoohoo = 75
 	local canrCastleTown = 0
 	local sumrCastleTown = 58
 	local canrOutskirts = 0
 	local sumrOutskirts = 102
 	local canrChucklehuck = 0
-	local sumrChucklehuck = 69
+	local sumrChucklehuck = 74
 	local canrHooniversity = 0
 	local sumrHooniversity = 47
 	local canrOasis = 0
@@ -163,7 +168,7 @@ function loadLocFlags()
 		sumrHoohoo = sumrHoohoo - 9
 		sumrCastleTown = sumrCastleTown - 2
 		sumrOutskirts = sumrOutskirts - 6
-		sumrChucklehuck = sumrChucklehuck - 10
+		sumrChucklehuck = sumrChucklehuck - 12
 		sumrTeehee = sumrTeehee - 3
 		sumrGwarhar = sumrGwarhar - 1
 		sumrJokes = sumrJokes - 2
@@ -221,6 +226,32 @@ function loadLocFlags()
 	Example flags with and without logic:
     x4565_0 = {0, 0x4565}; x4565_0 = locFlag(x4565_0); canStardust = canStardust + flip(x4565_0); sumStardust = sumStardust - x4565_0
     x4565_1 = {1, 0x4565}; x4565_1 = locFlag(x4565_1); if has("WinkleCard") then canStardust = canStardust + flip(x4565_1); sumStardust = sumStardust - x4565_1 end]]
+	
+	-- Special flag for room 0x04D
+	if readRam("currentRoom") == 0x04D then 
+		x3040_0 = {0, 0x3040}; x3040_0 = locFlag(x3040_0); -- Check if Peasley's Rose is done
+		sumrHoohoo = sumrHoohoo + x3040_0
+		canrHoohoo = canrHoohoo + x3040_0
+	end
+	
+	-- Special flags for room 0x095 (Chuckleroot) -> pushed for v0.7.0 due to being broken in v1.9.13
+	--	if readRam("currentRoom") == 0x095 then 
+	--		x30A1_0 = {0, 0x30A1}; x30A1_0 = locFlag(x30A1_0); -- Check if White Chuckola Fruit is done; needs logic canGoblets()!
+	--		x30A1_1 = {1, 0x30A1}; x30A1_1 = locFlag(x30A1_1); -- Check if Red Chuckola Fruit is done; needs logic canMini()!
+	--		x30A1_2 = {2, 0x30A1}; x30A1_2 = locFlag(x30A1_2); -- Check if Purple Chuckola Fruit is done
+	--		local sumFruits = x30A1_0 + x30A1_1 + x30A1_2
+	--		sumrChucklehuck = sumrChucklehuck + sumFruits
+	--		if x30A1_1 == 1 and not canMini() then sumFruits = sumFruits - 1 end
+	--		if x30A1_0 == 1 and not canGoblets() then sumFruits = sumFruits - 1 end
+	--		canrChucklehuck = canrChucklehuck + sumFruits
+	--	end
+	
+	-- Special flags for room 0x09E (Winkle Area)
+	if readRam("currentRoom") == 0x09E then 
+		x3014_7 = {7, 0x3014}; x3014_7 = locFlag(x3014_7); -- Check if White Chuckola Fruit is done
+		sumrChucklehuck = sumrChucklehuck + x3014_7
+		canrChucklehuck = canrChucklehuck + x3014_7
+	end
 	
 	
     if optionDigspots() >= 1 then x4589_1 = {1, 0x4589}; x4589_1 = locFlag(x4589_1); if canThunderhand() and canDig() then canrOutskirts = canrOutskirts + flip(x4589_1) end; sumrOutskirts = sumrOutskirts - x4589_1 end --Airport Center Digspot 1
@@ -349,36 +380,36 @@ function loadLocFlags()
     x4340_5 = {5, 0x4340}; x4340_5 = locFlag(x4340_5); if canGwarharDeep() and canCrash() then canrGwarhar = canrGwarhar + flip(x4340_5) end; sumrGwarhar = sumrGwarhar - x4340_5 --Beanstar Piece Hermie
     x430F_0 = {0, 0x430F}; x430F_0 = locFlag(x430F_0); if has("BeanbeanBrooch") and canDash() and has("WinkleCard") then canrChucklehuck = canrChucklehuck + flip(x430F_0) end; sumrChucklehuck = sumrChucklehuck - x430F_0 --Beanstar Piece Winkle Area
     x434D_5 = {5, 0x434D}; x434D_5 = locFlag(x434D_5); if canDash() and canNeonEggs() then canrOutskirts = canrOutskirts + flip(x434D_5) end; sumrOutskirts = sumrOutskirts - x434D_5 --Beanstar Piece Yoshi Theater
-    if optionBowser() then --
-        x459B_5 = {5, 0x459B}; x459B_5 = locFlag(x459B_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_5) end; sumrBowser = sumrBowser - x459B_5 --Bowser's Castle Before Fawful Fight Block 1
-        x459B_6 = {6, 0x459B}; x459B_6 = locFlag(x459B_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_6) end; sumrBowser = sumrBowser - x459B_6 --Bowser's Castle Before Fawful Fight Block 2
-        x459D_1 = {1, 0x459D}; x459D_1 = locFlag(x459D_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_1) end; sumrBowser = sumrBowser - x459D_1 --Bowser's Castle Before Wendy Fight Block 1
-        x459D_2 = {2, 0x459D}; x459D_2 = locFlag(x459D_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_2) end; sumrBowser = sumrBowser - x459D_2 --Bowser's Castle Before Wendy Fight Block 2
-        x459A_1 = {1, 0x459A}; x459A_1 = locFlag(x459A_1); if canBirdo() then canrBowser = canrBowser + flip(x459A_1) end; sumrBowser = sumrBowser - x459A_1 --Bowser's Castle Entrance Block 1
-        x459A_2 = {2, 0x459A}; x459A_2 = locFlag(x459A_2); if canBirdo() then canrBowser = canrBowser + flip(x459A_2) end; sumrBowser = sumrBowser - x459A_2 --Bowser's Castle Entrance Block 2
-        if optionDigspots() >= 1 then x459A_3 = {3, 0x459A}; x459A_3 = locFlag(x459A_3); if canBirdo() then canrBowser = canrBowser + flip(x459A_3) end; sumrBowser = sumrBowser - x459A_3 end --Bowser's Castle Entrance Digspot
-        x459B_7 = {7, 0x459B}; x459B_7 = locFlag(x459B_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_7) end; sumrBowser = sumrBowser - x459B_7 --Bowser's Castle Great Door Block 1
-        x459C_0 = {0, 0x459C}; x459C_0 = locFlag(x459C_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_0) end; sumrBowser = sumrBowser - x459C_0 --Bowser's Castle Great Door Block 2
-        x459A_4 = {4, 0x459A}; x459A_4 = locFlag(x459A_4); if canBirdo() then canrBowser = canrBowser + flip(x459A_4) end; sumrBowser = sumrBowser - x459A_4 --Bowser's Castle Iggy & Morton Hallway Block 1
-        x459A_5 = {5, 0x459A}; x459A_5 = locFlag(x459A_5); if canBirdo() then canrBowser = canrBowser + flip(x459A_5) end; sumrBowser = sumrBowser - x459A_5 --Bowser's Castle Iggy & Morton Hallway Block 2
-        if optionDigspots() >= 1 then x459A_6 = {6, 0x459A}; x459A_6 = locFlag(x459A_6); if canBirdo() then canrBowser = canrBowser + flip(x459A_6) end; sumrBowser = sumrBowser - x459A_6 end --Bowser's Castle Iggy & Morton Hallway Digspot
-        x459E_2 = {2, 0x459E}; x459E_2 = locFlag(x459E_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459E_2) end; sumrBowser = sumrBowser - x459E_2 --Bowser's Castle Larry Room Block
-        x459C_2 = {2, 0x459C}; x459C_2 = locFlag(x459C_2); if canBirdo() then canrBowser = canrBowser + flip(x459C_2) end; sumrBowser = sumrBowser - x459C_2 --Bowser's Castle Lemmy Room 1 Block
-        if optionDigspots() >= 1 then x459C_3 = {3, 0x459C}; x459C_3 = locFlag(x459C_3); if canBirdo() then canrBowser = canrBowser + flip(x459C_3) end; sumrBowser = sumrBowser - x459C_3 end --Bowser's Castle Lemmy Room 1 Digspot
-        x4373_6 = {6, 0x4373}; x4373_6 = locFlag(x4373_6); if canBirdo() then canrBowser = canrBowser + flip(x4373_6) end; sumrBowser = sumrBowser - x4373_6 --Bowser's Castle Lemmy Room Mole
-        x459B_0 = {0, 0x459B}; x459B_0 = locFlag(x459B_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_0) end; sumrBowser = sumrBowser - x459B_0 --Bowser's Castle Ludwig & Roy Hallway Block 1
-        x459B_1 = {1, 0x459B}; x459B_1 = locFlag(x459B_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_1) end; sumrBowser = sumrBowser - x459B_1 --Bowser's Castle Ludwig & Roy Hallway Block 2
-        x459C_4 = {4, 0x459C}; x459C_4 = locFlag(x459C_4); if canBirdo() then canrBowser = canrBowser + flip(x459C_4) end; sumrBowser = sumrBowser - x459C_4 --Bowser's Castle Ludwig Room 1 Block
-        x459C_7 = {7, 0x459C}; x459C_7 = locFlag(x459C_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_7) end; sumrBowser = sumrBowser - x459C_7 --Bowser's Castle Mini Mario Maze Block 1
-        x459D_0 = {0, 0x459D}; x459D_0 = locFlag(x459D_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_0) end; sumrBowser = sumrBowser - x459D_0 --Bowser's Castle Mini Mario Maze Block 2
-        x459C_5 = {5, 0x459C}; x459C_5 = locFlag(x459C_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_5) end; sumrBowser = sumrBowser - x459C_5 --Bowser's Castle Mini Mario Sidescroller Block 1
-        x459C_6 = {6, 0x459C}; x459C_6 = locFlag(x459C_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_6) end; sumrBowser = sumrBowser - x459C_6 --Bowser's Castle Mini Mario Sidescroller Block 2
-        if optionDigspots() >= 1 then x459C_1 = {1, 0x459C}; x459C_1 = locFlag(x459C_1); if canBirdo() then canrBowser = canrBowser + flip(x459C_1) end; sumrBowser = sumrBowser - x459C_1 end --Bowser's Castle Morton Room 1 Digspot
-        x459A_7 = {7, 0x459A}; x459A_7 = locFlag(x459A_7); if canBirdo() then canrBowser = canrBowser + flip(x459A_7) end; sumrBowser = sumrBowser - x459A_7 --Bowser's Castle Past Morton Block
-        x459B_2 = {2, 0x459B}; x459B_2 = locFlag(x459B_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_2) end; sumrBowser = sumrBowser - x459B_2 --Bowser's Castle Roy Corridor Block 1
-        x459B_3 = {3, 0x459B}; x459B_3 = locFlag(x459B_3); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_3) end; sumrBowser = sumrBowser - x459B_3 --Bowser's Castle Roy Corridor Block 2
-        if optionDigspots() >= 1 then x459B_4 = {4, 0x459B}; x459B_4 = locFlag(x459B_4); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_4) end; sumrBowser = sumrBowser - x459B_4 end --Bowser's Castle Wendy & Larry Hallway Digspot
-    end --
+    -- if optionBowser() then --
+    --     x459B_5 = {5, 0x459B}; x459B_5 = locFlag(x459B_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_5) end; sumrBowser = sumrBowser - x459B_5 --Bowser's Castle Before Fawful Fight Block 1
+    --     x459B_6 = {6, 0x459B}; x459B_6 = locFlag(x459B_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_6) end; sumrBowser = sumrBowser - x459B_6 --Bowser's Castle Before Fawful Fight Block 2
+    --     x459D_1 = {1, 0x459D}; x459D_1 = locFlag(x459D_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_1) end; sumrBowser = sumrBowser - x459D_1 --Bowser's Castle Before Wendy Fight Block 1
+    --     x459D_2 = {2, 0x459D}; x459D_2 = locFlag(x459D_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_2) end; sumrBowser = sumrBowser - x459D_2 --Bowser's Castle Before Wendy Fight Block 2
+    --     x459A_1 = {1, 0x459A}; x459A_1 = locFlag(x459A_1); if canBirdo() then canrBowser = canrBowser + flip(x459A_1) end; sumrBowser = sumrBowser - x459A_1 --Bowser's Castle Entrance Block 1
+    --     x459A_2 = {2, 0x459A}; x459A_2 = locFlag(x459A_2); if canBirdo() then canrBowser = canrBowser + flip(x459A_2) end; sumrBowser = sumrBowser - x459A_2 --Bowser's Castle Entrance Block 2
+    --     if optionDigspots() >= 1 then x459A_3 = {3, 0x459A}; x459A_3 = locFlag(x459A_3); if canBirdo() then canrBowser = canrBowser + flip(x459A_3) end; sumrBowser = sumrBowser - x459A_3 end --Bowser's Castle Entrance Digspot
+    --     x459B_7 = {7, 0x459B}; x459B_7 = locFlag(x459B_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_7) end; sumrBowser = sumrBowser - x459B_7 --Bowser's Castle Great Door Block 1
+    --     x459C_0 = {0, 0x459C}; x459C_0 = locFlag(x459C_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_0) end; sumrBowser = sumrBowser - x459C_0 --Bowser's Castle Great Door Block 2
+    --     x459A_4 = {4, 0x459A}; x459A_4 = locFlag(x459A_4); if canBirdo() then canrBowser = canrBowser + flip(x459A_4) end; sumrBowser = sumrBowser - x459A_4 --Bowser's Castle Iggy & Morton Hallway Block 1
+    --     x459A_5 = {5, 0x459A}; x459A_5 = locFlag(x459A_5); if canBirdo() then canrBowser = canrBowser + flip(x459A_5) end; sumrBowser = sumrBowser - x459A_5 --Bowser's Castle Iggy & Morton Hallway Block 2
+    --     if optionDigspots() >= 1 then x459A_6 = {6, 0x459A}; x459A_6 = locFlag(x459A_6); if canBirdo() then canrBowser = canrBowser + flip(x459A_6) end; sumrBowser = sumrBowser - x459A_6 end --Bowser's Castle Iggy & Morton Hallway Digspot
+    --     x459E_2 = {2, 0x459E}; x459E_2 = locFlag(x459E_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459E_2) end; sumrBowser = sumrBowser - x459E_2 --Bowser's Castle Larry Room Block
+    --     x459C_2 = {2, 0x459C}; x459C_2 = locFlag(x459C_2); if canBirdo() then canrBowser = canrBowser + flip(x459C_2) end; sumrBowser = sumrBowser - x459C_2 --Bowser's Castle Lemmy Room 1 Block
+    --     if optionDigspots() >= 1 then x459C_3 = {3, 0x459C}; x459C_3 = locFlag(x459C_3); if canBirdo() then canrBowser = canrBowser + flip(x459C_3) end; sumrBowser = sumrBowser - x459C_3 end --Bowser's Castle Lemmy Room 1 Digspot
+    --     x4373_6 = {6, 0x4373}; x4373_6 = locFlag(x4373_6); if canBirdo() then canrBowser = canrBowser + flip(x4373_6) end; sumrBowser = sumrBowser - x4373_6 --Bowser's Castle Lemmy Room Mole
+    --     x459B_0 = {0, 0x459B}; x459B_0 = locFlag(x459B_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_0) end; sumrBowser = sumrBowser - x459B_0 --Bowser's Castle Ludwig & Roy Hallway Block 1
+    --     x459B_1 = {1, 0x459B}; x459B_1 = locFlag(x459B_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_1) end; sumrBowser = sumrBowser - x459B_1 --Bowser's Castle Ludwig & Roy Hallway Block 2
+    --     x459C_4 = {4, 0x459C}; x459C_4 = locFlag(x459C_4); if canBirdo() then canrBowser = canrBowser + flip(x459C_4) end; sumrBowser = sumrBowser - x459C_4 --Bowser's Castle Ludwig Room 1 Block
+    --     x459C_7 = {7, 0x459C}; x459C_7 = locFlag(x459C_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_7) end; sumrBowser = sumrBowser - x459C_7 --Bowser's Castle Mini Mario Maze Block 1
+    --     x459D_0 = {0, 0x459D}; x459D_0 = locFlag(x459D_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_0) end; sumrBowser = sumrBowser - x459D_0 --Bowser's Castle Mini Mario Maze Block 2
+    --     x459C_5 = {5, 0x459C}; x459C_5 = locFlag(x459C_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_5) end; sumrBowser = sumrBowser - x459C_5 --Bowser's Castle Mini Mario Sidescroller Block 1
+    --     x459C_6 = {6, 0x459C}; x459C_6 = locFlag(x459C_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_6) end; sumrBowser = sumrBowser - x459C_6 --Bowser's Castle Mini Mario Sidescroller Block 2
+    --     if optionDigspots() >= 1 then x459C_1 = {1, 0x459C}; x459C_1 = locFlag(x459C_1); if canBirdo() then canrBowser = canrBowser + flip(x459C_1) end; sumrBowser = sumrBowser - x459C_1 end --Bowser's Castle Morton Room 1 Digspot
+    --     x459A_7 = {7, 0x459A}; x459A_7 = locFlag(x459A_7); if canBirdo() then canrBowser = canrBowser + flip(x459A_7) end; sumrBowser = sumrBowser - x459A_7 --Bowser's Castle Past Morton Block
+    --     x459B_2 = {2, 0x459B}; x459B_2 = locFlag(x459B_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_2) end; sumrBowser = sumrBowser - x459B_2 --Bowser's Castle Roy Corridor Block 1
+    --     x459B_3 = {3, 0x459B}; x459B_3 = locFlag(x459B_3); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_3) end; sumrBowser = sumrBowser - x459B_3 --Bowser's Castle Roy Corridor Block 2
+    --     if optionDigspots() >= 1 then x459B_4 = {4, 0x459B}; x459B_4 = locFlag(x459B_4); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_4) end; sumrBowser = sumrBowser - x459B_4 end --Bowser's Castle Wendy & Larry Hallway Digspot
+    -- end --
     x456F_6 = {6, 0x456F}; x456F_6 = locFlag(x456F_6); canrStardust = canrStardust + flip(x456F_6); sumrStardust = sumrStardust - x456F_6 --Cave Connecting Stardust Fields and Hoohoo Village Block 1
     x456F_7 = {7, 0x456F}; x456F_7 = locFlag(x456F_7); canrStardust = canrStardust + flip(x456F_7); sumrStardust = sumrStardust - x456F_7 --Cave Connecting Stardust Fields and Hoohoo Village Block 2
     if optionDigspots() >= 1 then x4578_7 = {7, 0x4578}; x4578_7 = locFlag(x4578_7); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4578_7) end; sumrChucklehuck = sumrChucklehuck - x4578_7 end --Chateau Barrel Room Digspot
@@ -756,6 +787,17 @@ function loadLocFlags()
 		end
 		canrOutskirts = canrOutskirts + hasrBeanFruits; sumrOutskirts = sumrOutskirts - doneBeanFruits
 	end
+	
+	-- New items as of v1.9.14
+	x4592_1 = {1, 0x4592}; x4592_1 = locFlag(x4592_1); if has("Hammers3") and canThunderhand() then canrHoohoo = canrHoohoo + flip(x4592_1) end; sumrHoohoo = sumrHoohoo - x4592_1 --Guffawha Ruins Block
+    if optionCoins() then x4572_0 = {0, 0x4572}; x4572_0 = locFlag(x4572_0); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_0) end; sumrChucklehuck = sumrChucklehuck - x4572_0 end --Chucklehuck Woods Solo Luigi Cave Room 1 Coin Block 1
+    if optionCoins() then x4572_1 = {1, 0x4572}; x4572_1 = locFlag(x4572_1); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_1) end; sumrChucklehuck = sumrChucklehuck - x4572_1 end --Chucklehuck Woods Solo Luigi Cave Room 1 Coin Block 2
+    x4572_2 = {2, 0x4572}; x4572_2 = locFlag(x4572_2); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_2) end; sumrChucklehuck = sumrChucklehuck - x4572_2 --Chucklehuck Woods Solo Luigi Cave Room 2 Block 1
+    x4572_3 = {3, 0x4572}; x4572_3 = locFlag(x4572_3); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_3) end; sumrChucklehuck = sumrChucklehuck - x4572_3 --Chucklehuck Woods Solo Luigi Cave Room 2 Block 2
+    x4572_4 = {4, 0x4572}; x4572_4 = locFlag(x4572_4); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_4) end; sumrChucklehuck = sumrChucklehuck - x4572_4 --Chucklehuck Woods Solo Luigi Cave Room 3 Block
+	
+	
+	
 	
 	local canrTotal = canrStardust + canrHoohoo + canrOutskirts + canrCastleTown + canrChucklehuck + canrHooniversity + canrOasis + canrTeehee + canrGwarhar + canrJokes + canrBowser
 	local sumrTotal = sumrStardust + sumrHoohoo + sumrOutskirts + sumrCastleTown + sumrChucklehuck + sumrHooniversity + sumrOasis + sumrTeehee + sumrGwarhar + sumrJokes + sumrBowser
