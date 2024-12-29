@@ -11,14 +11,14 @@ boxHeight = 0
 backgroundColor = "#111111"
 
 if item_tracker == true and location_tracker == true then
-	boxHeight = 15.4
+	boxHeight = 16.3
 	if optionBowser() then boxHeight = boxHeight + 0.9 end
 	
 elseif item_tracker == true and location_tracker == false then
 	boxHeight = 6
 	
 elseif item_tracker == false and location_tracker == true then
-	boxHeight = 9
+	boxHeight = 9.9
 	if optionBowser() then boxHeight = boxHeight + 0.9 end
 	
 end
@@ -49,6 +49,9 @@ local ItemValues = refreshRawItemValues()
 local LocationValues_old = 0
 local LocationValues = refreshRawLocationValues()
 
+local currentRoom_old = 0
+local currentRoom_now = readRam("currentRoom")
+
 
 while true do
 	moduloRefresh = emu.framecount() % refreshRate
@@ -56,6 +59,7 @@ while true do
 	framecount_old = framecount + 1
 	framecount = emu.framecount()
 	framecount_difference = math.abs(framecount - framecount_old)
+	
 	
 	if readTitleScreen == 0 then
 		if moduloRefresh == 0 then
@@ -74,8 +78,11 @@ while true do
 			dofile("./options.lua")
 			ItemValues_old = ItemValues
 			ItemValues = refreshRawItemValues()
+			currentRoom_old = currentRoom_now
+			currentRoom_now = readRam("currentRoom")
 			booleanItem = ItemValues_old ~= ItemValues
-			if item_tracker == true and booleanItem then
+			booleanRoom = currentRoom_old ~= currentRoom_now
+			if item_tracker == true and (booleanItem or booleanRoom) then
 				forms.clear(picture_box_items, backgroundColor)
 				refreshItems()	
 				forms.refresh(picture_box_items)
@@ -84,7 +91,7 @@ while true do
 			if location_tracker == true then
 				LocationValues_old = LocationValues
 				LocationValues = refreshRawLocationValues()
-				if (LocationValues_old ~= LocationValues) or booleanItem then
+				if (LocationValues_old ~= LocationValues) or booleanItem or booleanRoom then
 					forms.clear(picture_box_locations, backgroundColor)
 					loadLocFlags()
 					forms.refresh(picture_box_locations)

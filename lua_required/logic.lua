@@ -204,3 +204,49 @@ function canBirdo()
 	if has("JokesEndComplete") or (canJokesDeep() and canBeanstar() and has("FakeBeanstar") and has("PeachsExtraDress")) then hasitem = true else hasitem = false end
 	return hasitem
 end
+
+function canShopStartingGear()
+	local hasitem = nil
+	if has("PeasleysRose") or canChuckolator() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canShopChuckolator()
+	if (has("PeasleysRose") and canThunderhand()) or canChuckolator() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canShopMomPiranha()
+	if has("PeasleysRose") and (canThunderhand() or canBeanstar()) then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canShopTrunke()
+	if canFungitown() or canBeanstar() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canShopBeanstar()
+	if canBeanstar() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canShopBirdo()
+	if canBirdo() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canFungiShopStarting()
+	if canFungitown() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canFungiShopBeanstar()
+	if canFungitown() and canBeanstar() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canFungiShopBirdo()
+	if canFungitown() and canBirdo() then hasitem = true else hasitem = false end
+	return hasitem
+end

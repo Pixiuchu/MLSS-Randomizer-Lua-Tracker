@@ -162,6 +162,8 @@ function loadLocFlags()
 	local sumrJokes = 42
 	local canrBowser = 0
 	local sumrBowser = 28
+	local canrShop = 0
+	local sumrShop = 73
 
 	if optionCoins() == false then
 		sumrStardust = sumrStardust - 9
@@ -218,15 +220,6 @@ function loadLocFlags()
 	
 	
 	
-		
-	--[[ Example: 13 / 18 means I can do 13 locations out of 18
-	sum must be 18.
-	19 max - 1 done = 18
-	
-	Example flags with and without logic:
-    x4565_0 = {0, 0x4565}; x4565_0 = locFlag(x4565_0); canStardust = canStardust + flip(x4565_0); sumStardust = sumStardust - x4565_0
-    x4565_1 = {1, 0x4565}; x4565_1 = locFlag(x4565_1); if has("WinkleCard") then canStardust = canStardust + flip(x4565_1); sumStardust = sumStardust - x4565_1 end]]
-	
 	-- Special flag for room 0x04D
 	if readRam("currentRoom") == 0x04D then 
 		x3040_0 = {0, 0x3040}; x3040_0 = locFlag(x3040_0); -- Check if Peasley's Rose is done
@@ -234,17 +227,93 @@ function loadLocFlags()
 		canrHoohoo = canrHoohoo + x3040_0
 	end
 	
-	-- Special flags for room 0x095 (Chuckleroot) -> pushed for v0.7.0 due to being broken in v1.9.13
-	--	if readRam("currentRoom") == 0x095 then 
-	--		x30A1_0 = {0, 0x30A1}; x30A1_0 = locFlag(x30A1_0); -- Check if White Chuckola Fruit is done; needs logic canGoblets()!
-	--		x30A1_1 = {1, 0x30A1}; x30A1_1 = locFlag(x30A1_1); -- Check if Red Chuckola Fruit is done; needs logic canMini()!
-	--		x30A1_2 = {2, 0x30A1}; x30A1_2 = locFlag(x30A1_2); -- Check if Purple Chuckola Fruit is done
-	--		local sumFruits = x30A1_0 + x30A1_1 + x30A1_2
-	--		sumrChucklehuck = sumrChucklehuck + sumFruits
-	--		if x30A1_1 == 1 and not canMini() then sumFruits = sumFruits - 1 end
-	--		if x30A1_0 == 1 and not canGoblets() then sumFruits = sumFruits - 1 end
-	--		canrChucklehuck = canrChucklehuck + sumFruits
-	--	end
+	
+    x4302_2 = {2, 0x4302}; x4302_2 = locFlag(x4302_2); if has("BeanbeanBrooch") and canGoblets() then canrChucklehuck = canrChucklehuck + flip(x4302_2) end; sumrChucklehuck = sumrChucklehuck - x4302_2 --Chucklehuck Woods White Chuckola Fruit
+    x4301_4 = {4, 0x4301}; x4301_4 = locFlag(x4301_4); if has("BeanbeanBrooch") and canMini() then canrChucklehuck = canrChucklehuck + flip(x4301_4) end; sumrChucklehuck = sumrChucklehuck - x4301_4 --Chucklehuck Woods Red Chuckola Fruit
+    x42FE_7 = {7, 0x42FE}; x42FE_7 = locFlag(x42FE_7); if has("BeanbeanBrooch") then canrChucklehuck = canrChucklehuck + flip(x42FE_7) end; sumrChucklehuck = sumrChucklehuck - x42FE_7 --Chucklehuck Woods Purple Chuckola Fruit
+	
+	--console.clear()
+	-- Special flags for room 0x095 (Chuckleroot)
+	if readRam("currentRoom") == 0x095 then 
+		x30A1_0 = {0, 0x30A1}; x30A1_0 = locFlag(x30A1_0); -- Check if White Chuckola Fruit is done; needs logic canGoblets()!
+		x30A1_1 = {1, 0x30A1}; x30A1_1 = locFlag(x30A1_1); -- Check if Red Chuckola Fruit is done; needs logic canMini()!
+		x30A1_2 = {2, 0x30A1}; x30A1_2 = locFlag(x30A1_2); -- Check if Purple Chuckola Fruit is done
+		x30A2_0 = {0, 0x30A2}; x30A2_0 = locFlag(x30A2_0); -- Check if White Chuckola Fruit has been obtained; needs logic canGoblets()!
+		x30A2_1 = {1, 0x30A2}; x30A2_1 = locFlag(x30A2_1); -- Check if Red Chuckola Fruit has been obtained; needs logic canMini()!
+		x30A2_2 = {2, 0x30A2}; x30A2_2 = locFlag(x30A2_2); -- Check if Purple Chuckola Fruit has been obtained
+		
+		--[[
+		x30A1 -> sets to 1 (fruit or      location)
+		x30A2 -> sets to 1 (fruit and not location)		
+		]]
+		local sumFruit = 0
+		local whiteFruit = 0
+		local redFruit = 0
+		local purpleFruit = 0
+		
+		
+		
+		if not has("WhiteChuckolaFruit") and x30A1_0 == 1 then
+		elseif has("WhiteChuckolaFruit") and x30A1_0 == 1 and x30A2_0 == 0 then
+		else whiteFruit = whiteFruit + 1 end
+		
+		if not has("RedChuckolaFruit") and x30A1_1 == 1 then 
+		elseif has("RedChuckolaFruit") and x30A1_1 == 1 and x30A2_1 == 0 then 
+		else redFruit = redFruit + 1 end
+		
+		if not has("PurpleChuckolaFruit") and x30A1_2 == 1 then 
+		elseif has("PurpleChuckolaFruit") and x30A1_2 == 1 and x30A2_2 == 0 then 
+		else purpleFruit = purpleFruit + 1 end
+		local sumFruits = whiteFruit + redFruit + purpleFruit
+		--print(sumFruits)
+		--print("iuhoiuh : " .. purpleFruit)
+		local sumItemFruits = 0
+		if has("WhiteChuckolaFruit") then sumItemFruits = sumItemFruits + 1 end
+		if has("RedChuckolaFruit") then sumItemFruits = sumItemFruits + 1 end
+		if has("PurpleChuckolaFruit") then sumItemFruits = sumItemFruits + 1 end
+		
+		
+		
+		
+		sumrChucklehuck = sumrChucklehuck - (3 - sumFruits) + sumItemFruits
+		
+		--print("Red: " .. redFruit)
+		--print("White: " .. whiteFruit)
+		--print("Purple: " .. purpleFruit)
+		if has("RedChuckolaFruit") == true and redFruit == 1 and canMini() == false then redFruit = 0 
+		elseif has("RedChuckolaFruit") == false and redFruit == 1 and canMini() == true then redFruit = 0
+		elseif has("RedChuckolaFruit") == false and redFruit == 1 and canMini() == false then redFruit = 0 end
+		
+		if has("WhiteChuckolaFruit") == true and whiteFruit == 1 and canGoblets() == false then whiteFruit = 0 
+		elseif has("WhiteChuckolaFruit") == false and whiteFruit == 1 and canGoblets() == true then whiteFruit = 0
+		elseif has("WhiteChuckolaFruit") == false and whiteFruit == 1 and canGoblets() == false then whiteFruit = 0 end
+		
+		if has("PurpleChuckolaFruit") == false and purpleFruit == 0 then purpleFruit = -1 
+		elseif has("PurpleChuckolaFruit") == false and purpleFruit == 1 then purpleFruit = 0 end
+		--print("White: " .. whiteFruit)
+		--print("Red: " .. redFruit)
+		--print("Purple: " .. purpleFruit)
+		
+		
+		sumFruits = whiteFruit + redFruit + purpleFruit
+		--print("Can checks: " .. canrChucklehuck)		
+		--print("Sum fruits: " .. sumFruits)		
+		canrChucklehuck = canrChucklehuck + sumFruits
+		--print("Can checks: " .. canrChucklehuck)
+	end
+
+		--print("")
+		--print("x30A1_0:" .. x30A1_0)
+		--print("x30A1_1:" .. x30A1_1)
+		--print("x30A1_2:" .. x30A1_2)
+		--print("sum A1 :" .. sumA1)
+		--print("")
+		--print("x30A2_0:" .. x30A2_0)
+		--print("x30A2_1:" .. x30A2_1)
+		--print("x30A2_2:" .. x30A2_2)
+		--print("sum A2 :" .. sumA2)
+		--print("")
+		--print(emu.framecount() % 1000)
 	
 	-- Special flags for room 0x09E (Winkle Area)
 	if readRam("currentRoom") == 0x09E then 
@@ -380,36 +449,36 @@ function loadLocFlags()
     x4340_5 = {5, 0x4340}; x4340_5 = locFlag(x4340_5); if canGwarharDeep() and canCrash() then canrGwarhar = canrGwarhar + flip(x4340_5) end; sumrGwarhar = sumrGwarhar - x4340_5 --Beanstar Piece Hermie
     x430F_0 = {0, 0x430F}; x430F_0 = locFlag(x430F_0); if has("BeanbeanBrooch") and canDash() and has("WinkleCard") then canrChucklehuck = canrChucklehuck + flip(x430F_0) end; sumrChucklehuck = sumrChucklehuck - x430F_0 --Beanstar Piece Winkle Area
     x434D_5 = {5, 0x434D}; x434D_5 = locFlag(x434D_5); if canDash() and canNeonEggs() then canrOutskirts = canrOutskirts + flip(x434D_5) end; sumrOutskirts = sumrOutskirts - x434D_5 --Beanstar Piece Yoshi Theater
-    -- if optionBowser() then --
-    --     x459B_5 = {5, 0x459B}; x459B_5 = locFlag(x459B_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_5) end; sumrBowser = sumrBowser - x459B_5 --Bowser's Castle Before Fawful Fight Block 1
-    --     x459B_6 = {6, 0x459B}; x459B_6 = locFlag(x459B_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_6) end; sumrBowser = sumrBowser - x459B_6 --Bowser's Castle Before Fawful Fight Block 2
-    --     x459D_1 = {1, 0x459D}; x459D_1 = locFlag(x459D_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_1) end; sumrBowser = sumrBowser - x459D_1 --Bowser's Castle Before Wendy Fight Block 1
-    --     x459D_2 = {2, 0x459D}; x459D_2 = locFlag(x459D_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_2) end; sumrBowser = sumrBowser - x459D_2 --Bowser's Castle Before Wendy Fight Block 2
-    --     x459A_1 = {1, 0x459A}; x459A_1 = locFlag(x459A_1); if canBirdo() then canrBowser = canrBowser + flip(x459A_1) end; sumrBowser = sumrBowser - x459A_1 --Bowser's Castle Entrance Block 1
-    --     x459A_2 = {2, 0x459A}; x459A_2 = locFlag(x459A_2); if canBirdo() then canrBowser = canrBowser + flip(x459A_2) end; sumrBowser = sumrBowser - x459A_2 --Bowser's Castle Entrance Block 2
-    --     if optionDigspots() >= 1 then x459A_3 = {3, 0x459A}; x459A_3 = locFlag(x459A_3); if canBirdo() then canrBowser = canrBowser + flip(x459A_3) end; sumrBowser = sumrBowser - x459A_3 end --Bowser's Castle Entrance Digspot
-    --     x459B_7 = {7, 0x459B}; x459B_7 = locFlag(x459B_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_7) end; sumrBowser = sumrBowser - x459B_7 --Bowser's Castle Great Door Block 1
-    --     x459C_0 = {0, 0x459C}; x459C_0 = locFlag(x459C_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_0) end; sumrBowser = sumrBowser - x459C_0 --Bowser's Castle Great Door Block 2
-    --     x459A_4 = {4, 0x459A}; x459A_4 = locFlag(x459A_4); if canBirdo() then canrBowser = canrBowser + flip(x459A_4) end; sumrBowser = sumrBowser - x459A_4 --Bowser's Castle Iggy & Morton Hallway Block 1
-    --     x459A_5 = {5, 0x459A}; x459A_5 = locFlag(x459A_5); if canBirdo() then canrBowser = canrBowser + flip(x459A_5) end; sumrBowser = sumrBowser - x459A_5 --Bowser's Castle Iggy & Morton Hallway Block 2
-    --     if optionDigspots() >= 1 then x459A_6 = {6, 0x459A}; x459A_6 = locFlag(x459A_6); if canBirdo() then canrBowser = canrBowser + flip(x459A_6) end; sumrBowser = sumrBowser - x459A_6 end --Bowser's Castle Iggy & Morton Hallway Digspot
-    --     x459E_2 = {2, 0x459E}; x459E_2 = locFlag(x459E_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459E_2) end; sumrBowser = sumrBowser - x459E_2 --Bowser's Castle Larry Room Block
-    --     x459C_2 = {2, 0x459C}; x459C_2 = locFlag(x459C_2); if canBirdo() then canrBowser = canrBowser + flip(x459C_2) end; sumrBowser = sumrBowser - x459C_2 --Bowser's Castle Lemmy Room 1 Block
-    --     if optionDigspots() >= 1 then x459C_3 = {3, 0x459C}; x459C_3 = locFlag(x459C_3); if canBirdo() then canrBowser = canrBowser + flip(x459C_3) end; sumrBowser = sumrBowser - x459C_3 end --Bowser's Castle Lemmy Room 1 Digspot
-    --     x4373_6 = {6, 0x4373}; x4373_6 = locFlag(x4373_6); if canBirdo() then canrBowser = canrBowser + flip(x4373_6) end; sumrBowser = sumrBowser - x4373_6 --Bowser's Castle Lemmy Room Mole
-    --     x459B_0 = {0, 0x459B}; x459B_0 = locFlag(x459B_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_0) end; sumrBowser = sumrBowser - x459B_0 --Bowser's Castle Ludwig & Roy Hallway Block 1
-    --     x459B_1 = {1, 0x459B}; x459B_1 = locFlag(x459B_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_1) end; sumrBowser = sumrBowser - x459B_1 --Bowser's Castle Ludwig & Roy Hallway Block 2
-    --     x459C_4 = {4, 0x459C}; x459C_4 = locFlag(x459C_4); if canBirdo() then canrBowser = canrBowser + flip(x459C_4) end; sumrBowser = sumrBowser - x459C_4 --Bowser's Castle Ludwig Room 1 Block
-    --     x459C_7 = {7, 0x459C}; x459C_7 = locFlag(x459C_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_7) end; sumrBowser = sumrBowser - x459C_7 --Bowser's Castle Mini Mario Maze Block 1
-    --     x459D_0 = {0, 0x459D}; x459D_0 = locFlag(x459D_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_0) end; sumrBowser = sumrBowser - x459D_0 --Bowser's Castle Mini Mario Maze Block 2
-    --     x459C_5 = {5, 0x459C}; x459C_5 = locFlag(x459C_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_5) end; sumrBowser = sumrBowser - x459C_5 --Bowser's Castle Mini Mario Sidescroller Block 1
-    --     x459C_6 = {6, 0x459C}; x459C_6 = locFlag(x459C_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_6) end; sumrBowser = sumrBowser - x459C_6 --Bowser's Castle Mini Mario Sidescroller Block 2
-    --     if optionDigspots() >= 1 then x459C_1 = {1, 0x459C}; x459C_1 = locFlag(x459C_1); if canBirdo() then canrBowser = canrBowser + flip(x459C_1) end; sumrBowser = sumrBowser - x459C_1 end --Bowser's Castle Morton Room 1 Digspot
-    --     x459A_7 = {7, 0x459A}; x459A_7 = locFlag(x459A_7); if canBirdo() then canrBowser = canrBowser + flip(x459A_7) end; sumrBowser = sumrBowser - x459A_7 --Bowser's Castle Past Morton Block
-    --     x459B_2 = {2, 0x459B}; x459B_2 = locFlag(x459B_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_2) end; sumrBowser = sumrBowser - x459B_2 --Bowser's Castle Roy Corridor Block 1
-    --     x459B_3 = {3, 0x459B}; x459B_3 = locFlag(x459B_3); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_3) end; sumrBowser = sumrBowser - x459B_3 --Bowser's Castle Roy Corridor Block 2
-    --     if optionDigspots() >= 1 then x459B_4 = {4, 0x459B}; x459B_4 = locFlag(x459B_4); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_4) end; sumrBowser = sumrBowser - x459B_4 end --Bowser's Castle Wendy & Larry Hallway Digspot
-    -- end --
+    if optionBowser() then --
+		x459B_5 = {5, 0x459B}; x459B_5 = locFlag(x459B_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_5) end; sumrBowser = sumrBowser - x459B_5 --Bowser's Castle Before Fawful Fight Block 1
+		x459B_6 = {6, 0x459B}; x459B_6 = locFlag(x459B_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_6) end; sumrBowser = sumrBowser - x459B_6 --Bowser's Castle Before Fawful Fight Block 2
+		x459D_1 = {1, 0x459D}; x459D_1 = locFlag(x459D_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_1) end; sumrBowser = sumrBowser - x459D_1 --Bowser's Castle Before Wendy Fight Block 1
+		x459D_2 = {2, 0x459D}; x459D_2 = locFlag(x459D_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_2) end; sumrBowser = sumrBowser - x459D_2 --Bowser's Castle Before Wendy Fight Block 2
+		x459A_1 = {1, 0x459A}; x459A_1 = locFlag(x459A_1); if canBirdo() then canrBowser = canrBowser + flip(x459A_1) end; sumrBowser = sumrBowser - x459A_1 --Bowser's Castle Entrance Block 1
+		x459A_2 = {2, 0x459A}; x459A_2 = locFlag(x459A_2); if canBirdo() then canrBowser = canrBowser + flip(x459A_2) end; sumrBowser = sumrBowser - x459A_2 --Bowser's Castle Entrance Block 2
+		if optionDigspots() >= 1 then x459A_3 = {3, 0x459A}; x459A_3 = locFlag(x459A_3); if canBirdo() then canrBowser = canrBowser + flip(x459A_3) end; sumrBowser = sumrBowser - x459A_3 end --Bowser's Castle Entrance Digspot
+		x459B_7 = {7, 0x459B}; x459B_7 = locFlag(x459B_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_7) end; sumrBowser = sumrBowser - x459B_7 --Bowser's Castle Great Door Block 1
+		x459C_0 = {0, 0x459C}; x459C_0 = locFlag(x459C_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_0) end; sumrBowser = sumrBowser - x459C_0 --Bowser's Castle Great Door Block 2
+		x459A_4 = {4, 0x459A}; x459A_4 = locFlag(x459A_4); if canBirdo() then canrBowser = canrBowser + flip(x459A_4) end; sumrBowser = sumrBowser - x459A_4 --Bowser's Castle Iggy & Morton Hallway Block 1
+		x459A_5 = {5, 0x459A}; x459A_5 = locFlag(x459A_5); if canBirdo() then canrBowser = canrBowser + flip(x459A_5) end; sumrBowser = sumrBowser - x459A_5 --Bowser's Castle Iggy & Morton Hallway Block 2
+		if optionDigspots() >= 1 then x459A_6 = {6, 0x459A}; x459A_6 = locFlag(x459A_6); if canBirdo() then canrBowser = canrBowser + flip(x459A_6) end; sumrBowser = sumrBowser - x459A_6 end --Bowser's Castle Iggy & Morton Hallway Digspot
+		x459E_2 = {2, 0x459E}; x459E_2 = locFlag(x459E_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459E_2) end; sumrBowser = sumrBowser - x459E_2 --Bowser's Castle Larry Room Block
+		x459C_2 = {2, 0x459C}; x459C_2 = locFlag(x459C_2); if canBirdo() then canrBowser = canrBowser + flip(x459C_2) end; sumrBowser = sumrBowser - x459C_2 --Bowser's Castle Lemmy Room 1 Block
+		if optionDigspots() >= 1 then x459C_3 = {3, 0x459C}; x459C_3 = locFlag(x459C_3); if canBirdo() then canrBowser = canrBowser + flip(x459C_3) end; sumrBowser = sumrBowser - x459C_3 end --Bowser's Castle Lemmy Room 1 Digspot
+		x4373_6 = {6, 0x4373}; x4373_6 = locFlag(x4373_6); if canBirdo() then canrBowser = canrBowser + flip(x4373_6) end; sumrBowser = sumrBowser - x4373_6 --Bowser's Castle Lemmy Room Mole
+		x459B_0 = {0, 0x459B}; x459B_0 = locFlag(x459B_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_0) end; sumrBowser = sumrBowser - x459B_0 --Bowser's Castle Ludwig & Roy Hallway Block 1
+		x459B_1 = {1, 0x459B}; x459B_1 = locFlag(x459B_1); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_1) end; sumrBowser = sumrBowser - x459B_1 --Bowser's Castle Ludwig & Roy Hallway Block 2
+		x459C_4 = {4, 0x459C}; x459C_4 = locFlag(x459C_4); if canBirdo() then canrBowser = canrBowser + flip(x459C_4) end; sumrBowser = sumrBowser - x459C_4 --Bowser's Castle Ludwig Room 1 Block
+		x459C_7 = {7, 0x459C}; x459C_7 = locFlag(x459C_7); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_7) end; sumrBowser = sumrBowser - x459C_7 --Bowser's Castle Mini Mario Maze Block 1
+		x459D_0 = {0, 0x459D}; x459D_0 = locFlag(x459D_0); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459D_0) end; sumrBowser = sumrBowser - x459D_0 --Bowser's Castle Mini Mario Maze Block 2
+		x459C_5 = {5, 0x459C}; x459C_5 = locFlag(x459C_5); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_5) end; sumrBowser = sumrBowser - x459C_5 --Bowser's Castle Mini Mario Sidescroller Block 1
+		x459C_6 = {6, 0x459C}; x459C_6 = locFlag(x459C_6); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459C_6) end; sumrBowser = sumrBowser - x459C_6 --Bowser's Castle Mini Mario Sidescroller Block 2
+		if optionDigspots() >= 1 then x459C_1 = {1, 0x459C}; x459C_1 = locFlag(x459C_1); if canBirdo() then canrBowser = canrBowser + flip(x459C_1) end; sumrBowser = sumrBowser - x459C_1 end --Bowser's Castle Morton Room 1 Digspot
+		x459A_7 = {7, 0x459A}; x459A_7 = locFlag(x459A_7); if canBirdo() then canrBowser = canrBowser + flip(x459A_7) end; sumrBowser = sumrBowser - x459A_7 --Bowser's Castle Past Morton Block
+		x459B_2 = {2, 0x459B}; x459B_2 = locFlag(x459B_2); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_2) end; sumrBowser = sumrBowser - x459B_2 --Bowser's Castle Roy Corridor Block 1
+		x459B_3 = {3, 0x459B}; x459B_3 = locFlag(x459B_3); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_3) end; sumrBowser = sumrBowser - x459B_3 --Bowser's Castle Roy Corridor Block 2
+		if optionDigspots() >= 1 then x459B_4 = {4, 0x459B}; x459B_4 = locFlag(x459B_4); if canBirdo() and optionHardLogic() and has("RedGoblet") and canThunderhand() then canrBowser = canrBowser + flip(x459B_4) end; sumrBowser = sumrBowser - x459B_4 end --Bowser's Castle Wendy & Larry Hallway Digspot
+    end --
     x456F_6 = {6, 0x456F}; x456F_6 = locFlag(x456F_6); canrStardust = canrStardust + flip(x456F_6); sumrStardust = sumrStardust - x456F_6 --Cave Connecting Stardust Fields and Hoohoo Village Block 1
     x456F_7 = {7, 0x456F}; x456F_7 = locFlag(x456F_7); canrStardust = canrStardust + flip(x456F_7); sumrStardust = sumrStardust - x456F_7 --Cave Connecting Stardust Fields and Hoohoo Village Block 2
     if optionDigspots() >= 1 then x4578_7 = {7, 0x4578}; x4578_7 = locFlag(x4578_7); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4578_7) end; sumrChucklehuck = sumrChucklehuck - x4578_7 end --Chateau Barrel Room Digspot
@@ -450,8 +519,6 @@ function loadLocFlags()
     x457A_3 = {3, 0x457A}; x457A_3 = locFlag(x457A_3); if has("BeanbeanBrooch") and has("Hammers1") then canrChucklehuck = canrChucklehuck + flip(x457A_3) end; sumrChucklehuck = sumrChucklehuck - x457A_3 --Chucklehuck Woods Pipe Room Block 2
     if optionDigspots() >= 1 then x457A_5 = {5, 0x457A}; x457A_5 = locFlag(x457A_5); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x457A_5) end; sumrChucklehuck = sumrChucklehuck - x457A_5 end --Chucklehuck Woods Pipe Room Digspot 1
     if optionDigspots() == 2 then x457A_6 = {6, 0x457A}; x457A_6 = locFlag(x457A_6); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x457A_6) end; sumrChucklehuck = sumrChucklehuck - x457A_6 end --Chucklehuck Woods Pipe Room Digspot 2
-    x42FE_7 = {7, 0x42FE}; x42FE_7 = locFlag(x42FE_7); if has("BeanbeanBrooch") then canrChucklehuck = canrChucklehuck + flip(x42FE_7) end; sumrChucklehuck = sumrChucklehuck - x42FE_7 --Chucklehuck Woods Purple Chuckola Fruit
-    x4301_4 = {4, 0x4301}; x4301_4 = locFlag(x4301_4); if has("BeanbeanBrooch") and canMini() then canrChucklehuck = canrChucklehuck + flip(x4301_4) end; sumrChucklehuck = sumrChucklehuck - x4301_4 --Chucklehuck Woods Red Chuckola Fruit
     if optionDigspots() == 2 then x4585_1 = {1, 0x4585}; x4585_1 = locFlag(x4585_1); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4585_1) end; sumrChucklehuck = sumrChucklehuck - x4585_1 end --Chucklehuck Woods Room 1 Digspot
     x457A_0 = {0, 0x457A}; x457A_0 = locFlag(x457A_0); if has("BeanbeanBrooch") then canrChucklehuck = canrChucklehuck + flip(x457A_0) end; sumrChucklehuck = sumrChucklehuck - x457A_0 --Chucklehuck Woods Room 2 Block
     if optionDigspots() >= 1 then x457A_1 = {1, 0x457A}; x457A_1 = locFlag(x457A_1); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x457A_1) end; sumrChucklehuck = sumrChucklehuck - x457A_1 end --Chucklehuck Woods Room 2 Digspot
@@ -466,7 +533,6 @@ function loadLocFlags()
     if optionDigspots() >= 1 then x457B_7 = {7, 0x457B}; x457B_7 = locFlag(x457B_7); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x457B_7) end; sumrChucklehuck = sumrChucklehuck - x457B_7 end --Chucklehuck Woods Room 8 Digspot
     x457D_1 = {1, 0x457D}; x457D_1 = locFlag(x457D_1); if has("BeanbeanBrooch") then canrChucklehuck = canrChucklehuck + flip(x457D_1) end; sumrChucklehuck = sumrChucklehuck - x457D_1 --Chucklehuck Woods Southwest of Chuckleroot Block
     x457D_0 = {0, 0x457D}; x457D_0 = locFlag(x457D_0); if has("BeanbeanBrooch") then canrChucklehuck = canrChucklehuck + flip(x457D_0) end; sumrChucklehuck = sumrChucklehuck - x457D_0 --Chucklehuck Woods West of Chuckleroot Block
-    x4302_2 = {2, 0x4302}; x4302_2 = locFlag(x4302_2); if has("BeanbeanBrooch") and canGoblets() then canrChucklehuck = canrChucklehuck + flip(x4302_2) end; sumrChucklehuck = sumrChucklehuck - x4302_2 --Chucklehuck Woods White Chuckola Fruit
     if optionDigspots() >= 1 then x457C_5 = {5, 0x457C}; x457C_5 = locFlag(x457C_5); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x457C_5) end; sumrChucklehuck = sumrChucklehuck - x457C_5 end --Chucklehuck Woods White Fruit Room Digspot 1
     if optionDigspots() >= 1 then x457C_6 = {6, 0x457C}; x457C_6 = locFlag(x457C_6); if has("BeanbeanBrooch") and canGoblets() then canrChucklehuck = canrChucklehuck + flip(x457C_6) end; sumrChucklehuck = sumrChucklehuck - x457C_6 end --Chucklehuck Woods White Fruit Room Digspot 2
     if optionDigspots() == 2 then x457C_7 = {7, 0x457C}; x457C_7 = locFlag(x457C_7); if has("BeanbeanBrooch") and canGoblets() then canrChucklehuck = canrChucklehuck + flip(x457C_7) end; sumrChucklehuck = sumrChucklehuck - x457C_7 end --Chucklehuck Woods White Fruit Room Digspot 3
@@ -795,12 +861,84 @@ function loadLocFlags()
     x4572_2 = {2, 0x4572}; x4572_2 = locFlag(x4572_2); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_2) end; sumrChucklehuck = sumrChucklehuck - x4572_2 --Chucklehuck Woods Solo Luigi Cave Room 2 Block 1
     x4572_3 = {3, 0x4572}; x4572_3 = locFlag(x4572_3); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_3) end; sumrChucklehuck = sumrChucklehuck - x4572_3 --Chucklehuck Woods Solo Luigi Cave Room 2 Block 2
     x4572_4 = {4, 0x4572}; x4572_4 = locFlag(x4572_4); if has("BeanbeanBrooch") and canDig() then canrChucklehuck = canrChucklehuck + flip(x4572_4) end; sumrChucklehuck = sumrChucklehuck - x4572_4 --Chucklehuck Woods Solo Luigi Cave Room 3 Block
+	x47F0_0 = {0, 0x47F0}; x47F0_0 = locFlag(x47F0_0); canrShop = canrShop + flip(x47F0_0); sumrShop = sumrShop - x47F0_0 --Shop Starting Flag 1
+    x47F0_1 = {1, 0x47F0}; x47F0_1 = locFlag(x47F0_1); canrShop = canrShop + flip(x47F0_1); sumrShop = sumrShop - x47F0_1 --Shop Starting Flag 2
+    x47F0_2 = {2, 0x47F0}; x47F0_2 = locFlag(x47F0_2); canrShop = canrShop + flip(x47F0_2); sumrShop = sumrShop - x47F0_2 --Shop Starting Flag 3
+    x47F0_3 = {3, 0x47F0}; x47F0_3 = locFlag(x47F0_3); if canShopChuckolator() then canrShop = canrShop + flip(x47F0_3) end; sumrShop = sumrShop - x47F0_3 --Shop Chuckolator Flag
+    x47F0_4 = {4, 0x47F0}; x47F0_4 = locFlag(x47F0_4); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_4) end; sumrShop = sumrShop - x47F0_4 --Shop Mom Piranha Flag 1
+    x47F0_5 = {5, 0x47F0}; x47F0_5 = locFlag(x47F0_5); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_5) end; sumrShop = sumrShop - x47F0_5 --Shop Mom Piranha Flag 2
+    x47F0_6 = {6, 0x47F0}; x47F0_6 = locFlag(x47F0_6); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_6) end; sumrShop = sumrShop - x47F0_6 --Shop Mom Piranha Flag 3
+    x47F0_7 = {7, 0x47F0}; x47F0_7 = locFlag(x47F0_7); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_7) end; sumrShop = sumrShop - x47F0_7 --Shop Mom Piranha Flag 4
+    x47F1_0 = {0, 0x47F1}; x47F1_0 = locFlag(x47F1_0); if canShopTrunke() then canrShop = canrShop + flip(x47F1_0) end; sumrShop = sumrShop - x47F1_0 --Shop Trunkle Flag 1
+    x47F1_1 = {1, 0x47F1}; x47F1_1 = locFlag(x47F1_1); if canShopTrunke() then canrShop = canrShop + flip(x47F1_1) end; sumrShop = sumrShop - x47F1_1 --Shop Trunkle Flag 2
+    x47F1_2 = {2, 0x47F1}; x47F1_2 = locFlag(x47F1_2); if canShopBeanstar() then canrShop = canrShop + flip(x47F1_2) end; sumrShop = sumrShop - x47F1_2 --Shop Beanstar Complete Flag 1
+    x47F1_3 = {3, 0x47F1}; x47F1_3 = locFlag(x47F1_3); if canShopBeanstar() then canrShop = canrShop + flip(x47F1_3) end; sumrShop = sumrShop - x47F1_3 --Shop Beanstar Complete Flag 2
+    x47F1_4 = {4, 0x47F1}; x47F1_4 = locFlag(x47F1_4); if canShopBeanstar() then canrShop = canrShop + flip(x47F1_4) end; sumrShop = sumrShop - x47F1_4 --Shop Beanstar Complete Flag 3
+    x47F1_5 = {5, 0x47F1}; x47F1_5 = locFlag(x47F1_5); if canShopBirdo() then canrShop = canrShop + flip(x47F1_5) end; sumrShop = sumrShop - x47F1_5 --Shop Birdo Flag
+    x47F4_0 = {0, 0x47F4}; x47F4_0 = locFlag(x47F4_0); if canShopStartingGear() then canrShop = canrShop + flip(x47F4_0) end; sumrShop = sumrShop - x47F4_0 --Pants Shop Starting Flag 1
+    x47F4_1 = {1, 0x47F4}; x47F4_1 = locFlag(x47F4_1); if canShopStartingGear() then canrShop = canrShop + flip(x47F4_1) end; sumrShop = sumrShop - x47F4_1 --Pants Shop Starting Flag 2
+    x47F4_2 = {2, 0x47F4}; x47F4_2 = locFlag(x47F4_2); if canShopStartingGear() then canrShop = canrShop + flip(x47F4_2) end; sumrShop = sumrShop - x47F4_2 --Pants Shop Starting Flag 3
+    x47F4_3 = {3, 0x47F4}; x47F4_3 = locFlag(x47F4_3); if canShopChuckolator() then canrShop = canrShop + flip(x47F4_3) end; sumrShop = sumrShop - x47F4_3 --Pants Shop Chuckolator Flag 1
+    x47F4_4 = {4, 0x47F4}; x47F4_4 = locFlag(x47F4_4); if canShopChuckolator() then canrShop = canrShop + flip(x47F4_4) end; sumrShop = sumrShop - x47F4_4 --Pants Shop Chuckolator Flag 2
+    x47F4_5 = {5, 0x47F4}; x47F4_5 = locFlag(x47F4_5); if canShopChuckolator() then canrShop = canrShop + flip(x47F4_5) end; sumrShop = sumrShop - x47F4_5 --Pants Shop Chuckolator Flag 3
+    x47F4_6 = {6, 0x47F4}; x47F4_6 = locFlag(x47F4_6); if canShopMomPiranha() then canrShop = canrShop + flip(x47F4_6) end; sumrShop = sumrShop - x47F4_6 --Pants Shop Mom Piranha Flag 1
+    x47F4_7 = {7, 0x47F4}; x47F4_7 = locFlag(x47F4_7); if canShopMomPiranha() then canrShop = canrShop + flip(x47F4_7) end; sumrShop = sumrShop - x47F4_7 --Pants Shop Mom Piranha Flag 2
+    x47F5_0 = {0, 0x47F5}; x47F5_0 = locFlag(x47F5_0); if canShopMomPiranha() then canrShop = canrShop + flip(x47F5_0) end; sumrShop = sumrShop - x47F5_0 --Pants Shop Mom Piranha Flag 3
+    x47F5_1 = {1, 0x47F5}; x47F5_1 = locFlag(x47F5_1); if canShopTrunke() then canrShop = canrShop + flip(x47F5_1) end; sumrShop = sumrShop - x47F5_1 --Pants Shop Trunkle Flag 1
+    x47F5_2 = {2, 0x47F5}; x47F5_2 = locFlag(x47F5_2); if canShopTrunke() then canrShop = canrShop + flip(x47F5_2) end; sumrShop = sumrShop - x47F5_2 --Pants Shop Trunkle Flag 2
+    x47F5_3 = {3, 0x47F5}; x47F5_3 = locFlag(x47F5_3); if canShopTrunke() then canrShop = canrShop + flip(x47F5_3) end; sumrShop = sumrShop - x47F5_3 --Pants Shop Trunkle Flag 3
+    x47F5_4 = {4, 0x47F5}; x47F5_4 = locFlag(x47F5_4); if canShopBeanstar() then canrShop = canrShop + flip(x47F5_4) end; sumrShop = sumrShop - x47F5_4 --Pants Shop Beanstar Complete Flag 1
+    x47F5_5 = {5, 0x47F5}; x47F5_5 = locFlag(x47F5_5); if canShopBeanstar() then canrShop = canrShop + flip(x47F5_5) end; sumrShop = sumrShop - x47F5_5 --Pants Shop Beanstar Complete Flag 2
+    x47F5_6 = {6, 0x47F5}; x47F5_6 = locFlag(x47F5_6); if canShopBeanstar() then canrShop = canrShop + flip(x47F5_6) end; sumrShop = sumrShop - x47F5_6 --Pants Shop Beanstar Complete Flag 3
+    x47F5_7 = {7, 0x47F5}; x47F5_7 = locFlag(x47F5_7); if canShopBirdo() then canrShop = canrShop + flip(x47F5_7) end; sumrShop = sumrShop - x47F5_7 --Pants Shop Birdo Flag 1
+    x47F6_0 = {0, 0x47F6}; x47F6_0 = locFlag(x47F6_0); if canShopBirdo() then canrShop = canrShop + flip(x47F6_0) end; sumrShop = sumrShop - x47F6_0 --Pants Shop Birdo Flag 2
+    x47F6_1 = {1, 0x47F6}; x47F6_1 = locFlag(x47F6_1); if canShopBirdo() then canrShop = canrShop + flip(x47F6_1) end; sumrShop = sumrShop - x47F6_1 --Pants Shop Birdo Flag 3
+    x47F8_0 = {0, 0x47F8}; x47F8_0 = locFlag(x47F8_0); if canShopStartingGear() then canrShop = canrShop + flip(x47F8_0) end; sumrShop = sumrShop - x47F8_0 --Badge Shop Starting Flag 1
+    x47F8_1 = {1, 0x47F8}; x47F8_1 = locFlag(x47F8_1); if canShopStartingGear() then canrShop = canrShop + flip(x47F8_1) end; sumrShop = sumrShop - x47F8_1 --Badge Shop Starting Flag 2
+    x47F8_2 = {2, 0x47F8}; x47F8_2 = locFlag(x47F8_2); if canShopChuckolator() then canrShop = canrShop + flip(x47F8_2) end; sumrShop = sumrShop - x47F8_2 --Badge Shop Chuckolator Flag 1
+    x47F8_3 = {3, 0x47F8}; x47F8_3 = locFlag(x47F8_3); if canShopChuckolator() then canrShop = canrShop + flip(x47F8_3) end; sumrShop = sumrShop - x47F8_3 --Badge Shop Chuckolator Flag 2
+    x47F8_4 = {4, 0x47F8}; x47F8_4 = locFlag(x47F8_4); if canShopChuckolator() then canrShop = canrShop + flip(x47F8_4) end; sumrShop = sumrShop - x47F8_4 --Badge Shop Chuckolator Flag 3
+    x47F8_5 = {5, 0x47F8}; x47F8_5 = locFlag(x47F8_5); if canShopMomPiranha() then canrShop = canrShop + flip(x47F8_5) end; sumrShop = sumrShop - x47F8_5 --Badge Shop Mom Piranha Flag 1
+    x47F8_6 = {6, 0x47F8}; x47F8_6 = locFlag(x47F8_6); if canShopMomPiranha() then canrShop = canrShop + flip(x47F8_6) end; sumrShop = sumrShop - x47F8_6 --Badge Shop Mom Piranha Flag 2
+    x47F8_7 = {7, 0x47F8}; x47F8_7 = locFlag(x47F8_7); if canShopMomPiranha() then canrShop = canrShop + flip(x47F8_7) end; sumrShop = sumrShop - x47F8_7 --Badge Shop Mom Piranha Flag 3
+    x47F9_0 = {0, 0x47F9}; x47F9_0 = locFlag(x47F9_0); if canShopTrunke() then canrShop = canrShop + flip(x47F9_0) end; sumrShop = sumrShop - x47F9_0 --Badge Shop Trunkle Flag 1
+    x47F9_1 = {1, 0x47F9}; x47F9_1 = locFlag(x47F9_1); if canShopTrunke() then canrShop = canrShop + flip(x47F9_1) end; sumrShop = sumrShop - x47F9_1 --Badge Shop Trunkle Flag 2
+    x47F9_2 = {2, 0x47F9}; x47F9_2 = locFlag(x47F9_2); if canShopTrunke() then canrShop = canrShop + flip(x47F9_2) end; sumrShop = sumrShop - x47F9_2 --Badge Shop Trunkle Flag 3
+    x47F9_3 = {3, 0x47F9}; x47F9_3 = locFlag(x47F9_3); if canShopBeanstar() then canrShop = canrShop + flip(x47F9_3) end; sumrShop = sumrShop - x47F9_3 --Badge Shop Beanstar Complete Flag 1
+    x47F9_4 = {4, 0x47F9}; x47F9_4 = locFlag(x47F9_4); if canShopBeanstar() then canrShop = canrShop + flip(x47F9_4) end; sumrShop = sumrShop - x47F9_4 --Badge Shop Beanstar Complete Flag 2
+    x47F9_5 = {5, 0x47F9}; x47F9_5 = locFlag(x47F9_5); if canShopBeanstar() then canrShop = canrShop + flip(x47F9_5) end; sumrShop = sumrShop - x47F9_5 --Badge Shop Beanstar Complete Flag 3
+    x47F9_6 = {6, 0x47F9}; x47F9_6 = locFlag(x47F9_6); if canShopBirdo() then canrShop = canrShop + flip(x47F9_6) end; sumrShop = sumrShop - x47F9_6 --Badge Shop Birdo Flag 1
+    x47F9_7 = {7, 0x47F9}; x47F9_7 = locFlag(x47F9_7); if canShopBirdo() then canrShop = canrShop + flip(x47F9_7) end; sumrShop = sumrShop - x47F9_7 --Badge Shop Birdo Flag 2
+    x47FA_0 = {0, 0x47FA}; x47FA_0 = locFlag(x47FA_0); if canShopBirdo() then canrShop = canrShop + flip(x47FA_0) end; sumrShop = sumrShop - x47FA_0 --Badge Shop Birdo Flag 3
+    x47F2_0 = {0, 0x47F2}; x47F2_0 = locFlag(x47F2_0); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_0) end; sumrShop = sumrShop - x47F2_0 --Fungitown Shop Starting Flag 1
+    x47F2_1 = {1, 0x47F2}; x47F2_1 = locFlag(x47F2_1); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_1) end; sumrShop = sumrShop - x47F2_1 --Fungitown Shop Starting Flag 2
+    x47F2_2 = {2, 0x47F2}; x47F2_2 = locFlag(x47F2_2); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_2) end; sumrShop = sumrShop - x47F2_2 --Fungitown Shop Starting Flag 3
+    x47F2_3 = {3, 0x47F2}; x47F2_3 = locFlag(x47F2_3); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_3) end; sumrShop = sumrShop - x47F2_3 --Fungitown Shop Starting Flag 4
+    x47F2_4 = {4, 0x47F2}; x47F2_4 = locFlag(x47F2_4); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_4) end; sumrShop = sumrShop - x47F2_4 --Fungitown Shop Starting Flag 5
+    x47F2_5 = {5, 0x47F2}; x47F2_5 = locFlag(x47F2_5); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_5) end; sumrShop = sumrShop - x47F2_5 --Fungitown Shop Starting Flag 6
+    x47F2_6 = {6, 0x47F2}; x47F2_6 = locFlag(x47F2_6); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_6) end; sumrShop = sumrShop - x47F2_6 --Fungitown Shop Starting Flag 7
+    x47F2_7 = {7, 0x47F2}; x47F2_7 = locFlag(x47F2_7); if canFungiShopStarting() then canrShop = canrShop + flip(x47F2_7) end; sumrShop = sumrShop - x47F2_7 --Fungitown Shop Starting Flag 8
+    x47F3_0 = {0, 0x47F3}; x47F3_0 = locFlag(x47F3_0); if canFungiShopBeanstar() then canrShop = canrShop + flip(x47F3_0) end; sumrShop = sumrShop - x47F3_0 --Fungitown Shop Beanstar Complete Flag
+    x47F3_1 = {1, 0x47F3}; x47F3_1 = locFlag(x47F3_1); if canFungiShopBirdo() then canrShop = canrShop + flip(x47F3_1) end; sumrShop = sumrShop - x47F3_1 --Fungitown Shop Birdo Flag
+    x47FC_0 = {0, 0x47FC}; x47FC_0 = locFlag(x47FC_0); if canFungiShopStarting() then canrShop = canrShop + flip(x47FC_0) end; sumrShop = sumrShop - x47FC_0 --Fungitown Pants Shop Starting Flag 1
+    x47FC_1 = {1, 0x47FC}; x47FC_1 = locFlag(x47FC_1); if canFungiShopStarting() then canrShop = canrShop + flip(x47FC_1) end; sumrShop = sumrShop - x47FC_1 --Fungitown Pants Shop Starting Flag 2
+    x47FC_2 = {2, 0x47FC}; x47FC_2 = locFlag(x47FC_2); if canFungiShopStarting() then canrShop = canrShop + flip(x47FC_2) end; sumrShop = sumrShop - x47FC_2 --Fungitown Pants Shop Starting Flag 3
+    x47FC_3 = {3, 0x47FC}; x47FC_3 = locFlag(x47FC_3); if canFungiShopBeanstar() then canrShop = canrShop + flip(x47FC_3) end; sumrShop = sumrShop - x47FC_3 --Fungitown Pants Shop Beanstar Complete Flag 1
+    x47FC_4 = {4, 0x47FC}; x47FC_4 = locFlag(x47FC_4); if canFungiShopBeanstar() then canrShop = canrShop + flip(x47FC_4) end; sumrShop = sumrShop - x47FC_4 --Fungitown Pants Shop Beanstar Complete Flag 2
+    x47FC_5 = {5, 0x47FC}; x47FC_5 = locFlag(x47FC_5); if canFungiShopBirdo() then canrShop = canrShop + flip(x47FC_5) end; sumrShop = sumrShop - x47FC_5 --Fungitown Pants Shop Birdo Flag 1
+    x47FC_6 = {6, 0x47FC}; x47FC_6 = locFlag(x47FC_6); if canFungiShopBirdo() then canrShop = canrShop + flip(x47FC_6) end; sumrShop = sumrShop - x47FC_6 --Fungitown Pants Shop Birdo Flag 2
+    x47FD_0 = {0, 0x47FD}; x47FD_0 = locFlag(x47FD_0); if canFungiShopStarting() then canrShop = canrShop + flip(x47FD_0) end; sumrShop = sumrShop - x47FD_0 --Fungitown Badge Shop Starting Flag 1
+    x47FD_1 = {1, 0x47FD}; x47FD_1 = locFlag(x47FD_1); if canFungiShopStarting() then canrShop = canrShop + flip(x47FD_1) end; sumrShop = sumrShop - x47FD_1 --Fungitown Badge Shop Starting Flag 2
+    x47FD_2 = {2, 0x47FD}; x47FD_2 = locFlag(x47FD_2); if canFungiShopStarting() then canrShop = canrShop + flip(x47FD_2) end; sumrShop = sumrShop - x47FD_2 --Fungitown Badge Shop Starting Flag 3
+    x47FD_3 = {3, 0x47FD}; x47FD_3 = locFlag(x47FD_3); if canFungiShopBeanstar() then canrShop = canrShop + flip(x47FD_3) end; sumrShop = sumrShop - x47FD_3 --Fungitown Badge Shop Beanstar Complete Flag 1
+    x47FD_4 = {4, 0x47FD}; x47FD_4 = locFlag(x47FD_4); if canFungiShopBeanstar() then canrShop = canrShop + flip(x47FD_4) end; sumrShop = sumrShop - x47FD_4 --Fungitown Badge Shop Beanstar Complete Flag 2
+    x47FD_5 = {5, 0x47FD}; x47FD_5 = locFlag(x47FD_5); if canFungiShopBirdo() then canrShop = canrShop + flip(x47FD_5) end; sumrShop = sumrShop - x47FD_5 --Fungitown Badge Shop Birdo Flag 1
+    x47FD_6 = {6, 0x47FD}; x47FD_6 = locFlag(x47FD_6); if canFungiShopBirdo() then canrShop = canrShop + flip(x47FD_6) end; sumrShop = sumrShop - x47FD_6 --Fungitown Badge Shop Birdo Flag 2
 	
 	
 	
-	
-	local canrTotal = canrStardust + canrHoohoo + canrOutskirts + canrCastleTown + canrChucklehuck + canrHooniversity + canrOasis + canrTeehee + canrGwarhar + canrJokes + canrBowser
-	local sumrTotal = sumrStardust + sumrHoohoo + sumrOutskirts + sumrCastleTown + sumrChucklehuck + sumrHooniversity + sumrOasis + sumrTeehee + sumrGwarhar + sumrJokes + sumrBowser
+	local canrTotal = canrStardust + canrHoohoo + canrOutskirts + canrCastleTown + canrChucklehuck + canrHooniversity + canrOasis + canrTeehee + canrGwarhar + canrJokes + canrBowser + canrShop
+	local sumrTotal = sumrStardust + sumrHoohoo + sumrOutskirts + sumrCastleTown + sumrChucklehuck + sumrHooniversity + sumrOasis + sumrTeehee + sumrGwarhar + sumrJokes + sumrBowser + sumrShop
 	
 	
 	-- Draw location availabity to item tracker
@@ -818,12 +956,16 @@ function loadLocFlags()
 	
 	if optionBowser() then
 		drawLocation(canrBowser, sumrBowser, "./location_names/BowsersCastle1.png", "./location_names/BowsersCastle2.png", "./location_names/BowsersCastle3.png", 800)
-		drawLocation(canrTotal, sumrTotal, "./location_names/TOTAL1.png", "./location_names/TOTAL2.png", "./location_names/TOTAL3.png", 868)
+		drawLocation(canrShop, sumrShop, "./location_names/Shops1.png", "./location_names/Shops2.png", "./location_names/Shops3.png", 868)
+		drawLocation(canrTotal, sumrTotal, "./location_names/TOTAL1.png", "./location_names/TOTAL2.png", "./location_names/TOTAL3.png", 913)
 		drawNumbers(canrBowser, sumrBowser, 800)
-		drawNumbers(canrTotal, sumrTotal, 868)
+		drawNumbers(canrShop, sumrShop, 868)
+		drawNumbers(canrTotal, sumrTotal, 913)
 	else
-		drawLocation(canrTotal, sumrTotal, "./location_names/TOTAL1.png", "./location_names/TOTAL2.png", "./location_names/TOTAL3.png", 823)
-		drawNumbers(canrTotal, sumrTotal, 823)
+		drawLocation(canrShop, sumrShop, "./location_names/Shops1.png", "./location_names/Shops2.png", "./location_names/Shops3.png", 823)
+		drawLocation(canrTotal, sumrTotal, "./location_names/TOTAL1.png", "./location_names/TOTAL2.png", "./location_names/TOTAL3.png", 868)
+		drawNumbers(canrShop, sumrShop, 823)
+		drawNumbers(canrTotal, sumrTotal, 868)
 	end
 	
 	

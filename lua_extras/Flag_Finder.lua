@@ -73,7 +73,7 @@ end
 
 while true do
     table1Old = table1
-    table1 = memory.read_bytes_as_dict(0x3000, 0x2FF, "EWRAM")
+    table1 = memory.read_bytes_as_dict(0x47F0, 0x10, "EWRAM")
     
     --table2Old = table2
     --table2 = memory.read_bytes_as_dict(0x4560, 0x100, "EWRAM")
