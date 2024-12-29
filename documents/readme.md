@@ -29,3 +29,9 @@ Open options.lua in a text file and edit the options. Below you can find a brief
 - `bowsers_castle` = includes all of Bowser's Castle
 - `randomize_enemies` = makes it so everything past Hoohooros requires Hammers
 - `speedrun_rules` = false -- sets the above logic settings (except randomize_enemies) to the ones we use in the speedruns, set this to true if you're doing a speedrun
+
+
+# Other lua scripts
+There are some other lua scripts in the lua_extras folder, which are just lua scripts I use for dev stuff. There are currently two lua scripts:
+- Flag Finder: this logs what flag just got set and sends it to the lua console
+- Hidden Digspot Displayer: this shows the hidden digspots as a box displayed on the emulator.

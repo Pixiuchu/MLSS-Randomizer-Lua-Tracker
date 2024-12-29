@@ -73,10 +73,10 @@ end
 
 while true do
     table1Old = table1
-    table1 = memory.read_bytes_as_dict(0x42F0, 0x270, "EWRAM")
+    table1 = memory.read_bytes_as_dict(0x3000, 0x2FF, "EWRAM")
     
-    table2Old = table2
-    table2 = memory.read_bytes_as_dict(0x4560, 0x100, "EWRAM")
+    --table2Old = table2
+    --table2 = memory.read_bytes_as_dict(0x4560, 0x100, "EWRAM")
 
 
 	-- table1Old = table1
@@ -86,7 +86,7 @@ while true do
     -- table2 = memory.read_bytes_as_dict(0x434F, 0x300, "EWRAM")
     
 	equals(table1, table1Old, false)
-	equals(table2, table2Old, false)
+	--equals(table2, table2Old, false)
 	
 	
     -- if string_d ~= string_do then

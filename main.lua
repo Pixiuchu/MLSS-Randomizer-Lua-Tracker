@@ -1,7 +1,10 @@
+-- TODO: Fix Chucklehuck Woods bug
+
+
 dofile("./options.lua")
-dofile("./lua_extras/tables.lua")
+dofile("./lua_required/tables.lua")
 refreshItemFlags()
-dofile("./lua_extras/logic.lua")
+dofile("./lua_required/logic.lua")
 
 boxWidth = 7
 boxHeight = 0
@@ -27,12 +30,12 @@ itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomize
 local readTitleScreen = readRam("titleScreen")
 
 if item_tracker == true then
-	dofile("./lua_extras/item_tracker.lua")
+	dofile("./lua_required/item_tracker.lua")
 	if readTitleScreen ~= 0 then refreshItems() else forms.drawText(picture_box_items, 30, 100, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end
 end
 
 if location_tracker == true then
-	dofile("./lua_extras/location_tracker.lua")
+	dofile("./lua_required/location_tracker.lua")
 	if item_tracker == false then if readTitleScreen ~= 0 then loadLocFlags() else forms.drawText(picture_box_locations, 30, 100, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end
 	else if readTitleScreen ~= 0 then loadLocFlags() else forms.drawText(picture_box_locations, 30, 100, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end end
 end
