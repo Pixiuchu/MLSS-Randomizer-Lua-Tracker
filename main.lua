@@ -1,6 +1,3 @@
--- TODO: Fix Chucklehuck Woods bug
-
-
 dofile("./options.lua")
 dofile("./lua_required/tables.lua")
 refreshItemFlags()
@@ -51,14 +48,35 @@ local LocationValues = refreshRawLocationValues()
 local currentRoom_old = 0
 local currentRoom_now = readRam("currentRoom")
 
+local nextRoom_old = 0
+local nextRoom_now = readRam("nextRoom")
+
+local roomDoFreeze_old = false
+local roomDoFreeze = false
+local roomRefresh = false
 
 while true do
-	moduloRefresh = emu.framecount() % refreshRate
-	readTitleScreen = readRam("titleScreen")
 	framecount_old = framecount + 1
 	framecount = emu.framecount()
+	moduloRefresh = framecount % refreshRate
+	readTitleScreen = readRam("titleScreen")
 	framecount_difference = math.abs(framecount - framecount_old)
+	nextRoom_now = readRam("nextRoom")
+	currentRoom_old = currentRoom_now
+	currentRoom_now = readRam("currentRoom")
+	roomDoFreeze_old = roomDoFreeze
+	if nextRoom_now == 0x095 or 								-- Chuckleroot room
+	  (nextRoom_now >= 0x0B0 and nextRoom_now <= 0x0B7) or		-- Palace rooms
+	   nextRoom_now == 0x0FD or									-- Gwarhar Relaxation room
+	  (nextRoom_now >= 0x1D5 and nextRoom_now <= 0x1DD) or		-- Pearl Bean Tutorial rooms
+	   nextRoom_now == 0x0FF then 								-- Hermie room
+		roomDoFreeze = true else roomDoFreeze = false
+	end
+	local nextRoomChanged = currentRoom_old ~= nextRoom_now
+	local roomDoFreezeChanged = roomDoFreeze_old ~= roomDoFreeze
 	
+	
+	if nextRoomChanged and roomDoFreezeChanged then roomRefresh = true else roomRefresh = false end
 	
 	if readTitleScreen == 0 or readTitleScreen == 226 then
 		if moduloRefresh == 0 then
@@ -74,12 +92,12 @@ while true do
 			end
 		end 
 	else
-		if (moduloRefresh == 0) or (framecount_difference > 7) then
+		if roomDoFreeze == true then 
+		elseif (moduloRefresh == 0) or (framecount_difference > 7) or (roomRefresh == true) then
+			emu.frameadvance()
 			dofile("./options.lua")
 			ItemValues_old = ItemValues
 			ItemValues = refreshRawItemValues()
-			currentRoom_old = currentRoom_now
-			currentRoom_now = readRam("currentRoom")
 			booleanItem = ItemValues_old ~= ItemValues
 			booleanRoom = currentRoom_old ~= currentRoom_now
 			if item_tracker == true and (booleanItem or booleanRoom) then

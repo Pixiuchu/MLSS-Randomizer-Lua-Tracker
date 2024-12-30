@@ -159,7 +159,7 @@ end
 
 function canGwarharDeep()
 	local hasitem = nil
-	if (canGwarhar() and has("RedPearlBean") and optionHardLogic) then hasitem = true else hasitem = false end
+	if (canGwarhar() and has("RedPearlBean") and optionHardLogic()) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
@@ -171,7 +171,7 @@ end
 
 function canJokesDeep()
 	local hasitem = nil
-	if (canJokes() and optionHardLogic and canDig()) then hasitem = true else hasitem = false end
+	if (canJokes() and optionHardLogic() and canDig()) then hasitem = true else hasitem = false end
 	return hasitem
 end
 

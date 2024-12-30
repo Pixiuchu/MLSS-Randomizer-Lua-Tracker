@@ -50,6 +50,7 @@ ramTable = {
 -- Generic values
 titleScreen = {1, 0x0FFB, "IWRAM"},
 currentRoom = {2, 0x2332, "IWRAM"},
+nextRoom = {2, 0x2330, "IWRAM"},
 
 
 --iMushroom1 = {8, 0x48E2, "EWRAM", "Mushroom"}, -- 48E2

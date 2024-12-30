@@ -1,4 +1,10 @@
 Changelog:
+v0.6.3
+- Finally fully fixed Chuckleroot room from messing with the tracking
+- The tracker now freezes in a few troublesome rooms, kind of a hotfix for some bugs
+- Fixed hard logic bug
+
+
 v0.6.2
 - Fixed bug where location tracker doesnt get cleared entering title screen
 - Fixed bug where item and location tracker shows in Mario Bros. side game
