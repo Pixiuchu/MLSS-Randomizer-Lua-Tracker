@@ -1,13 +1,18 @@
 Changelog:
+v0.6.2
+- Fixed bug where location tracker doesnt get cleared entering title screen
+- Fixed bug where item and location tracker shows in Mario Bros. side game
+- Fixed logic bugs with shopping
+
 v0.6.1
-- Added shop locations and newly added locations in latest randomizer version
+- Added shop locations and newly added locations in latest randomizer version (1 in Guffawha Ruins, 5 in Chucklehuck Woods)
 - Changed when the tracker refreshes images for much improved speeds
-- As a result of the above, lowered refresh rate down to 60
+- Lowered default refresh rate to 60
 - Fixed bug where rewinding can only be done at less than 40 fps
 - Prevented the following from happening:
 	- Room 0x04D (Hoohoo Mountain Base Room 1) temporarily sets the Peasley's Rose location
 	- Room 0x09E temporarily sets the Winkle Minigame location
-	- Room 0x095 temporarily sets the three Chuckola Fruits locations
+	- ~~Room 0x095 temporarily sets the three Chuckola Fruits locations~~ (pushed for v0.7.0)
 
 
 v0.6.0

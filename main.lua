@@ -26,18 +26,17 @@ end
 itemtracker = forms.newform(20+(55*boxWidth), 20+(55*boxHeight), "MLSS Randomizer Item Tracker")
 
 
-
 local readTitleScreen = readRam("titleScreen")
 
 if item_tracker == true then
 	dofile("./lua_required/item_tracker.lua")
-	if readTitleScreen ~= 0 then refreshItems() else forms.drawText(picture_box_items, 30, 100, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end
+	if readTitleScreen ~= 0 then refreshItems() else forms.drawText(picture_box_items, 30, 200, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end
 end
 
 if location_tracker == true then
 	dofile("./lua_required/location_tracker.lua")
-	if item_tracker == false then if readTitleScreen ~= 0 then loadLocFlags() else forms.drawText(picture_box_locations, 30, 100, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end
-	else if readTitleScreen ~= 0 then loadLocFlags() else forms.drawText(picture_box_locations, 30, 100, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end end
+	if item_tracker == false then if readTitleScreen ~= 0 then loadLocFlags() else forms.drawText(picture_box_locations, 30, 200, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end
+	else if readTitleScreen ~= 0 then loadLocFlags() else forms.drawText(picture_box_locations, 30, 200, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") end end
 end
 
 local framecount_old = 0
@@ -61,13 +60,14 @@ while true do
 	framecount_difference = math.abs(framecount - framecount_old)
 	
 	
-	if readTitleScreen == 0 then
+	if readTitleScreen == 0 or readTitleScreen == 226 then
 		if moduloRefresh == 0 then
 			if item_tracker == true then
 				forms.clear(picture_box_items, backgroundColor)
 				forms.drawText(picture_box_items, 30, 200, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") 
 				forms.refresh(picture_box_items)
-			else
+			end
+			if location_tracker == true then
 				forms.clear(picture_box_locations, backgroundColor)
 				forms.drawText(picture_box_locations, 30, 200, "Load save file!", "#FFFFFF", "#111111", 36, nil, "bold") 
 				forms.refresh(picture_box_locations)

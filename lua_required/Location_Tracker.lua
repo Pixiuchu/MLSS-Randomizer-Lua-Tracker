@@ -864,13 +864,13 @@ function loadLocFlags()
 	x47F0_0 = {0, 0x47F0}; x47F0_0 = locFlag(x47F0_0); canrShop = canrShop + flip(x47F0_0); sumrShop = sumrShop - x47F0_0 --Shop Starting Flag 1
     x47F0_1 = {1, 0x47F0}; x47F0_1 = locFlag(x47F0_1); canrShop = canrShop + flip(x47F0_1); sumrShop = sumrShop - x47F0_1 --Shop Starting Flag 2
     x47F0_2 = {2, 0x47F0}; x47F0_2 = locFlag(x47F0_2); canrShop = canrShop + flip(x47F0_2); sumrShop = sumrShop - x47F0_2 --Shop Starting Flag 3
-    x47F0_3 = {3, 0x47F0}; x47F0_3 = locFlag(x47F0_3); if canShopChuckolator() then canrShop = canrShop + flip(x47F0_3) end; sumrShop = sumrShop - x47F0_3 --Shop Chuckolator Flag
-    x47F0_4 = {4, 0x47F0}; x47F0_4 = locFlag(x47F0_4); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_4) end; sumrShop = sumrShop - x47F0_4 --Shop Mom Piranha Flag 1
-    x47F0_5 = {5, 0x47F0}; x47F0_5 = locFlag(x47F0_5); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_5) end; sumrShop = sumrShop - x47F0_5 --Shop Mom Piranha Flag 2
-    x47F0_6 = {6, 0x47F0}; x47F0_6 = locFlag(x47F0_6); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_6) end; sumrShop = sumrShop - x47F0_6 --Shop Mom Piranha Flag 3
-    x47F0_7 = {7, 0x47F0}; x47F0_7 = locFlag(x47F0_7); if canShopMomPiranha() then canrShop = canrShop + flip(x47F0_7) end; sumrShop = sumrShop - x47F0_7 --Shop Mom Piranha Flag 4
-    x47F1_0 = {0, 0x47F1}; x47F1_0 = locFlag(x47F1_0); if canShopTrunke() then canrShop = canrShop + flip(x47F1_0) end; sumrShop = sumrShop - x47F1_0 --Shop Trunkle Flag 1
-    x47F1_1 = {1, 0x47F1}; x47F1_1 = locFlag(x47F1_1); if canShopTrunke() then canrShop = canrShop + flip(x47F1_1) end; sumrShop = sumrShop - x47F1_1 --Shop Trunkle Flag 2
+    x47F0_3 = {3, 0x47F0}; x47F0_3 = locFlag(x47F0_3); if canShopChuckolatorItems() then canrShop = canrShop + flip(x47F0_3) end; sumrShop = sumrShop - x47F0_3 --Shop Chuckolator Flag
+    x47F0_4 = {4, 0x47F0}; x47F0_4 = locFlag(x47F0_4); if canShopMomPiranhaItems() then canrShop = canrShop + flip(x47F0_4) end; sumrShop = sumrShop - x47F0_4 --Shop Mom Piranha Flag 1
+    x47F0_5 = {5, 0x47F0}; x47F0_5 = locFlag(x47F0_5); if canShopMomPiranhaItems() then canrShop = canrShop + flip(x47F0_5) end; sumrShop = sumrShop - x47F0_5 --Shop Mom Piranha Flag 2
+    x47F0_6 = {6, 0x47F0}; x47F0_6 = locFlag(x47F0_6); if canShopMomPiranhaItems() then canrShop = canrShop + flip(x47F0_6) end; sumrShop = sumrShop - x47F0_6 --Shop Mom Piranha Flag 3
+    x47F0_7 = {7, 0x47F0}; x47F0_7 = locFlag(x47F0_7); if canShopMomPiranhaItems() then canrShop = canrShop + flip(x47F0_7) end; sumrShop = sumrShop - x47F0_7 --Shop Mom Piranha Flag 4
+    x47F1_0 = {0, 0x47F1}; x47F1_0 = locFlag(x47F1_0); if canShopTrunkle() then canrShop = canrShop + flip(x47F1_0) end; sumrShop = sumrShop - x47F1_0 --Shop Trunkle Flag 1
+    x47F1_1 = {1, 0x47F1}; x47F1_1 = locFlag(x47F1_1); if canShopTrunkle() then canrShop = canrShop + flip(x47F1_1) end; sumrShop = sumrShop - x47F1_1 --Shop Trunkle Flag 2
     x47F1_2 = {2, 0x47F1}; x47F1_2 = locFlag(x47F1_2); if canShopBeanstar() then canrShop = canrShop + flip(x47F1_2) end; sumrShop = sumrShop - x47F1_2 --Shop Beanstar Complete Flag 1
     x47F1_3 = {3, 0x47F1}; x47F1_3 = locFlag(x47F1_3); if canShopBeanstar() then canrShop = canrShop + flip(x47F1_3) end; sumrShop = sumrShop - x47F1_3 --Shop Beanstar Complete Flag 2
     x47F1_4 = {4, 0x47F1}; x47F1_4 = locFlag(x47F1_4); if canShopBeanstar() then canrShop = canrShop + flip(x47F1_4) end; sumrShop = sumrShop - x47F1_4 --Shop Beanstar Complete Flag 3
@@ -878,15 +878,15 @@ function loadLocFlags()
     x47F4_0 = {0, 0x47F4}; x47F4_0 = locFlag(x47F4_0); if canShopStartingGear() then canrShop = canrShop + flip(x47F4_0) end; sumrShop = sumrShop - x47F4_0 --Pants Shop Starting Flag 1
     x47F4_1 = {1, 0x47F4}; x47F4_1 = locFlag(x47F4_1); if canShopStartingGear() then canrShop = canrShop + flip(x47F4_1) end; sumrShop = sumrShop - x47F4_1 --Pants Shop Starting Flag 2
     x47F4_2 = {2, 0x47F4}; x47F4_2 = locFlag(x47F4_2); if canShopStartingGear() then canrShop = canrShop + flip(x47F4_2) end; sumrShop = sumrShop - x47F4_2 --Pants Shop Starting Flag 3
-    x47F4_3 = {3, 0x47F4}; x47F4_3 = locFlag(x47F4_3); if canShopChuckolator() then canrShop = canrShop + flip(x47F4_3) end; sumrShop = sumrShop - x47F4_3 --Pants Shop Chuckolator Flag 1
-    x47F4_4 = {4, 0x47F4}; x47F4_4 = locFlag(x47F4_4); if canShopChuckolator() then canrShop = canrShop + flip(x47F4_4) end; sumrShop = sumrShop - x47F4_4 --Pants Shop Chuckolator Flag 2
-    x47F4_5 = {5, 0x47F4}; x47F4_5 = locFlag(x47F4_5); if canShopChuckolator() then canrShop = canrShop + flip(x47F4_5) end; sumrShop = sumrShop - x47F4_5 --Pants Shop Chuckolator Flag 3
-    x47F4_6 = {6, 0x47F4}; x47F4_6 = locFlag(x47F4_6); if canShopMomPiranha() then canrShop = canrShop + flip(x47F4_6) end; sumrShop = sumrShop - x47F4_6 --Pants Shop Mom Piranha Flag 1
-    x47F4_7 = {7, 0x47F4}; x47F4_7 = locFlag(x47F4_7); if canShopMomPiranha() then canrShop = canrShop + flip(x47F4_7) end; sumrShop = sumrShop - x47F4_7 --Pants Shop Mom Piranha Flag 2
-    x47F5_0 = {0, 0x47F5}; x47F5_0 = locFlag(x47F5_0); if canShopMomPiranha() then canrShop = canrShop + flip(x47F5_0) end; sumrShop = sumrShop - x47F5_0 --Pants Shop Mom Piranha Flag 3
-    x47F5_1 = {1, 0x47F5}; x47F5_1 = locFlag(x47F5_1); if canShopTrunke() then canrShop = canrShop + flip(x47F5_1) end; sumrShop = sumrShop - x47F5_1 --Pants Shop Trunkle Flag 1
-    x47F5_2 = {2, 0x47F5}; x47F5_2 = locFlag(x47F5_2); if canShopTrunke() then canrShop = canrShop + flip(x47F5_2) end; sumrShop = sumrShop - x47F5_2 --Pants Shop Trunkle Flag 2
-    x47F5_3 = {3, 0x47F5}; x47F5_3 = locFlag(x47F5_3); if canShopTrunke() then canrShop = canrShop + flip(x47F5_3) end; sumrShop = sumrShop - x47F5_3 --Pants Shop Trunkle Flag 3
+    x47F4_3 = {3, 0x47F4}; x47F4_3 = locFlag(x47F4_3); if canShopChuckolatorGear() then canrShop = canrShop + flip(x47F4_3) end; sumrShop = sumrShop - x47F4_3 --Pants Shop Chuckolator Flag 1
+    x47F4_4 = {4, 0x47F4}; x47F4_4 = locFlag(x47F4_4); if canShopChuckolatorGear() then canrShop = canrShop + flip(x47F4_4) end; sumrShop = sumrShop - x47F4_4 --Pants Shop Chuckolator Flag 2
+    x47F4_5 = {5, 0x47F4}; x47F4_5 = locFlag(x47F4_5); if canShopChuckolatorGear() then canrShop = canrShop + flip(x47F4_5) end; sumrShop = sumrShop - x47F4_5 --Pants Shop Chuckolator Flag 3
+    x47F4_6 = {6, 0x47F4}; x47F4_6 = locFlag(x47F4_6); if canShopMomPiranhaGear() then canrShop = canrShop + flip(x47F4_6) end; sumrShop = sumrShop - x47F4_6 --Pants Shop Mom Piranha Flag 1
+    x47F4_7 = {7, 0x47F4}; x47F4_7 = locFlag(x47F4_7); if canShopMomPiranhaGear() then canrShop = canrShop + flip(x47F4_7) end; sumrShop = sumrShop - x47F4_7 --Pants Shop Mom Piranha Flag 2
+    x47F5_0 = {0, 0x47F5}; x47F5_0 = locFlag(x47F5_0); if canShopMomPiranhaGear() then canrShop = canrShop + flip(x47F5_0) end; sumrShop = sumrShop - x47F5_0 --Pants Shop Mom Piranha Flag 3
+    x47F5_1 = {1, 0x47F5}; x47F5_1 = locFlag(x47F5_1); if canShopTrunkle() then canrShop = canrShop + flip(x47F5_1) end; sumrShop = sumrShop - x47F5_1 --Pants Shop Trunkle Flag 1
+    x47F5_2 = {2, 0x47F5}; x47F5_2 = locFlag(x47F5_2); if canShopTrunkle() then canrShop = canrShop + flip(x47F5_2) end; sumrShop = sumrShop - x47F5_2 --Pants Shop Trunkle Flag 2
+    x47F5_3 = {3, 0x47F5}; x47F5_3 = locFlag(x47F5_3); if canShopTrunkle() then canrShop = canrShop + flip(x47F5_3) end; sumrShop = sumrShop - x47F5_3 --Pants Shop Trunkle Flag 3
     x47F5_4 = {4, 0x47F5}; x47F5_4 = locFlag(x47F5_4); if canShopBeanstar() then canrShop = canrShop + flip(x47F5_4) end; sumrShop = sumrShop - x47F5_4 --Pants Shop Beanstar Complete Flag 1
     x47F5_5 = {5, 0x47F5}; x47F5_5 = locFlag(x47F5_5); if canShopBeanstar() then canrShop = canrShop + flip(x47F5_5) end; sumrShop = sumrShop - x47F5_5 --Pants Shop Beanstar Complete Flag 2
     x47F5_6 = {6, 0x47F5}; x47F5_6 = locFlag(x47F5_6); if canShopBeanstar() then canrShop = canrShop + flip(x47F5_6) end; sumrShop = sumrShop - x47F5_6 --Pants Shop Beanstar Complete Flag 3
@@ -895,15 +895,15 @@ function loadLocFlags()
     x47F6_1 = {1, 0x47F6}; x47F6_1 = locFlag(x47F6_1); if canShopBirdo() then canrShop = canrShop + flip(x47F6_1) end; sumrShop = sumrShop - x47F6_1 --Pants Shop Birdo Flag 3
     x47F8_0 = {0, 0x47F8}; x47F8_0 = locFlag(x47F8_0); if canShopStartingGear() then canrShop = canrShop + flip(x47F8_0) end; sumrShop = sumrShop - x47F8_0 --Badge Shop Starting Flag 1
     x47F8_1 = {1, 0x47F8}; x47F8_1 = locFlag(x47F8_1); if canShopStartingGear() then canrShop = canrShop + flip(x47F8_1) end; sumrShop = sumrShop - x47F8_1 --Badge Shop Starting Flag 2
-    x47F8_2 = {2, 0x47F8}; x47F8_2 = locFlag(x47F8_2); if canShopChuckolator() then canrShop = canrShop + flip(x47F8_2) end; sumrShop = sumrShop - x47F8_2 --Badge Shop Chuckolator Flag 1
-    x47F8_3 = {3, 0x47F8}; x47F8_3 = locFlag(x47F8_3); if canShopChuckolator() then canrShop = canrShop + flip(x47F8_3) end; sumrShop = sumrShop - x47F8_3 --Badge Shop Chuckolator Flag 2
-    x47F8_4 = {4, 0x47F8}; x47F8_4 = locFlag(x47F8_4); if canShopChuckolator() then canrShop = canrShop + flip(x47F8_4) end; sumrShop = sumrShop - x47F8_4 --Badge Shop Chuckolator Flag 3
-    x47F8_5 = {5, 0x47F8}; x47F8_5 = locFlag(x47F8_5); if canShopMomPiranha() then canrShop = canrShop + flip(x47F8_5) end; sumrShop = sumrShop - x47F8_5 --Badge Shop Mom Piranha Flag 1
-    x47F8_6 = {6, 0x47F8}; x47F8_6 = locFlag(x47F8_6); if canShopMomPiranha() then canrShop = canrShop + flip(x47F8_6) end; sumrShop = sumrShop - x47F8_6 --Badge Shop Mom Piranha Flag 2
-    x47F8_7 = {7, 0x47F8}; x47F8_7 = locFlag(x47F8_7); if canShopMomPiranha() then canrShop = canrShop + flip(x47F8_7) end; sumrShop = sumrShop - x47F8_7 --Badge Shop Mom Piranha Flag 3
-    x47F9_0 = {0, 0x47F9}; x47F9_0 = locFlag(x47F9_0); if canShopTrunke() then canrShop = canrShop + flip(x47F9_0) end; sumrShop = sumrShop - x47F9_0 --Badge Shop Trunkle Flag 1
-    x47F9_1 = {1, 0x47F9}; x47F9_1 = locFlag(x47F9_1); if canShopTrunke() then canrShop = canrShop + flip(x47F9_1) end; sumrShop = sumrShop - x47F9_1 --Badge Shop Trunkle Flag 2
-    x47F9_2 = {2, 0x47F9}; x47F9_2 = locFlag(x47F9_2); if canShopTrunke() then canrShop = canrShop + flip(x47F9_2) end; sumrShop = sumrShop - x47F9_2 --Badge Shop Trunkle Flag 3
+    x47F8_2 = {2, 0x47F8}; x47F8_2 = locFlag(x47F8_2); if canShopChuckolatorGear() then canrShop = canrShop + flip(x47F8_2) end; sumrShop = sumrShop - x47F8_2 --Badge Shop Chuckolator Flag 1
+    x47F8_3 = {3, 0x47F8}; x47F8_3 = locFlag(x47F8_3); if canShopChuckolatorGear() then canrShop = canrShop + flip(x47F8_3) end; sumrShop = sumrShop - x47F8_3 --Badge Shop Chuckolator Flag 2
+    x47F8_4 = {4, 0x47F8}; x47F8_4 = locFlag(x47F8_4); if canShopChuckolatorGear() then canrShop = canrShop + flip(x47F8_4) end; sumrShop = sumrShop - x47F8_4 --Badge Shop Chuckolator Flag 3
+    x47F8_5 = {5, 0x47F8}; x47F8_5 = locFlag(x47F8_5); if canShopMomPiranhaGear() then canrShop = canrShop + flip(x47F8_5) end; sumrShop = sumrShop - x47F8_5 --Badge Shop Mom Piranha Flag 1
+    x47F8_6 = {6, 0x47F8}; x47F8_6 = locFlag(x47F8_6); if canShopMomPiranhaGear() then canrShop = canrShop + flip(x47F8_6) end; sumrShop = sumrShop - x47F8_6 --Badge Shop Mom Piranha Flag 2
+    x47F8_7 = {7, 0x47F8}; x47F8_7 = locFlag(x47F8_7); if canShopMomPiranhaGear() then canrShop = canrShop + flip(x47F8_7) end; sumrShop = sumrShop - x47F8_7 --Badge Shop Mom Piranha Flag 3
+    x47F9_0 = {0, 0x47F9}; x47F9_0 = locFlag(x47F9_0); if canShopTrunkle() then canrShop = canrShop + flip(x47F9_0) end; sumrShop = sumrShop - x47F9_0 --Badge Shop Trunkle Flag 1
+    x47F9_1 = {1, 0x47F9}; x47F9_1 = locFlag(x47F9_1); if canShopTrunkle() then canrShop = canrShop + flip(x47F9_1) end; sumrShop = sumrShop - x47F9_1 --Badge Shop Trunkle Flag 2
+    x47F9_2 = {2, 0x47F9}; x47F9_2 = locFlag(x47F9_2); if canShopTrunkle() then canrShop = canrShop + flip(x47F9_2) end; sumrShop = sumrShop - x47F9_2 --Badge Shop Trunkle Flag 3
     x47F9_3 = {3, 0x47F9}; x47F9_3 = locFlag(x47F9_3); if canShopBeanstar() then canrShop = canrShop + flip(x47F9_3) end; sumrShop = sumrShop - x47F9_3 --Badge Shop Beanstar Complete Flag 1
     x47F9_4 = {4, 0x47F9}; x47F9_4 = locFlag(x47F9_4); if canShopBeanstar() then canrShop = canrShop + flip(x47F9_4) end; sumrShop = sumrShop - x47F9_4 --Badge Shop Beanstar Complete Flag 2
     x47F9_5 = {5, 0x47F9}; x47F9_5 = locFlag(x47F9_5); if canShopBeanstar() then canrShop = canrShop + flip(x47F9_5) end; sumrShop = sumrShop - x47F9_5 --Badge Shop Beanstar Complete Flag 3

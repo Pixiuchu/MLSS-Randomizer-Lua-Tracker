@@ -211,17 +211,27 @@ function canShopStartingGear()
 	return hasitem
 end
 
-function canShopChuckolator()
+function canShopChuckolatorGear()
 	if (has("PeasleysRose") and canThunderhand()) or canChuckolator() then hasitem = true else hasitem = false end
 	return hasitem
 end
 
-function canShopMomPiranha()
+function canShopMomPiranhaGear()
 	if has("PeasleysRose") and (canThunderhand() or canBeanstar()) then hasitem = true else hasitem = false end
 	return hasitem
 end
 
-function canShopTrunke()
+function canShopChuckolatorItems()
+	if canThunderhand() or canChuckolator() then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canShopMomPiranhaItems()
+	if canThunderhand() or (has("PeasleysRose") and canBeanstar()) then hasitem = true else hasitem = false end
+	return hasitem
+end
+
+function canShopTrunkle()
 	if canFungitown() or canBeanstar() then hasitem = true else hasitem = false end
 	return hasitem
 end
