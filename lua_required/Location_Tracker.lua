@@ -1,10 +1,7 @@
 refreshItemFlags()
 
 local small_window = 0
-if item_tracker == false then small_window = 350 end
-picture_box_locations = forms.pictureBox(itemtracker, 0, 0, 20+(55*boxWidth), 20+(55*boxHeight))
-forms.setDefaultBackgroundColor(picture_box_locations, backgroundColor)
-forms.drawBox(picture_box_locations,-5, -5, 25+(55*boxWidth), 25+(55*boxHeight), 0xFF00)
+if item_tracker == true then small_window = 435 end
 
 function locFlag(ItemAddress)
 	local bytevalue = memory.read_u8(ItemAddress[2], "EWRAM")
@@ -59,26 +56,26 @@ function drawNumbers(LocationAvailability, LocationsDone, YPos)
 		
 		if show_available == true then
 			if LocationAvailability >= 100 then
-				forms.drawImage(picture_box_locations, numberTable[21], 291-20, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[canrLoc1], 291, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[canrLoc2], 291+14, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[canrLoc3], 291+28, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[21], 291-20+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[canrLoc1], 291+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[canrLoc2], 291+14+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[canrLoc3], 291+28+small_window, YPos-345+14)
 				if show_available == true and show_remaining == true then
-					forms.drawImage(picture_box_locations, numberTable[20], 291+45, YPos-small_window+12)
+					forms.drawImage(picture_box, numberTable[20], 291+45+small_window, YPos-345+12)
 				end
 			elseif LocationAvailability >= 10 then
-				forms.drawImage(picture_box_locations, numberTable[21], 291-20, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[canrLoc2], 291+14, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[canrLoc3], 291+28, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[21], 291-20+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[canrLoc2], 291+14+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[canrLoc3], 291+28+small_window, YPos-345+14)
 				if show_available == true and show_remaining == true then
-					forms.drawImage(picture_box_locations, numberTable[20], 291+45, YPos-small_window+12)
+					forms.drawImage(picture_box, numberTable[20], 291+45+small_window, YPos-345+12)
 				end
 			elseif LocationAvailability > 0 then
 				if show_available == true and show_remaining == true then
-					forms.drawImage(picture_box_locations, numberTable[20], 291+45, YPos-small_window+12)
+					forms.drawImage(picture_box, numberTable[20], 291+45+small_window, YPos-345+12)
 				end
-				forms.drawImage(picture_box_locations, numberTable[21], 291-20, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[canrLoc3], 291+28, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[21], 291-20+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[canrLoc3], 291+28+small_window, YPos-345+14)
 			end
 		end
 		
@@ -90,21 +87,21 @@ function drawNumbers(LocationAvailability, LocationsDone, YPos)
 			end
 			
 			if LocationsDone >= 100 then
-				forms.drawImage(picture_box_locations, numberTable[sumrLoc1], 291+56, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[sumrLoc2], 291+70, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc1], 291+56+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84+small_window, YPos-345+14)
 			elseif LocationsDone >= 10 then
-				forms.drawImage(picture_box_locations, numberTable[sumrLoc2], 291+70, YPos-small_window+14)
-				forms.drawImage(picture_box_locations, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc2], 291+70+small_window, YPos-345+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84+small_window, YPos-345+14)
 			else
-				forms.drawImage(picture_box_locations, numberTable[sumrLoc3], 291+84, YPos-small_window+14)
+				forms.drawImage(picture_box, numberTable[sumrLoc3], 291+84+small_window, YPos-345+14)
 			end
 		end
 			
 	end
 	
 	--if canrStardust3 == 9 then
-	--	forms.drawImage(picture_box_locations, "./location_names/Number9.png", 310, 400)
+	--	forms.drawImage(picture_box, "./location_names/Number9.png", 310, 400)
 	--end
 
 end
@@ -112,27 +109,30 @@ end
 
 function drawLocation(LocationAvailability, LocationsDone, Location1, Location2, Location3, YPos)
 	if LocationAvailability > 5 then
-		forms.drawImage(picture_box_locations, Location1, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location1, -20+small_window, YPos-345)
 	elseif LocationAvailability == 5 then
-		forms.drawImage(picture_box_locations, Location1, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location1, -20+small_window, YPos-345)
 	elseif LocationAvailability == 4 then
-		forms.drawImage(picture_box_locations, Location1, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location1, -20+small_window, YPos-345)
 	elseif LocationAvailability == 3 then
-		forms.drawImage(picture_box_locations, Location1, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location1, -20+small_window, YPos-345)
 	elseif LocationAvailability == 2 then
-		forms.drawImage(picture_box_locations, Location1, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location1, -20+small_window, YPos-345)
 	elseif LocationAvailability == 1 then
-		forms.drawImage(picture_box_locations, Location1, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location1, -20+small_window, YPos-345)
 	elseif LocationAvailability == 0 and LocationsDone > 0 then
-		forms.drawImage(picture_box_locations, Location2, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location2, -20+small_window, YPos-345)
 	elseif LocationAvailability > 0 then
-		forms.drawImage(picture_box_locations, Location2, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location2, -20+small_window, YPos-345)
 	elseif LocationsDone == 0 then
-		forms.drawImage(picture_box_locations, Location3, -20, YPos-small_window)
+		forms.drawImage(picture_box, Location3, -20+small_window, YPos-345)
 	end	
 end
 
 function loadLocFlags()
+	if item_tracker == true then
+		forms.drawBox(picture_box, 400, -5, 415, 650, nil, "#777777")
+	end
 	refreshItemFlags()
 	
 	--[[ Special flags:

@@ -5,6 +5,15 @@ function has(item)
 end
 
 -- Special functions for options
+function optionEmblems()
+	local hasitem = nil
+	local required = readRam("requiredEmblems")
+	local has = readRam("currentEmblems")
+	if has == 0xFF then has = 0x0 end
+	if has >= required then hasitem = true else hasitem = false end
+	return hasitem
+end
+
 function optionCoins()
 	local hasitem = nil
 	if has("coinBlockOption") then hasitem = true else hasitem = false end

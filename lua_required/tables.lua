@@ -51,6 +51,8 @@ ramTable = {
 titleScreen = {1, 0x0FFB, "IWRAM"},
 currentRoom = {2, 0x2332, "IWRAM"},
 nextRoom = {2, 0x2330, "IWRAM"},
+requiredEmblems = {1, 0xD00009, "ROM"},
+currentEmblems = {1, 0x48FB, "EWRAM"},
 
 
 --iMushroom1 = {8, 0x48E2, "EWRAM", "Mushroom"}, -- 48E2
@@ -226,6 +228,7 @@ function refreshItemFlags()
 		harhallOption = convertBool(harhalls_pants),
 		surfingOption = convertBool(surfing),
 		bowserOption = convertBool(bowsers_castle),
+		emblemsOption = convertBool(beanstar_emblems),
 		hardLogicOption = convertBool(difficult_logic),
 		enemyOption = convertBool(randomize_enemies),
 	}
