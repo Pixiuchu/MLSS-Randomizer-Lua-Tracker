@@ -19,9 +19,9 @@ local function killOtherBro()
 end
 
 while true do
-	local inBattle = memory.read_u8(0x0FDD, "IWRAM")
+	local inBattle = memory.read_u16_le(0x0FDC, "IWRAM")
 	
-	if inBattle ~= 0 then
+	if inBattle ~= 0 and inBattle ~= 0x24B8 then
 		killOtherBro()
 	end
 	emu.frameadvance();
