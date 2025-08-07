@@ -55,12 +55,10 @@ function equals(o1, o2, ignore_mt)
 				]]
 				
 				--finalprint = print(keyaddress .. "\t" .. bitchange)
-				finalprint = print(keyaddress .. "_" .. bitchange .. " = {" .. bitchange .. ", 0" .. keyaddress .. "}; " .. keyaddress .. "_" .. bitchange .. " = locFlag(" .. keyaddress .. "_" .. bitchange .. "); canReplace = canReplace + flip(" .. keyaddress .. "_" .. bitchange .. "); sumReplace = sumReplace - " .. keyaddress .. "_" .. bitchange)
+				print(keyaddress .. "_" .. bitchange .. " = {" .. bitchange .. ", 0" .. keyaddress .. "}; " .. keyaddress .. "_" .. bitchange .. " = locFlag(" .. keyaddress .. "_" .. bitchange .. "); canReplace = canReplace + flip(" .. keyaddress .. "_" .. bitchange .. "); sumReplace = sumReplace - " .. keyaddress .. "_" .. bitchange)
 			else
-				finalprint = print(keyaddress .. ": " .. value2hex .. " -> " .. value1hex .. " (multiple bits)")
+				print(keyaddress .. ": " .. value2hex .. " -> " .. value1hex .. " (multiple bits)")
 			end
-			
-            return finalprint
         end
         keySet[key1] = true
     end
@@ -72,18 +70,18 @@ function equals(o1, o2, ignore_mt)
 end
 
 while true do
-    table1Old = table1
-    table1 = memory.read_bytes_as_dict(0x47F0, 0x10, "EWRAM")
+    --table1Old = table1
+    --table1 = memory.read_bytes_as_dict(0x47F0, 0x10, "EWRAM")
     
     --table2Old = table2
     --table2 = memory.read_bytes_as_dict(0x4560, 0x100, "EWRAM")
 
 
-	-- table1Old = table1
-    -- table1 = memory.read_bytes_as_dict(0x41F0, 0x15E, "EWRAM")
-    -- 
-    -- table2Old = table2
-    -- table2 = memory.read_bytes_as_dict(0x434F, 0x300, "EWRAM")
+	table1Old = table1
+    table1 = memory.read_bytes_as_dict(0x41F0, 0x45E, "EWRAM")
+    --
+    --table2Old = table2
+    --table2 = memory.read_bytes_as_dict(0x434F, 0x300, "EWRAM")
     
 	equals(table1, table1Old, false)
 	--equals(table2, table2Old, false)
